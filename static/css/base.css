@@ -1,0 +1,78 @@
+body {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+a, a:visited, a:active {
+  text-decoration: none !important;
+}
+
+a:hover {
+  text-decoration: underline !important;
+}
+
+.table.ext-nowrap td,
+.table.ext-nowrap th {
+  white-space: nowrap;
+}
+
+.markdown-rendered p img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 4px 4px 24px 2px rgba(0, 0, 0, 0.16);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 480px) {
+  .toast-container-global {
+    width: 100vw;
+    padding: 0 !important;
+  }
+  .toast-container-global .toast {
+    width: 100%;
+    border-radius: 0;
+    border: 0;
+  }
+}
+.navbar .navbar-brand {
+  font-family: var(--ew-font-serif);
+  font-weight: var(--ew-font-weight-black);
+}
+
+.markdown-rendered .post-info small {
+  font-size: 0.75em;
+}
+.markdown-rendered .post-info .author-avatar {
+  width: var(--ew-avatar-size);
+  height: var(--ew-avatar-size);
+  line-height: var(--ew-avatar-size);
+}
+.markdown-rendered .post-info .author-name {
+  font-weight: var(--ew-font-weight-medium);
+}
+.markdown-rendered #post-toc-nav a {
+  color: var(--bs-black);
+}
+
+.content-serif h1, .content-serif h2, .content-serif h3, .content-serif h4, .content-serif h5 {
+  font-family: var(--ew-font-serif);
+  font-weight: var(--ew-font-weight-semibold);
+}
+.content-serif, .content-serif p, .content-serif span, .content-serif small, .content-serif button, .content-serif a {
+  font-family: var(--ew-font-serif);
+}
+.content-serif *.jinja2-timestamp {
+  font-family: initial;
+}
+.content-serif .post-tags, .content-serif .post-tags * {
+  font-family: initial;
+}
+
+.text-footer-small {
+  font-size: 0.75em;
+}
+
+/*# sourceMappingURL=base.css.map */

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block web_title %}首页{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    {{ inline_css('theme.css') }}
+    {{ inline_css('base.css') }}
+    {% block styles %}
+    {% endblock %}
+</head>
+<body>
+
+
+{% block web_content %}
+{% endblock %}
+<div class="d-block mt-5"></div>
+<footer class="bg-white mb-3">
+    <div class="container">
+        <hr>
+        <div class="d-flex align-items-start flex-column">
+            <div>&copy; {{ g.site_year }} <span class="content-serif">{{ g.site_name }}</span>
+            </div>
+            {% if g.enable_beian == True %}
+                <div class="text-footer-small mt-1 mb-1 d-flex align-items-center">
+                    <a class="beian-icon d-block" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
+                            src="{{ url_for('static', filename="img/beian.png") }}" width="16" height="16" alt=""></a>
+
+                    <a class="d-block ms-1" href="https://beian.miit.gov.cn/" target="_blank">{{ g.site_info.beian_id }}</a>
+                    <a class="d-block ms-2" href="https://beian.miit.gov.cn/" target="_blank">{{ g.site_info.icp_id }}</a>
+                </div>
+            {% endif %}
+            <div class="text-footer-small mt-1 mb-1">
+                <span class="text-muted">{{ g.site_slogan }}</span>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="toast-container toast-container-global position-fixed bottom-0 end-0 p-3" id="toast-container"></div>
+
+{% block scripts %}
+{% endblock %}
+
+<script>
+    window.addEventListener('load', () => {
+        window.addEventListener('update-timestamp', () => {
+            const elements = document.querySelectorAll('.jinja2-timestamp[data-convert="1"]');
+            elements.forEach(e => {
+                try {
+                    let val = Number(e.getAttribute('data-timestamp'));
+                    if (e.getAttribute('data-millisecond', '1') || e.getAttribute('data-milliseconds', '1')) {
+                        e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss.SSS");
+                    } else
+                        e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss");
+                } catch (e) {
+                }
+            });
+        });
+
+        window.addEventListener('tooltip-update', () => {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        });
+        window.addEventListener('popover-update', () => {
+            const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl, {
+                    trigger: 'focus'
+                });
+            });
+        });
+
+
+        window.dispatchEvent(new Event('update-timestamp'));
+
+        window.dispatchEvent(new Event('popover-update'));
+        window.dispatchEvent(new Event('tooltip-update'));
+    })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/js/fontawesome.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/katex.min.js"
+        integrity="sha384-97gW6UIJxnlKemYavrqDHSX3SiygeOwIZhwyOKRfSaf0JWKRVj9hLASHgFTzT+0O"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.3/dist/contrib/auto-render.min.js"
+        integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+</body>
+</html>

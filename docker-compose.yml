@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  blogger:
+    container_name: 'blogger'
+    image: test/test
+    volumes:
+      - type: bind
+        source: ./blogs
+        target: /app/blogs
+      - type: bind
+        source: ./config.yml
+        target: /app/config.yml
+    ports:
+      - 8081:8080
