@@ -32,10 +32,11 @@ function render_nav_tree(tree) {
 
 
 function traverse_headings(headings_list) {
-    if (!headings_list || headings_list.length === 0) return [];
     const retval = {
         children: []
     };
+    if (!headings_list || headings_list.length === 0) return retval;
+
     let last_node = retval;
     let parent_node = retval;
     let grandpa_node = void 0;
