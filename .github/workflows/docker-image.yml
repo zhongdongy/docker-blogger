@@ -42,5 +42,4 @@ jobs:
       - name: curl
         uses: wei/curl@v1
         with:
-          args: |
-            -X POST "${{ secrets.FEISHU_BOT_WEBHOOK }}" -H "Content-Type: application/json" -d '{"msg_type":"text","content":{"text":"dongsxyz/blogger 已经更新"}}'
+          args: '-X POST "${{ secrets.FEISHU_BOT_WEBHOOK }}" -H "Content-Type: application/json" -d "{\"msg_type\":\"text\",\"content\":{\"text\":\"dongsxyz/blogger 已经更新\"}}"'
