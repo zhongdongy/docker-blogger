@@ -39,7 +39,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: curl
-        uses: wei/curl@v1
+      - name: "Call Feishu bot webhook"
+        uses: indiesdev/curl@v1.1
         with:
-          args: '-X POST "${{ secrets.FEISHU_BOT_WEBHOOK }}" -H "Content-Type: application/json" -d "{\"msg_type\":\"text\",\"content\":{\"text\":\"dongsxyz/blogger 已经更新\"}}"'
+          url: "${{ secrets.FEISHU_BOT_WEBHOOK }}"
+          method: "POST"
+          accept: 200,201,204
+          headers: '{ "Content-Type": "application/json" }'
+          body: '{"msg_type": "text", "content": {"text": "dongsxyz/blogger 已经更新"}}'
