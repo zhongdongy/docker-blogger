@@ -63,9 +63,3 @@ def parse_headings(html: str) -> list:
     heading_ids = parser.heading_ids
     parser.close()
     return heading_ids
-
-# def parse_headings(markdown: str)->list:
-#     headings = list()
-#     for line in markdown.split('\n'):
-#         line = line.strip()
-#         if re.match(r'^#+\s',line):

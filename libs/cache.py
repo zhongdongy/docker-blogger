@@ -142,7 +142,7 @@ def build_page_cache(clear_cached=False):
                     # Get headings
                     headings = parse_headings(html)
                     for heading in headings:
-                        if heading['id'].startswith('-'):
+                        if heading['id'].startswith('-') or re.match(r'^\d.*', heading['id']):
                             # Should add extra characters
                             new_id = 'padding' + heading['id']
                             html = html.replace(f'id="{heading["id"]}"', f'id="{new_id}"')

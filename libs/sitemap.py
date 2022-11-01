@@ -8,7 +8,8 @@ from utils.config import load_config
 def generate_sitemaps(tag_index: TagIndexCollection):
     root_element = ET.Element('urlset')
     root_element.attrib['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
-    root_element.attrib['xsi:schemaLocation'] = "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+    root_element.attrib[
+        'xsi:schemaLocation'] = "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     root_element.attrib['xmlns'] = "http://www.sitemaps.org/schemas/sitemap/0.9"
 
     config = load_config()
@@ -50,6 +51,13 @@ def generate_sitemaps(tag_index: TagIndexCollection):
             ET.SubElement(post_element, "lastmod").text = post.preamble.updated_at.strftime("%Y-%m-%d")
             ET.SubElement(post_element, "changefreq").text = "weekly"
             ET.SubElement(post_element, "priority").text = "0.8"
+
+    # Include tags page
+    tags_element = ET.SubElement(root_element, "url")
+    ET.SubElement(tags_element, "loc").text = url_root + f'/tags/'
+    ET.SubElement(tags_element, "lastmod").text = datetime.now().strftime("%Y-%m-%d")
+    ET.SubElement(tags_element, "changefreq").text = "daily"
+    ET.SubElement(tags_element, "priority").text = "0.8"
 
     tree = ET.ElementTree(root_element)
     tree.write('cached/sitemap.xml', encoding='utf-8', xml_declaration=True)
