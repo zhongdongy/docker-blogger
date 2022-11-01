@@ -13,6 +13,7 @@ COPY models models
 COPY static static
 COPY templates templates
 COPY blueprints blueprints
+RUN curl https://sh.rustup.rs | sh
 
 #RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
 #RUN python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
