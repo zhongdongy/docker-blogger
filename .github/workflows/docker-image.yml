@@ -45,5 +45,6 @@ jobs:
           url: "${{ secrets.FEISHU_BOT_WEBHOOK }}"
           method: "POST"
           accept: 200,201,204
+          timeout: 10000
           headers: '{ "Content-Type": "application/json" }'
           body: '{"msg_type": "text", "content": {"text": "dongsxyz/blogger 已经更新"}}'
