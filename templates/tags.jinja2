@@ -1,0 +1,44 @@
+{% extends 'base.jinja2' %}
+
+{% block web_title %}所有标签 | {{ g.site_name }}{% endblock %}
+
+{% block web_content %}
+    <nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
+        <div class="container">
+            <div class="navbar-brand suppress-link">
+                <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
+            </div>
+        </div>
+    </nav>
+    <div class="d-block mt-3"></div>
+
+    <div class="container">
+
+        <div class="container markdown-rendered">
+            <div class="row">
+                <div class="col" id="content-container">
+                    <h2>所有标签</h2>
+                    <div class="container" id="post-list">
+                        <div class="row gx-1 gy-1">
+                            {% for tag in tags %}
+                                <div class="col col-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <a href="/tag/{{ tag }}/"
+                                                   title="{{ tag }}"
+                                                   data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom"
+                                                   data-bs-title="{{ tag }}">{{ tag }}</a></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

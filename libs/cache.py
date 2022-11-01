@@ -113,7 +113,8 @@ def build_page_cache(clear_cached=False):
                     preamble, content = parse_preamble(markdown_raw)
                     context = dict(
                         html=renderer.convert(content),
-                        tags=list()
+                        tags=list(),
+                        site_tags=tags.tags
                     )
                     if preamble is not None:
                         context = {**context, **dict(
@@ -192,6 +193,9 @@ def build_page_cache(clear_cached=False):
 
             # Build tag page cache
             build_tag_page_cache(tags)
+
+            # Build tags page cache
+            build_tags_page_cache(tags)
         if len(perm_links) > 0:
             with open(join(cached_index_path, 'perm_link.json'), 'w', encoding='utf-8') as perm_link_index_content:
                 perm_link_index_content.write(json.dumps(perm_links.to_dict(), ensure_ascii=False, indent=2))
@@ -206,6 +210,15 @@ def build_tag_page_cache(tag_index: TagIndexCollection):
             html = render_template("tag.jinja2", **dict(posts=posts, tag_name=tag_name))
             save_path = join(cached_path, f'{tag_name}.html')
             save_cache_file(save_path, html)
+
+
+def build_tags_page_cache(tag_index: TagIndexCollection):
+    cached_path = abspath(join(getcwd(), 'cached/index'))
+    tags = tag_index.tags
+    print(tags)
+    html = render_template("tags.jinja2", **dict(tags=tags))
+    save_path = join(cached_path, f'tags.html')
+    save_cache_file(save_path, html)
 
 
 if __name__ == '__main__':

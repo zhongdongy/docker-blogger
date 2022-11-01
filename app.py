@@ -6,6 +6,7 @@ from flask import Flask, g, send_file, abort
 from blueprints.api import bp_api
 from blueprints.post import bp_post
 from blueprints.tag import bp_tag
+from blueprints.tags import bp_tags
 from libs.cache import build_page_cache
 from libs.func import inline_css, inline_script
 from libs.robots import generate_robots_txt
@@ -18,11 +19,16 @@ def create_app():
 
     @app.context_processor
     def context_utils():
+
+        config = load_config()
+
         g.site_name = "那阵东风"
         g.site_year = datetime.now().year
         g.site_slogan = "由 The Eastwind Blogger 驱动"
-
-        config = load_config()
+        if config.site.enable_https:
+            g.site_home = f"https://{config.site.hostname}/"
+        else:
+            g.site_home = f"http://{config.site.hostname}/"
 
         g.site_info = dict(
             beian_id=config.site.beian.beian_id,
@@ -65,6 +71,7 @@ def create_app():
     app.register_blueprint(bp_post, url_prefix='/post')
     # app.register_blueprint(bp_api, url_prefix='/api')
     app.register_blueprint(bp_tag, url_prefix='/tag')
+    app.register_blueprint(bp_tags, url_prefix='/tags')
 
     return app
 

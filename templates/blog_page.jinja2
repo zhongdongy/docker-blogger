@@ -9,8 +9,8 @@
 {% block web_content %}
     <nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
         <div class="container">
-            <div class="navbar-brand">
-                <span class="ms-2 text-light">{{ g.site_name }}</span>
+            <div class="navbar-brand suppress-link">
+                <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
             </div>
         </div>
     </nav>
@@ -37,11 +37,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="post-tags mt-0 mb-4">
-                                {% for tag in tags %}
-                                    <span class="badge rounded text-bg-light fw-normal suppress-link"><a
-                                            href="/tag/{{ tag }}/">{{ tag }}</a></span>
-                                {% endfor %}
+                            <div class="post-tags mt-2 mb-4">
+                                <div class="row">
+                                    <div class="col d-flex">
+                                        {% for tag in tags %}
+                                            {% if loop.index0 == 0 %}
+                                                <span class="d-block badge rounded text-bg-light fw-normal suppress-link"><a
+                                                        href="/tag/{{ tag }}/">{{ tag }}</a></span>
+                                            {% else %}
+                                                <span class="d-block badge rounded text-bg-light fw-normal suppress-link ms-1"><a
+                                                        href="/tag/{{ tag }}/">{{ tag }}</a></span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
                             <div class="post-content">{{ html }}</div>
                         </div>

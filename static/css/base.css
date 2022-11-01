@@ -1,6 +1,6 @@
-.suppress-link, .suppress-link * {
+@charset "UTF-8";
+.suppress-link， .suppress-link *, .suppress-link:hover, .suppress-link *:hover {
   text-decoration: none !important;
-  color: initial !important;
 }
 
 .content-serif h1, .content-serif h2, .content-serif h3, .content-serif h4, .content-serif h5 {
@@ -27,6 +27,10 @@
 
 .text-0_50 {
   font-size: 0.5em;
+}
+
+h3.h3-home {
+  font-size: 1.25rem;
 }
 
 body {
