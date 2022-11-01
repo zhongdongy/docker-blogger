@@ -12,7 +12,7 @@ from utils.config import load_config
 
 def create_app():
     app = Flask(__name__)
-    # Minify(app=app, html=True, js=True, cssless=True, static=True)
+    Minify(app=app, html=True, js=True, cssless=True, static=True)
 
     @app.context_processor
     def context_utils():
