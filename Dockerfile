@@ -19,4 +19,4 @@ RUN source /root/.cargo/env
 #RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
 #RUN python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install -r /app/requirements.txt
+RUN source /root/.cargo/env && python3 -m pip install -r /app/requirements.txt
