@@ -1,0 +1,17 @@
+// --- Render Control ---
+.suppress-link, .suppress-link *
+  text-decoration: none !important
+  color: initial !important
+
+.content-serif
+  h1, h2, h3, h4, h5
+    font-family: var(--ew-font-serif)
+    font-weight: var(--ew-font-weight-semibold)
+  &, p, span, small, button, a
+    font-family: var(--ew-font-serif)
+
+  *.jinja2-timestamp
+    font-family: initial
+
+  .post-tags, .post-tags *
+    font-family: initial

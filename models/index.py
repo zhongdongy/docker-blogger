@@ -1,7 +1,7 @@
 from .preamble import Preamble
 
 
-class TagIndex(object):
+class PostIndex(object):
     tag: str
     name: str
     preamble: Preamble
@@ -38,10 +38,25 @@ class PermanentLinkIndex(object):
 
 
 class TagIndexCollection:
-    tag_dict: dict[str, list[TagIndex]] = dict()
+    tag_dict: dict[str, list[PostIndex]] = dict()
 
-    def __init__(self):
+    def __init__(self, raw: dict = None):
         self.tag_dict = dict()
+        if raw is not None:
+            for tag in raw:
+                if tag not in self.tag_dict:
+                    self.tag_dict[tag] = list()
+                for tag_index in raw[tag]:
+                    self.tag_dict[tag].append(PostIndex(tag_index))
+
+    def posts(self, tag_name: str):
+        if tag_name in self.tag_dict:
+            return self.tag_dict.get(tag_name)
+        return []
+
+    @property
+    def tags(self):
+        return self.tag_dict.keys()
 
     def __len__(self):
         return self.length
@@ -50,10 +65,16 @@ class TagIndexCollection:
     def length(self):
         return len(self.tag_dict)
 
-    def add(self, tag: TagIndex):
-        if tag.tag not in self.tag_dict:
-            self.tag_dict[tag.tag] = list()
-        self.tag_dict[tag.tag].append(tag)
+    def add(self, post: PostIndex):
+        if post.tag not in self.tag_dict:
+            self.tag_dict[post.tag] = list()
+        exists = False
+        for existing_post in self.tag_dict[post.tag]:
+            if post.name == existing_post.name:
+                exists = True
+                break
+        if exists is False:
+            self.tag_dict[post.tag].append(post)
 
     def to_dict(self):
         result = dict()

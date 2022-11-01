@@ -1,16 +1,18 @@
 const headings_json = `@{HEADINGS_JSON}`;
 
-if (!!headings_json) {
-    const headings = JSON.parse(headings_json);
-    let template = document.createElement('template');
-    const navbar_object = traverse_headings(headings)
+window.addEventListener('load', () => {
+    if (!!headings_json) {
+        const headings = JSON.parse(headings_json);
+        let template = document.createElement('template');
+        const navbar_object = traverse_headings(headings)
 
-    const html = render_nav_tree(navbar_object);
-    template.innerHTML = `<ul id="post-toc-nav" class="h-100 list-group">${html}</ul>`
+        const html = render_nav_tree(navbar_object);
+        template.innerHTML = `<ul id="post-toc-nav" class="h-100 list-group">${html}</ul>`
 
-    document.querySelector('#post-toc').appendChild(template.content);
+        document.querySelector('#post-toc').appendChild(template.content);
 
-}
+    }
+})
 
 function render_nav_tree(tree) {
     if (tree.children.length > 0) {

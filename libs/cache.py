@@ -7,9 +7,11 @@ from os.path import exists, isfile, join, abspath, isdir, dirname
 from flask import render_template, current_app
 from markdown2 import Markdown
 
-from libs.parser import parse_preamble, parse_headings
-from models.index import TagIndex, PermanentLinkIndex, TagIndexCollection, PermanentLinkIndexCollection
+from .parser import parse_preamble, parse_headings
+from .sitemap import generate_sitemaps
+from models.index import PostIndex, PermanentLinkIndex, TagIndexCollection, PermanentLinkIndexCollection
 from utils.config import load_config
+from minify_html import minify
 
 renderer = Markdown(extras=["footnotes", "fenced-code-blocks", "code-friendly", "header-ids", 'task_list', 'strikes'])
 
@@ -57,7 +59,16 @@ def load_blogs(dirname: str) -> list[dict]:
     return blog_dicts
 
 
-def save_blog_cache(save_path, contents: str):
+def save_cache_file(save_path, contents: str):
+    contents = minify(
+        contents,
+        do_not_minify_doctype=True,
+        keep_comments=False,
+        keep_closing_tags=True,
+        keep_html_and_head_opening_tags=True,
+        minify_css=True,
+        minify_js=True
+    )
     dir_name = dirname(save_path)
     if not exists(dir_name):
         mkdir(dir_name)
@@ -145,13 +156,22 @@ def build_page_cache(clear_cached=False):
                         name: str = blog['path'].replace(blogs_path, '').strip('/').strip('\\')
                         if name.endswith('.md'):
                             name = name[:-3]
-                        for tag_name in tag_names:
-                            tag = TagIndex(dict(
-                                tag=tag_name,
+                        if len(tag_names) > 0:
+                            # Include tags
+                            for tag_name in tag_names:
+                                tag = PostIndex(dict(
+                                    tag=tag_name,
+                                    name=name,
+                                    preamble=preamble
+                                ))
+                                tags.add(tag)
+                        else:
+                            # No provided tags, set to Others
+                            tags.add(PostIndex(dict(
+                                tag="其他",
                                 name=name,
                                 preamble=preamble
-                            ))
-                            tags.add(tag)
+                            )))
                         if perm_link is not None:
                             perm_links.add(PermanentLinkIndex(dict(
                                 permanent_link=perm_link,
@@ -159,7 +179,7 @@ def build_page_cache(clear_cached=False):
                                 preamble=preamble
                             )))
 
-                    save_blog_cache(blog['save_path'], html)
+                    save_cache_file(blog['save_path'], html)
         # Write cached indices to cached directory
         cached_index_path = abspath(join(getcwd(), 'cached/index'))
         if not exists(cached_index_path):
@@ -168,9 +188,24 @@ def build_page_cache(clear_cached=False):
         if tags.length > 0:
             with open(join(cached_index_path, 'tag.json'), 'w', encoding='utf-8') as tag_index_content:
                 tag_index_content.write(json.dumps(tags.to_dict(), ensure_ascii=False, indent=2))
+            generate_sitemaps(tags)
+
+            # Build tag page cache
+            build_tag_page_cache(tags)
         if len(perm_links) > 0:
             with open(join(cached_index_path, 'perm_link.json'), 'w', encoding='utf-8') as perm_link_index_content:
                 perm_link_index_content.write(json.dumps(perm_links.to_dict(), ensure_ascii=False, indent=2))
+
+
+def build_tag_page_cache(tag_index: TagIndexCollection):
+    cached_path = abspath(join(getcwd(), 'cached/tag'))
+    for tag_name in tag_index.tags:
+        posts = tag_index.posts(tag_name)
+        if len(posts) > 0:
+            posts = list(sorted(posts, key=lambda p: p.preamble.updated_at, reverse=True))
+            html = render_template("tag.jinja2", **dict(posts=posts, tag_name=tag_name))
+            save_path = join(cached_path, f'{tag_name}.html')
+            save_cache_file(save_path, html)
 
 
 if __name__ == '__main__':

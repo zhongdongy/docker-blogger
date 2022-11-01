@@ -1,0 +1,20 @@
+.suppress-link {
+  text-decoration: none !important;
+  color: initial !important;
+}
+
+.content-serif h1, .content-serif h2, .content-serif h3, .content-serif h4, .content-serif h5 {
+  font-family: var(--ew-font-serif);
+  font-weight: var(--ew-font-weight-semibold);
+}
+.content-serif, .content-serif p, .content-serif span, .content-serif small, .content-serif button, .content-serif a {
+  font-family: var(--ew-font-serif);
+}
+.content-serif *.jinja2-timestamp {
+  font-family: initial;
+}
+.content-serif .post-tags, .content-serif .post-tags * {
+  font-family: initial;
+}
+
+/*# sourceMappingURL=util.css.map */

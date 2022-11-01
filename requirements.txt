@@ -1,5 +1,5 @@
 flask==2.2.2
 PyYAML==6.0
 markdown2[all]~=2.4.0
-Flask-Minify==0.41
 Pygments==2.13.0
+minify-html==0.10.3

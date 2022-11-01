@@ -21,9 +21,13 @@ class Beian(object):
 
 class Site(object):
     beian: Beian
+    hostname: str
+    enable_https = False
 
     def __init__(self, raw: dict = None):
         self.beian = Beian((raw or {}).get('beian'))
+        self.hostname = (raw or {}).get('hostname')
+        self.enable_https = (raw or {}).get('enable_https') or False
 
 
 class AppConfig(object):

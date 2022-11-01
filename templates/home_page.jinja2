@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="post-tags mt-0 mb-4">
                                     {% for tag in tags %}
-                                        <span class="badge rounded text-bg-light"><a
+                                        <span class="badge rounded text-bg-light fw-normal suppress-link"><a
                                                 href="/tag/{{ tag }}/">{{ tag }}</a></span>
                                     {% endfor %}
                                 </div>
@@ -59,7 +59,7 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ inline_js('scrollspy.js') }}
+    {{ inline_js('toc.js') }}
     <script>
         window.addEventListener("load", () => {
             window.addEventListener('adjust-images', () => {
@@ -79,9 +79,9 @@
 
                 })
             })
+            window.dispatchEvent(new Event('adjust-images'));
         });
 
-        window.dispatchEvent(new Event('adjust-images'));
         window.addEventListener('resize', () => {
             window.dispatchEvent(new Event('adjust-images'))
         })
