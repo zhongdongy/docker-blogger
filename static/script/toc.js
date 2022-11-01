@@ -6,10 +6,14 @@ window.addEventListener('load', () => {
         let template = document.createElement('template');
         const navbar_object = traverse_headings(headings)
 
-        const html = render_nav_tree(navbar_object);
-        template.innerHTML = `<ul id="post-toc-nav" class="h-100 list-group">${html}</ul>`
+        if (navbar_object.children.length > 0) {
 
-        document.querySelector('#post-toc').appendChild(template.content);
+            const html = render_nav_tree(navbar_object);
+
+            template.innerHTML = `<ul id="post-toc-nav" class="h-100 list-group">${html}</ul>`
+
+            document.querySelector('#post-toc').appendChild(template.content);
+        }
 
     }
 })
