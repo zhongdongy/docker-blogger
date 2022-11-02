@@ -1,7 +1,8 @@
 from datetime import datetime
-from os.path import exists
+from os import getcwd
+from os.path import exists, abspath, join, isfile
 
-from flask import Flask, g, send_file, abort
+from flask import Flask, g, send_file, abort, render_template
 
 from blueprints.api import bp_api
 from blueprints.post import bp_post
@@ -22,9 +23,10 @@ def create_app():
 
         config = load_config()
 
-        g.site_name = "那阵东风"
+        g.site_name = config.site.site_name
+        g.site_email = config.site.site_email
         g.site_year = datetime.now().year
-        g.site_slogan = '由 <a href="https://hub.docker.com/r/dongsxyz/blogger" target="_blank">Eastwind Blogger</a> 驱动'
+        g.site_slogan = config.site.site_slogan
         if config.site.enable_https:
             g.site_home = f"https://{config.site.hostname}/"
         else:
@@ -46,6 +48,13 @@ def create_app():
     def home_page():  # put application's code here
         config = load_config()
         return route_post(config.public.home_post)
+
+    @app.route('/privacy-policy/')
+    def privacy_policy_page():
+        tags_cache_path = abspath(join(getcwd(), f'cached/site/privacy-policy.html'))
+        if exists(tags_cache_path) and isfile(tags_cache_path):
+            return send_file(tags_cache_path)
+        return abort(404)
 
     generate_robots_txt()
 

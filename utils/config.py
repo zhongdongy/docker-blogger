@@ -23,11 +23,18 @@ class Site(object):
     beian: Beian
     hostname: str
     enable_https = False
+    site_name: str = "那阵东风"
+    site_email: str = "zhongdongy@dongs.xyz"
+    site_slogan: str = '由 <a href="https://hub.docker.com/r/dongsxyz/blogger" target="_blank">Eastwind Blogger</a> 驱动'
 
     def __init__(self, raw: dict = None):
         self.beian = Beian((raw or {}).get('beian'))
-        self.hostname = (raw or {}).get('hostname')
+        self.hostname = (raw or {}).get('hostname') or "127.0.0.1:5000"
         self.enable_https = (raw or {}).get('enable_https') or False
+        self.site_name = (raw or {}).get('site_name') or "那阵东风"
+        self.site_email = (raw or {}).get('site_email') or "zhongdongy@dongs.xyz"
+        self.site_slogan = (raw or {}).get('site_slogan') or ('由 <a href="https://hub.docker.com/r/dongsxyz/blogger" '
+                                                              'target="_blank">Eastwind Blogger</a> 驱动')
 
 
 class AppConfig(object):

@@ -44,15 +44,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block scripts %}
-    <script>
-        window.addEventListener("load", () => {
-            window.dispatchEvent(new Event('adjust-images'));
-        });
-
-        window.addEventListener('resize', () => {
-            window.dispatchEvent(new Event('adjust-images'))
-        })
-    </script>
-{% endblock %}

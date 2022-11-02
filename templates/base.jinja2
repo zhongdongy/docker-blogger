@@ -32,8 +32,11 @@
                     <a class="beian-icon d-block" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
                             src="{{ url_for('static', filename="img/beian.png") }}" width="16" height="16" alt=""></a>
 
-                    <a class="d-block ms-1" href="https://beian.miit.gov.cn/" target="_blank">{{ g.site_info.beian_id }}</a>
-                    <a class="d-block ms-2" href="https://beian.miit.gov.cn/" target="_blank">{{ g.site_info.icp_id }}</a>
+                    <a class="d-block ms-1" href="https://beian.miit.gov.cn/"
+                       target="_blank">{{ g.site_info.beian_id }}</a>
+                    <a class="d-block ms-2" href="https://beian.miit.gov.cn/"
+                       target="_blank">{{ g.site_info.icp_id }}</a>
+                    <a class="d-block ms-2" href="/privacy-policy/">隐私政策</a>
                 </div>
             {% endif %}
             <div class="text-footer-small mt-1 mb-1">
@@ -87,6 +90,7 @@
 <script src="https://cdn.staticfile.org/font-awesome/6.2.0/js/all.min.js"></script>
 <script src="https://cdn.staticfile.org/moment.js/2.29.4/moment.min.js"></script>
 <script src="https://cdn.staticfile.org/KaTeX/0.16.3/katex.min.js"></script>
-<script src="https://cdn.staticfile.org/KaTeX/0.16.3/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+<script src="https://cdn.staticfile.org/KaTeX/0.16.3/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
 </body>
 </html>

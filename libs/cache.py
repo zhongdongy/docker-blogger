@@ -95,9 +95,9 @@ def build_page_cache(clear_cached=False):
         home_page=True
     ))
 
+    cached_path = abspath(join(getcwd(), 'cached'))
     if clear_cached:
         import shutil
-        cached_path = abspath(join(getcwd(), 'cached'))
         if exists(cached_path):
             shutil.rmtree(cached_path)
         mkdir(cached_path)
@@ -201,6 +201,11 @@ def build_page_cache(clear_cached=False):
         if len(perm_links) > 0:
             with open(join(cached_index_path, 'perm_link.json'), 'w', encoding='utf-8') as perm_link_index_content:
                 perm_link_index_content.write(json.dumps(perm_links.to_dict(), ensure_ascii=False, indent=2))
+
+    # Generate privacy policy
+    html_privacy_policy = render_template('privacy-policy.jinja2')
+    privacy_policy_page_path = join(abspath(join(getcwd(), 'cached/site')), 'privacy-policy.html')
+    save_cache_file(privacy_policy_page_path, html_privacy_policy)
 
 
 def build_tag_page_cache(tag_index: TagIndexCollection):

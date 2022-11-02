@@ -29,8 +29,19 @@
   font-size: 0.5em;
 }
 
-h3.h3-home {
+h3.h3-small {
   font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.indent-paragraph h1 {
+  text-indent: 0;
+}
+.indent-paragraph p {
+  text-indent: 2em;
+}
+.indent-paragraph p.suppress-margin {
+  margin-bottom: 0.25rem;
 }
 
 body {
