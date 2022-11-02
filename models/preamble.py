@@ -12,7 +12,7 @@ class Preamble(object):
     keywords: list[str] = list()
     permanent_link: str | None = None
     description: str | None = None
-    renderer_params: list[str]  = list()
+    renderer_params: list[str] = list()
 
     def __init__(self, raw: dict = None):
         if isinstance(raw, Preamble):

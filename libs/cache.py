@@ -126,6 +126,8 @@ def build_page_cache(clear_cached=False):
                         )}
                         if 'content-serif' in preamble.renderer_params:
                             context['flag_content_serif'] = 1
+                        if 'disable-toc' in preamble.renderer_params:
+                            context['flag_disable_toc'] = 1
                     else:
                         context = {**context, **dict(
                             tags=[],
@@ -215,7 +217,6 @@ def build_tag_page_cache(tag_index: TagIndexCollection):
 def build_tags_page_cache(tag_index: TagIndexCollection):
     cached_path = abspath(join(getcwd(), 'cached/index'))
     tags = tag_index.tags
-    print(tags)
     html = render_template("tags.jinja2", **dict(tags=tags))
     save_path = join(cached_path, f'tags.html')
     save_cache_file(save_path, html)

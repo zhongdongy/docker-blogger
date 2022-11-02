@@ -19,9 +19,11 @@
     <div class="blog-hero"></div>
     <div class="container">
         <div class="container markdown-rendered {{ 'content-serif' if flag_content_serif==1 }}">
-            <div class="row">
-                <div class="col col-lg-3 d-none d-lg-block" id="post-toc">
-                </div>
+            <div class="row justify-content-center">
+                {% if flag_disable_toc != 1 %}
+                    <div class="col col-lg-3 d-none d-lg-block" id="post-toc">
+                    </div>
+                {% endif %}
                 <div class="col col-12 col-lg-9">
                     <div class="container markdown-rendered {{ 'content-serif' if flag_content_serif==1 }}"
                          data-bs-spy="scroll" data-bs-target="#post-toc-nav" data-bs-smooth-scroll="true"
