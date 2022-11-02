@@ -24,7 +24,7 @@ def create_app():
 
         g.site_name = "那阵东风"
         g.site_year = datetime.now().year
-        g.site_slogan = "由 The Eastwind Blogger 驱动"
+        g.site_slogan = '由 <a href="https://hub.docker.com/r/dongsxyz/blogger" target="_blank">Eastwind Blogger</a> 驱动'
         if config.site.enable_https:
             g.site_home = f"https://{config.site.hostname}/"
         else:
