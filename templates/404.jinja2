@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>寻而不得 | {{ g.site_name }}</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.2.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;900&display=swap">
+    {{ inline_css('base.css') }}
+    {{ inline_css('theme.css') }}
+    {{ inline_css('404.css') }}
+</head>
+<body>
+
+<div class="container vh-100 d-none d-lg-block">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-12">
+            <div class="content-box-large">
+                <img class="w-100"
+                     src="https://eastwind-cdn.dongs.xyz/image/wandering-astronaut.jpg"
+                     alt="Wandering Astronaut by NASA">
+
+                <div class="text-overlay content-serif">
+                    <span data-char="求">求</span>
+                    <span data-char="索">索</span>
+                </div>
+                <div class="intro-overlay">
+                    <p>
+                        <span>未能找到您想访问的内容，请返回 <a class="suppress-link"
+                                                               href="/">{{ g.site_name }}</a></span>
+                        <span>（图源 <a class="reset-link" href="https://unsplash.com/@nasa">NASA</a>）</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="vh-100 vw-100 overflow-hidden d-block d-lg-none">
+    <div class="h-100 w-100 overflow-hidden content-box-small">
+        <img class="w-100"
+             src="https://eastwind-cdn.dongs.xyz/image/wandering-astronaut-crop.jpg"
+             alt="Wandering Astronaut by NASA">
+        <div class="text-overlay">
+            <p class="content-serif">路在何方？</p>
+            <p class="text-normal"><a href="/" class="supress-link">Houston</a>, we have a problem</p>
+        </div>
+        <div class="intro-overlay">
+            <p>
+                <span>未能找到您想访问的内容</span><span>（图源 <a class="reset-link" href="https://unsplash.com/@nasa">NASA</a>）</span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.staticfile.org/bootstrap/5.2.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

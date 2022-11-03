@@ -1,0 +1,136 @@
+@charset "UTF-8";
+.suppress-link， .suppress-link *, .suppress-link:hover, .suppress-link *:hover {
+  text-decoration: none !important;
+}
+
+a.reset-link, a.reset-link:hover, a.reset-link:active, a.reset-link:visited {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.content-serif h1, .content-serif h2, .content-serif h3, .content-serif h4, .content-serif h5 {
+  font-family: var(--ew-font-serif);
+  font-weight: var(--ew-font-weight-semibold);
+}
+.content-serif, .content-serif p, .content-serif span, .content-serif small, .content-serif button, .content-serif a {
+  font-family: var(--ew-font-serif);
+}
+.content-serif *.jinja2-timestamp {
+  font-family: initial;
+}
+.content-serif .post-tags, .content-serif .post-tags * {
+  font-family: initial;
+}
+
+.text-0_85 {
+  font-size: 0.85em;
+}
+
+.text-0_75 {
+  font-size: 0.75em;
+}
+
+.text-0_50 {
+  font-size: 0.5em;
+}
+
+h3.h3-small {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.indent-paragraph h1 {
+  text-indent: 0;
+}
+.indent-paragraph p {
+  text-indent: 2em;
+}
+.indent-paragraph p.suppress-margin {
+  margin-bottom: 0.25rem;
+}
+
+body {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.content-box-large {
+  width: 640px;
+  height: 640px;
+  margin: auto;
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+.content-box-large .text-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12em;
+  font-weight: 900;
+  color: #f3f7ff;
+}
+.content-box-large .text-overlay span {
+  text-shadow: 1px 1px 12px rgba(0, 0, 0, 0.5);
+}
+.content-box-large .text-overlay span[data-char=求] {
+  position: absolute;
+  top: -5rem;
+  right: -3rem;
+}
+.content-box-large .text-overlay span[data-char=索] {
+  position: absolute;
+  top: 6rem;
+  right: 5rem;
+}
+.content-box-large .intro-overlay {
+  position: absolute;
+  bottom: -1.75rem;
+  width: 100%;
+  color: #797979;
+}
+.content-box-large .intro-overlay p {
+  margin-top: 0;
+  font-size: 1rem;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.content-box-small {
+  position: relative;
+  background-color: #000;
+}
+.content-box-small img {
+  position: absolute;
+  bottom: 0;
+}
+.content-box-small .text-overlay {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  font-size: 4rem;
+  font-weight: 900;
+  color: #f3f7ff;
+}
+.content-box-small .text-overlay p {
+  margin: 0;
+}
+.content-box-small .text-overlay p.text-normal {
+  font-size: 2.5rem;
+  font-weight: initial;
+  line-height: 1.25em;
+}
+.content-box-small .intro-overlay {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  width: 100%;
+  color: #484848;
+}
+.content-box-small .intro-overlay p {
+  margin-top: 0.25em;
+  font-size: 1rem;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+/*# sourceMappingURL=404.css.map */

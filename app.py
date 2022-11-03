@@ -2,7 +2,7 @@ from datetime import datetime
 from os import getcwd
 from os.path import exists, abspath, join, isfile
 
-from flask import Flask, g, send_file, abort, render_template
+from flask import Flask, g, send_file, abort, render_template, Response
 
 from blueprints.api import bp_api
 from blueprints.post import bp_post
@@ -81,6 +81,10 @@ def create_app():
     # app.register_blueprint(bp_api, url_prefix='/api')
     app.register_blueprint(bp_tag, url_prefix='/tag')
     app.register_blueprint(bp_tags, url_prefix='/tags')
+
+    @app.errorhandler(404)
+    def handle_404_page(error):
+        return render_template('404.jinja2'), 404
 
     return app
 
