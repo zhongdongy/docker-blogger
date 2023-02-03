@@ -74,7 +74,7 @@
                         <p>按 10 个热门标签浏览，或查看<a href="/tags/">全部标签</a>。</p>
                         <div class="tag-group">
                             {% for tag in site_tags[:10] %}
-                                <span class="badge rounded-pill text-bg-light"><a href="/tag/{{ tag }}/">{{ tag }}</a></span>
+                                <span class="badge rounded-pill text-bg-light"><a href="/tag/{{ tag }}/">{{ tag }} ({{ site_tag_count(tag) }})</a></span>
                             {% endfor %}
                         </div>
                     </div>

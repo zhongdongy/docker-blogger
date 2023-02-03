@@ -118,7 +118,8 @@ def build_page_cache(clear_cached=False):
                     context = dict(
                         html=renderer.convert(content),
                         tags=list(),
-                        site_tags=tags.tags
+                        site_tags=tags.tags,
+                        site_tag_count=lambda t: tags.count(t)
                     )
                     if preamble is not None:
                         context = {**context, **dict(
@@ -289,7 +290,8 @@ def build_tag_page_cache(tag_index: TagIndexCollection):
         posts = tag_index.posts(tag_name)
         if len(posts) > 0:
             posts = list(sorted(posts, key=lambda p: p.preamble.updated_at, reverse=True))
-            html = render_template("tag.jinja2", **dict(posts=posts, tag_name=tag_name))
+            html = render_template("tag.jinja2",
+                                   **dict(posts=posts, tag_name=tag_name))
             save_path = join(cached_path, f'{tag_name}.html')
             save_cache_file(save_path, html)
 
@@ -297,7 +299,7 @@ def build_tag_page_cache(tag_index: TagIndexCollection):
 def build_tags_page_cache(tag_index: TagIndexCollection):
     cached_path = abspath(join(getcwd(), 'cached/index'))
     tags = tag_index.tags
-    html = render_template("tags.jinja2", **dict(tags=tags))
+    html = render_template("tags.jinja2", **dict(tags=tags, tag_count=lambda t: tag_index.count(t)))
     save_path = join(cached_path, f'tags.html')
     save_cache_file(save_path, html)
 
