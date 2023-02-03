@@ -3,6 +3,7 @@ import re
 from datetime import datetime
 from os import listdir, getcwd, mkdir
 from os.path import exists, isfile, join, abspath, isdir, dirname
+import pathlib
 
 from flask import render_template, current_app
 from markdown2 import Markdown
@@ -223,6 +224,9 @@ def build_page_cache(clear_cached=False):
                                 preamble=preamble
                             )))
 
+                    save_path_dir = dirname(blog['save_path'])
+                    if not exists(save_path_dir):
+                        pathlib.Path(save_path_dir).mkdir(parents=True, exist_ok=True)
                     save_cache_file(blog['save_path'], html)
 
         # Write cached indices to cached directory
