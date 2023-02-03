@@ -106,6 +106,8 @@ def build_page_cache(clear_cached=False):
     if len(blogs) > 0:
         tags = TagIndexCollection()
         perm_links = PermanentLinkIndexCollection()
+        dates = dict()  # Blogs with no preamble will not be included.
+        seen_names_in_dates = set()
 
         with current_app.app_context():
             for blog in blogs:
@@ -131,6 +133,31 @@ def build_page_cache(clear_cached=False):
                             context['flag_content_serif'] = 1
                         if 'disable-toc' in preamble.renderer_params:
                             context['flag_disable_toc'] = 1
+
+                        page_name: str = blog['path'].replace(blogs_path, '').strip('/').strip('\\')
+                        if page_name.endswith('.md'):
+                            page_name = page_name[:-3]
+                        date_str = preamble.created_at.strftime("%Y-%m-%d")
+                        year_str = preamble.created_at.strftime("%Y")
+                        month_str = preamble.created_at.strftime("%m")
+                        day_str = preamble.created_at.strftime("%d")
+                        if year_str not in dates:
+                            dates[year_str] = dict()
+                        if month_str not in dates[year_str]:
+                            dates[year_str][month_str] = dict()
+                        if day_str not in dates[year_str][month_str]:
+                            dates[year_str][month_str][day_str] = list()
+
+                        # Check for duplicates
+                        if page_name not in seen_names_in_dates:
+                            dates[year_str][month_str][day_str].append(dict(
+                                title=preamble.title,
+                                author=preamble.author,
+                                author_email=preamble.author_email,
+                                date=date_str,
+                                name=page_name
+                            ))
+                            seen_names_in_dates.add(page_name)
 
                         if preamble.author_email is not None and len(preamble.author_email) > 0:
                             context = {**context, **dict(
@@ -196,10 +223,16 @@ def build_page_cache(clear_cached=False):
                             )))
 
                     save_cache_file(blog['save_path'], html)
+
         # Write cached indices to cached directory
         cached_index_path = abspath(join(getcwd(), 'cached/index'))
         if not exists(cached_index_path):
             mkdir(cached_index_path)
+        if len(dates) > 0:
+            with open(join(cached_index_path, 'date.json'), 'w', encoding='utf-8') as date_index_content:
+                date_index_content.write(json.dumps(dates, ensure_ascii=False, indent=2))
+
+            build_dates_page_cache(dates)
 
         if tags.length > 0:
             with open(join(cached_index_path, 'tag.json'), 'w', encoding='utf-8') as tag_index_content:
@@ -219,6 +252,34 @@ def build_page_cache(clear_cached=False):
     html_privacy_policy = render_template('privacy-policy.jinja2')
     privacy_policy_page_path = join(abspath(join(getcwd(), 'cached/site')), 'privacy-policy.html')
     save_cache_file(privacy_policy_page_path, html_privacy_policy)
+
+
+def build_dates_page_cache(dates: dict):
+    cached_path = abspath(join(getcwd(), 'cached/dates'))
+    all_posts = list()
+    for year in dates:
+        year_posts = list()
+        for month in dates[year]:
+            month_posts = list()
+            for day in dates[year][month]:
+                for post in dates[year][month][day]:
+                    month_posts.append(post)
+                    year_posts.append(post)
+                    all_posts.append(post)
+            if len(month_posts) > 0:
+                posts = list(sorted(month_posts, key=lambda p: p['date'], reverse=True))
+                html = render_template("date_month.jinja2", **dict(posts=posts, month=f'{year} 年 {month} 月', year=year))
+                save_path = join(cached_path, f'{year}-{month}.html')
+                save_cache_file(save_path, html)
+        if len(year_posts) > 0:
+            posts = list(sorted(year_posts, key=lambda p: p['date'], reverse=True))
+            html = render_template("date_year.jinja2", **dict(posts=posts, year=f'{year} 年'))
+            save_path = join(cached_path, f'{year}.html')
+            save_cache_file(save_path, html)
+
+    html = render_template("dates.jinja2", **dict(dates=dates))
+    save_path = join(cached_path, f'dates.html')
+    save_cache_file(save_path, html)
 
 
 def build_tag_page_cache(tag_index: TagIndexCollection):

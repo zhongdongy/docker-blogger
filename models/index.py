@@ -18,7 +18,6 @@ class PostIndex(object):
             preamble=self.preamble.to_dict()
         )
 
-
 class PermanentLinkIndex(object):
     perm_link: str
     name: str
@@ -56,7 +55,7 @@ class TagIndexCollection:
 
     @property
     def tags(self):
-        return self.tag_dict.keys()
+        return list(self.tag_dict.keys())
 
     def __len__(self):
         return self.length

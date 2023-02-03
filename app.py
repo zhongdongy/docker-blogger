@@ -6,6 +6,7 @@ from flask import Flask, g, send_file, abort, render_template, Response
 
 from blueprints.api import bp_api
 from blueprints.post import bp_post
+from blueprints.dates import bp_dates
 from blueprints.tag import bp_tag
 from blueprints.tags import bp_tags
 from libs.cache import build_page_cache
@@ -81,6 +82,7 @@ def create_app():
     # app.register_blueprint(bp_api, url_prefix='/api')
     app.register_blueprint(bp_tag, url_prefix='/tag')
     app.register_blueprint(bp_tags, url_prefix='/tags')
+    app.register_blueprint(bp_dates, url_prefix='/dates')
 
     @app.errorhandler(404)
     def handle_404_page(error):

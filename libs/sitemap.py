@@ -59,5 +59,12 @@ def generate_sitemaps(tag_index: TagIndexCollection):
     ET.SubElement(tags_element, "changefreq").text = "daily"
     ET.SubElement(tags_element, "priority").text = "0.8"
 
+    # Include dates page
+    tags_element = ET.SubElement(root_element, "url")
+    ET.SubElement(tags_element, "loc").text = url_root + f'/dates/'
+    ET.SubElement(tags_element, "lastmod").text = datetime.now().strftime("%Y-%m-%d")
+    ET.SubElement(tags_element, "changefreq").text = "daily"
+    ET.SubElement(tags_element, "priority").text = "0.8"
+
     tree = ET.ElementTree(root_element)
     tree.write('cached/sitemap.xml', encoding='utf-8', xml_declaration=True)

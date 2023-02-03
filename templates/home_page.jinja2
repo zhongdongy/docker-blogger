@@ -72,11 +72,15 @@
                     <div class="col col-md-6 col-lg-4">
                         <h3 class="h3-small">博文标签</h3>
                         <p>按 10 个热门标签浏览，或查看<a href="/tags/">全部标签</a>。</p>
-                        <ul class="list-group">
-                            {% for tag in site_tags %}
-                                <li class="list-group-item"><a href="/tag/{{ tag }}/">{{ tag }}</a></li>
+                        <div class="tag-group">
+                            {% for tag in site_tags[:10] %}
+                                <span class="badge rounded-pill text-bg-light"><a href="/tag/{{ tag }}/">{{ tag }}</a></span>
                             {% endfor %}
-                        </ul>
+                        </div>
+                    </div>
+                    <div class="col col-md-6 col-lg-4">
+                        <h3 class="h3-small">全部作品</h3>
+                        <p>按发布日期列举全部作品：<a href="/dates/">发布历史</a>。</p>
                     </div>
                 </div>
             </div>
