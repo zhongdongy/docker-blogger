@@ -56,6 +56,12 @@
                                 </div>
                             </div>
                             <div class="post-content">{{ html }}</div>
+                            {% if perm_link %}
+                                <hr>
+                                <p>本文的固定链接：<a
+                                        href="{{ g.site_home }}post/{{ perm_link }}/">{{ g.site_home }}post/{{ perm_link }}/</a>
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

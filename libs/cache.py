@@ -123,6 +123,7 @@ def build_page_cache(clear_cached=False):
                             tags=preamble.tags,
                             title=preamble.title,
                             author=preamble.author,
+                            perm_link=preamble.permanent_link or None,
                             created_at=preamble.created_at.timestamp(),
                             updated_at=preamble.updated_at.timestamp()
                         )}
@@ -130,6 +131,15 @@ def build_page_cache(clear_cached=False):
                             context['flag_content_serif'] = 1
                         if 'disable-toc' in preamble.renderer_params:
                             context['flag_disable_toc'] = 1
+
+                        if preamble.author_email is not None and len(preamble.author_email) > 0:
+                            context = {**context, **dict(
+                                avatar_url=get_gravatar_url(preamble.author_email)
+                            )}
+                        else:
+                            context = {**context, **dict(
+                                avatar_url=f"https://dummyimage.com/80/2196f3/000000/&text=+"
+                            )}
                     else:
                         context = {**context, **dict(
                             tags=[],
@@ -138,14 +148,7 @@ def build_page_cache(clear_cached=False):
                             created_at=datetime.now().timestamp(),
                             updated_at=datetime.now().timestamp()
                         )}
-                    if preamble.author_email is not None and len(preamble.author_email) > 0:
-                        context = {**context, **dict(
-                            avatar_url=get_gravatar_url(preamble.author_email)
-                        )}
-                    else:
-                        context = {**context, **dict(
-                            avatar_url=f"https://dummyimage.com/80/2196f3/000000/&text=+"
-                        )}
+
                     if 'home_page' in blog and blog['home_page'] is True:
                         html = render_template('home_page.jinja2', **context)
                     else:
