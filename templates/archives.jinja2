@@ -20,13 +20,13 @@
                     <h2>发布历史</h2>
                     <div class="container" id="post-list">
                         <div class="row gx-2 gy-2">
-                            {% for year in dates.keys()|sort(reverse=True) %}
-                                <h3 class="mt-4"><a class="link-unstyled" href="/dates/{{ year }}/">{{ year }} 年</a></h3>
-                                {% for month in dates[year].keys()|sort(reverse=True) %}
-                                    <h2><a class="link-unstyled" href="/dates/{{ year }}/{{ month }}/">{{ month }} 月</a></h2>
-                                    {% for day in dates[year][month].keys()|sort(reverse=True) %}
-                                        {% for post in dates[year][month][day] %}
-                                            <div class="col col-6">
+                            {% for year in archives.keys()|sort(reverse=True) %}
+                                <h3 class="mt-4"><a class="link-unstyled" href="/archives/{{ year }}/">{{ year }} 年</a></h3>
+                                {% for month in archives[year].keys()|sort(reverse=True) %}
+                                    <h2><a class="link-unstyled" href="/archives/{{ year }}/{{ month }}/">{{ month }} 月</a></h2>
+                                    {% for day in archives[year][month].keys()|sort(reverse=True) %}
+                                        {% for post in archives[year][month][day] %}
+                                            <div class="col col-12 col-md-6">
                                                 <a class="link-unstyled" href="/post/{{ post.name }}/">
                                                     <div class="card">
                                                         <div class="card-body d-flex justify-content-between align-items-middle">

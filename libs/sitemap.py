@@ -3,9 +3,10 @@ from datetime import datetime
 
 from models.index import TagIndexCollection, PostIndex
 from utils.config import load_config
+import urllib
 
 
-def generate_sitemaps(tag_index: TagIndexCollection):
+def generate_sitemaps(tag_index: TagIndexCollection, *, archives=None):
     root_element = ET.Element('urlset')
     root_element.attrib['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
     root_element.attrib[
@@ -28,7 +29,7 @@ def generate_sitemaps(tag_index: TagIndexCollection):
         posts.extend(_posts)
         # Include tag page
         tag_element = ET.SubElement(root_element, "url")
-        ET.SubElement(tag_element, "loc").text = url_root + f'/tag/{tag}/'
+        ET.SubElement(tag_element, "loc").text = url_root + urllib.parse.quote(f'/tag/{tag}/')
         ET.SubElement(tag_element, "lastmod").text = datetime.now().strftime("%Y-%m-%d")
         ET.SubElement(tag_element, "changefreq").text = "daily"
         ET.SubElement(tag_element, "priority").text = "0.8"
@@ -46,8 +47,16 @@ def generate_sitemaps(tag_index: TagIndexCollection):
         # Build post page
         posts = list(sorted(deduplicated_posts, key=lambda p: p.preamble.updated_at, reverse=True))
         for post in posts:
+            post.name = post.name.replace('\\', '/')  # Unescape backslash
+            if post.preamble.permanent_link is not None and len(post.preamble.permanent_link)>0:
+                post_element = ET.SubElement(root_element, "url")
+                ET.SubElement(post_element, "loc").text = url_root + urllib.parse.quote(f'/post/{post.preamble.permanent_link}/')
+                ET.SubElement(post_element, "lastmod").text = post.preamble.updated_at.strftime("%Y-%m-%d")
+                ET.SubElement(post_element, "changefreq").text = "weekly"
+                ET.SubElement(post_element, "priority").text = "0.8"
+
             post_element = ET.SubElement(root_element, "url")
-            ET.SubElement(post_element, "loc").text = url_root + f'/post/{post.name}/'
+            ET.SubElement(post_element, "loc").text = url_root + urllib.parse.quote(f'/post/{post.name}/')
             ET.SubElement(post_element, "lastmod").text = post.preamble.updated_at.strftime("%Y-%m-%d")
             ET.SubElement(post_element, "changefreq").text = "weekly"
             ET.SubElement(post_element, "priority").text = "0.8"
@@ -59,12 +68,27 @@ def generate_sitemaps(tag_index: TagIndexCollection):
     ET.SubElement(tags_element, "changefreq").text = "daily"
     ET.SubElement(tags_element, "priority").text = "0.8"
 
-    # Include dates page
+    # Include archives page
     tags_element = ET.SubElement(root_element, "url")
-    ET.SubElement(tags_element, "loc").text = url_root + f'/dates/'
+    ET.SubElement(tags_element, "loc").text = url_root + f'/archives/'
     ET.SubElement(tags_element, "lastmod").text = datetime.now().strftime("%Y-%m-%d")
     ET.SubElement(tags_element, "changefreq").text = "daily"
     ET.SubElement(tags_element, "priority").text = "0.8"
+
+    # Include archives page by year and month
+    if archives is not None and len(archives) > 0:
+        for year in archives:
+            tags_element = ET.SubElement(root_element, "url")
+            ET.SubElement(tags_element, "loc").text = url_root + f'/archives/{year}/'
+            ET.SubElement(tags_element, "lastmod").text = datetime.now().strftime("%Y-%m-%d")
+            ET.SubElement(tags_element, "changefreq").text = "monthly"
+            ET.SubElement(tags_element, "priority").text = "0.3"
+            for month in archives[year]:
+                tags_element = ET.SubElement(root_element, "url")
+                ET.SubElement(tags_element, "loc").text = url_root + f'/archives/{year}/{month}/'
+                ET.SubElement(tags_element, "lastmod").text = datetime.now().strftime("%Y-%m-%d")
+                ET.SubElement(tags_element, "changefreq").text = "monthly"
+                ET.SubElement(tags_element, "priority").text = "0.3"
 
     tree = ET.ElementTree(root_element)
     tree.write('cached/sitemap.xml', encoding='utf-8', xml_declaration=True)

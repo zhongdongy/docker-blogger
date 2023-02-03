@@ -24,23 +24,21 @@
     <div class="container">
         <hr>
         <div class="d-flex align-items-start flex-column">
-            <div>&copy; {{ g.site_year }} <span class="content-serif">{{ g.site_name }}</span>
-            </div>
-            {% if g.enable_beian == True %}
-                <div class="text-footer-small mt-1 mb-1 d-flex align-items-center">
-                    <a class="beian-icon d-block" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
-                            src="{{ url_for('static', filename="img/beian.png") }}" width="16" height="16" alt=""></a>
+            <div>&copy; {{ g.site_year }} <span class="content-serif">{{ g.site_name }}</span></div>
+            <div class="text-footer-small mt-2 mb-1" style="line-height: 18px">
+                {% if g.enable_beian == True %}
+                    <a class="beian-icon" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
+                            src="{{ url_for('static', filename="img/beian.png") }}" width="16" height="16" alt="" style="margin-top: -0.24rem"></a>
 
-                    <a class="d-block ms-1" href="https://beian.miit.gov.cn/"
+                    <a class="ms-1 d-inline-block" href="https://beian.miit.gov.cn/"
                        target="_blank">{{ g.site_info.beian_id }}</a>
-                    <a class="d-block ms-2" href="https://beian.miit.gov.cn/"
+                    <a class="ms-2 d-inline-block" href="https://beian.miit.gov.cn/"
                        target="_blank">{{ g.site_info.icp_id }}</a>
-                    <a class="d-block ms-2" href="/privacy-policy/">隐私政策</a>
-                </div>
-            {% endif %}
-            <div class="text-footer-small mt-1 mb-1">
-                <span class="text-muted">{{ g.site_slogan }}</span>
+                {% endif %}
+                <a class="ms-2 d-inline-block" href="/privacy-policy/">隐私政策</a>
             </div>
+            <div class="text-footer-small mt-1 mb-1"><span
+                    class="text-muted">{{ g.site_slogan }}</span></div>
         </div>
     </div>
 </footer>
