@@ -12,7 +12,8 @@ window.addEventListener('load', () => {
 
             template.innerHTML = `<ul id="post-toc-nav" class="h-100 list-group">${html}</ul>`
 
-            document.querySelector('#post-toc').appendChild(template.content);
+            let toc = document.querySelector('#post-toc')
+            if (!!toc) toc.appendChild(template.content);
         }
 
     }
