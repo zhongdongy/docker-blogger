@@ -40,8 +40,8 @@ class Preamble(object):
         return dict(
             title=self.title,
             author=self.author,
-            created_at=self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-            updated_at=self.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
+            created_at=self.created_at.strftime('%Y-%m-%d'),
+            updated_at=self.updated_at.strftime('%Y-%m-%d'),
             tags=self.tags,
             renderer_params=self.renderer_params,
             keywords=self.keywords,
