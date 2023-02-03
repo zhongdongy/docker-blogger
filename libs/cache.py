@@ -257,18 +257,19 @@ def build_page_cache(clear_cached=False):
 def build_dates_page_cache(dates: dict):
     cached_path = abspath(join(getcwd(), 'cached/dates'))
     all_posts = list()
-    for year in dates:
+    for year in sorted(dates.keys(), reverse=True):
         year_posts = list()
-        for month in dates[year]:
+        for month in sorted(dates[year].keys(), reverse=True):
             month_posts = list()
-            for day in dates[year][month]:
+            for day in sorted(dates[year][month].keys(), reverse=True):
                 for post in dates[year][month][day]:
                     month_posts.append(post)
                     year_posts.append(post)
                     all_posts.append(post)
             if len(month_posts) > 0:
                 posts = list(sorted(month_posts, key=lambda p: p['date'], reverse=True))
-                html = render_template("date_month.jinja2", **dict(posts=posts, month=f'{year} 年 {month} 月', year=year))
+                html = render_template("date_month.jinja2",
+                                       **dict(posts=posts, month=f'{year} 年 {month} 月', year=year))
                 save_path = join(cached_path, f'{year}-{month}.html')
                 save_cache_file(save_path, html)
         if len(year_posts) > 0:
