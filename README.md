@@ -49,7 +49,7 @@ renderer_params:
 - `created_at` 指博文创作的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
 - `updated_at` 指博文修改的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
 - `tags` 指博文的标签，您可以为同一篇博文提供任意数量的标签
-- `permanent_link` 是您手动指定的博文标题
+- `permanent_link` 是您手动指定的固定访问链接，没有指定则不会生成
 - `renderer_params` 是渲染博文时的指令参数，您可以使用：
   - `disable-toc`：关闭文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
