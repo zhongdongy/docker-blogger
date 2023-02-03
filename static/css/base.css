@@ -99,7 +99,11 @@ a:hover {
 .markdown-rendered .post-info .author-avatar {
   width: var(--ew-avatar-size);
   height: var(--ew-avatar-size);
-  line-height: var(--ew-avatar-size);
+  overflow: hidden;
+}
+.markdown-rendered .post-info .author-avatar img {
+  width: 100%;
+  height: 100%;
 }
 .markdown-rendered .post-info .author-name {
   font-weight: var(--ew-font-weight-medium);

@@ -24,12 +24,13 @@ site:
 
 ## 撰写文章
 
-您可以使用 Markdown 和 LaTeX（使用 KaTeX 进行渲染）撰写博文。为了提供标签分类等丰富的博文索引服务，您还可以在每篇博文的报头增加一段元数据：
+您可以使用 Markdown 和 LaTeX（使用 MathJax 进行渲染）撰写博文。为了提供标签分类等丰富的博文索引服务，您还可以在每篇博文的报头增加一段元数据：
 
 ```yaml
 ---
 title: 沁园春·雪
 author: 毛泽东
+author_email: "mzd@example.com"
 created_at: "1936-02-01"
 updated_at: "1936-02-01"
 tags:
@@ -44,6 +45,7 @@ renderer_params:
 这段元数据遵循 YAML 语法，其中：
 - `title` 对应了文章的标题
 - `author` 指博文的作者
+- `author_email` 指博文作者的邮箱，用于获取 GRAVATAR 图像
 - `created_at` 指博文创作的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
 - `updated_at` 指博文修改的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
 - `tags` 指博文的标签，您可以为同一篇博文提供任意数量的标签

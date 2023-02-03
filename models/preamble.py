@@ -6,6 +6,7 @@ from utils.parser import parse_datetime_string
 class Preamble(object):
     title: str = ''
     author: str = ''
+    author_email: str = ''
     created_at: datetime = None
     updated_at: datetime = None
     tags: list[str] = list()
@@ -18,6 +19,7 @@ class Preamble(object):
         if isinstance(raw, Preamble):
             self.title = raw.title
             self.author = raw.author
+            self.author_email = raw.author_email
             self.created_at = raw.created_at
             self.updated_at = raw.updated_at
             self.permanent_link = raw.permanent_link
@@ -28,6 +30,7 @@ class Preamble(object):
         else:
             self.title = (raw or {}).get('title')
             self.author = (raw or {}).get('author')
+            self.author_email = (raw or {}).get('author_email')
             self.created_at = parse_datetime_string((raw or {}).get('created_at'))
             self.updated_at = parse_datetime_string((raw or {}).get('updated_at'))
             self.permanent_link = (raw or {}).get('permanent_link')
@@ -40,6 +43,7 @@ class Preamble(object):
         return dict(
             title=self.title,
             author=self.author,
+            author_email=self.author_email,
             created_at=self.created_at.strftime('%Y-%m-%d'),
             updated_at=self.updated_at.strftime('%Y-%m-%d'),
             tags=self.tags,

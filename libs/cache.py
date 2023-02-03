@@ -7,6 +7,7 @@ from os.path import exists, isfile, join, abspath, isdir, dirname
 from flask import render_template, current_app
 from markdown2 import Markdown
 
+from utils.gravatar import get_gravatar_url
 from .parser import parse_preamble, parse_headings
 from .sitemap import generate_sitemaps
 from models.index import PostIndex, PermanentLinkIndex, TagIndexCollection, PermanentLinkIndexCollection
@@ -136,6 +137,14 @@ def build_page_cache(clear_cached=False):
                             author="",
                             created_at=datetime.now().timestamp(),
                             updated_at=datetime.now().timestamp()
+                        )}
+                    if preamble.author_email is not None and len(preamble.author_email) > 0:
+                        context = {**context, **dict(
+                            avatar_url=get_gravatar_url(preamble.author_email)
+                        )}
+                    else:
+                        context = {**context, **dict(
+                            avatar_url=f"https://dummyimage.com/80/2196f3/000000/&text=+"
                         )}
                     if 'home_page' in blog and blog['home_page'] is True:
                         html = render_template('home_page.jinja2', **context)

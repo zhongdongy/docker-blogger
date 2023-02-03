@@ -33,7 +33,8 @@
                                 <h2 id="post-title">{{ title }}</h2>
                                 <div class="post-info mt-4 mb-1">
                                     <div class="post-info-author d-flex justify-content-start align-items-center">
-                                        <div class="author-avatar rounded rounded-circle text-bg-secondary text-center">{{ author[0] }}</div>
+                                        <div class="author-avatar rounded rounded-circle text-bg-secondary text-center">
+                                        <img src="{{ avatar_url }}" alt="{{ author }}"></div>
                                         <div class="d-flex flex-column align-items-start ms-2">
                                             <span class="author-name">{{ author }}</span>
                                             <small class="text-muted jinja2-timestamp" data-convert="1"
