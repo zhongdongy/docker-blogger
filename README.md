@@ -54,4 +54,6 @@ renderer_params:
   - `disable-toc`：关闭文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
 
+注意：如果没有提供 `created_at` 和 `updated_at`，那么会默认使用 `2000-01-01` 作为缺省值。
+
 为了丰富读者的阅读体验，您可以使用 Markdown 扩展语法中的脚注来实现。
