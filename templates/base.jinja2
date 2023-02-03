@@ -95,10 +95,13 @@
             elements.forEach(e => {
                 try {
                     let val = Number(e.getAttribute('data-timestamp'));
-                    if (e.getAttribute('data-millisecond', '1') || e.getAttribute('data-milliseconds', '1')) {
+                    if (e.getAttribute('data-millisecond') === '1' || e.getAttribute('data-milliseconds') === '1') {
                         e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss.SSS");
-                    } else
+                    } else if (e.getAttribute('data-time') === '1') {
                         e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss");
+                    } else {
+                        e.textContent = moment.unix(val).format("YYYY-MM-DD");
+                    }
                 } catch (e) {
                 }
             });
