@@ -8,7 +8,7 @@ def parse_datetime_string(datetime_str: str):
     elif isinstance(datetime_str, datetime):
         return datetime_str
     if datetime_str is None or len(datetime_str.strip()) == 0:
-        return None
+        return datetime.strptime("2000-01-01", '%Y-%m-%d')
     datetime_str = datetime_str.strip()
     if re.match(r'^\d{4}-\d{2}-\d{2}$', datetime_str):
         return datetime.strptime(datetime_str, '%Y-%m-%d')

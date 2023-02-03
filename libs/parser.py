@@ -12,8 +12,9 @@ def parse_preamble(content: str) -> [Preamble, str]:
     preamble_match = preamble_regex.match(content)
     if preamble_match is None:
         return Preamble(), content
-
     preamble_str = preamble_match[1]
+    if '---' in preamble_str:
+        preamble_str = preamble_str.split('---')[0]
     preamble = yaml.load(preamble_str, yaml.Loader)
     return Preamble(preamble), content.replace(f"---{preamble_str}---", '')
 
