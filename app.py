@@ -2,11 +2,10 @@ from datetime import datetime
 from os import getcwd
 from os.path import exists, abspath, join, isfile
 
-from flask import Flask, g, send_file, abort, render_template, Response
+from flask import Flask, g, send_file, abort, render_template
 
-from blueprints.api import bp_api
-from blueprints.post import bp_post
 from blueprints.archive import bp_archive
+from blueprints.post import bp_post
 from blueprints.tag import bp_tag
 from blueprints.tags import bp_tags
 from libs.cache import build_page_cache
@@ -53,6 +52,13 @@ def create_app():
     def home_page():  # put application's code here
         config = load_config()
         return route_post(config.public.home_post)
+
+    @app.get('/baidu_verify_<string:some_path>.html')
+    def baidu_site_verify(some_path: str):
+        filepath = abspath(join(getcwd(), f"baidu_verify_{some_path}.html"))
+        if exists(filepath) and isfile(filepath):
+            return send_file(filepath)
+        return abort(404)
 
     @app.route('/privacy-policy/')
     def privacy_policy_page():
