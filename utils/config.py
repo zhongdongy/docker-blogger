@@ -26,6 +26,7 @@ class Site(object):
     site_name: str = "那阵东风"
     site_email: str = "zhongdongy@dongs.xyz"
     site_slogan: str = '由 <a href="https://hub.docker.com/r/dongsxyz/blogger" target="_blank">Eastwind Blogger</a> 驱动'
+    gravatar_proxy: str | None = None
 
     def __init__(self, raw: dict = None):
         self.beian = Beian((raw or {}).get('beian'))
@@ -35,6 +36,7 @@ class Site(object):
         self.site_email = (raw or {}).get('site_email') or "zhongdongy@dongs.xyz"
         self.site_slogan = (raw or {}).get('site_slogan') or ('由 <a href="https://hub.docker.com/r/dongsxyz/blogger" '
                                                               'target="_blank">Eastwind Blogger</a> 驱动')
+        self.gravatar_proxy = (raw or {}).get('gravatar_proxy') or None
 
 
 class AppConfig(object):

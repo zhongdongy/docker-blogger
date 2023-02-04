@@ -16,6 +16,7 @@ site:
   site_name: 那阵东风
   site_email: zhongdongy@dongs.xyz
   site_slogan: '由 Eastwind Blogger 驱动'
+  gravatar_proxy: https://127.0.0.1/gavatar/
   beian:
     enabled: true
     icp_id: 粤ICP备XXX号-1
