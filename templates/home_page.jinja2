@@ -37,8 +37,12 @@
                                             <img src="{{ avatar_url }}" alt="{{ author }}"></div>
                                         <div class="d-flex flex-column align-items-start ms-2">
                                             <span class="author-name">{{ author }}</span>
-                                            <small class="text-muted jinja2-timestamp" data-convert="1"
-                                                   data-timestamp="{{ updated_at }}"></small>
+                                            {% if allow_before_epoch == True %}
+                                                <small class="text-muted">{{ updated_at.strftime("%Y-%m-%d") }}</small>
+                                            {% else %}
+                                                <small class="text-muted jinja2-timestamp" data-convert="1"
+                                                       data-timestamp="{{ updated_at }}"></small>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +78,8 @@
                         <p>按 10 个热门标签浏览，或查看<a href="/tags/">全部标签</a>。</p>
                         <div class="tag-group">
                             {% for tag in site_tags[:10] %}
-                                <span class="badge rounded-pill text-bg-light"><a href="/tag/{{ tag }}/">{{ tag }} ({{ site_tag_count(tag) }})</a></span>
+                                <span class="badge rounded-pill text-bg-light"><a
+                                        href="/tag/{{ tag }}/">{{ tag }} ({{ site_tag_count(tag) }})</a></span>
                             {% endfor %}
                         </div>
                     </div>

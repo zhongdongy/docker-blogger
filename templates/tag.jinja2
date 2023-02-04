@@ -29,8 +29,12 @@
 
                                             <div class="d-flex justify-content-between text-0_85">
                                                 <span class="text-secondary">{{ post.preamble.author }}</span>
-                                                <span class="text-secondary jinja2-timestamp" data-convert="1"
-                                                      data-timestamp="{{ post.preamble.updated_at.timestamp() }}"></span>
+                                                {% if post.preamble.allow_before_epoch == True %}
+                                                    <span class="text-secondary">{{ post.preamble.updated_at.strftime("%Y-%m-%d") }}</span>
+                                                {% else %}
+                                                    <span class="text-secondary jinja2-timestamp" data-convert="1"
+                                                          data-timestamp="{{ post.preamble.updated_at.timestamp() }}"></span>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

@@ -9,6 +9,7 @@ class Preamble(object):
     author_email: str = ''
     created_at: datetime = None
     updated_at: datetime = None
+    allow_before_epoch = False
     tags: list[str] = list()
     keywords: list[str] = list()
     permanent_link: str | None = None
@@ -31,10 +32,12 @@ class Preamble(object):
             self.renderer_params = raw.renderer_params
             self.redirect = raw.redirect
             self.author_avatar = raw.author_avatar
+            self.allow_before_epoch = raw.allow_before_epoch
         else:
             self.title = (raw or {}).get('title')
             self.author = (raw or {}).get('author')
             self.author_email = (raw or {}).get('author_email')
+            self.allow_before_epoch = (raw or {}).get('allow_before_epoch')
             self.created_at = parse_datetime_string((raw or {}).get('created_at'))
             self.updated_at = parse_datetime_string((raw or {}).get('updated_at'))
             self.permanent_link = (raw or {}).get('permanent_link')
@@ -59,4 +62,5 @@ class Preamble(object):
             description=self.description,
             redirect=self.redirect,
             author_avatar=self.author_avatar,
+            allow_before_epoch=self.allow_before_epoch,
         )

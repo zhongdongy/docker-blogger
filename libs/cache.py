@@ -134,8 +134,9 @@ def build_page_cache(clear_cached=False):
                             title=preamble.title,
                             author=preamble.author,
                             perm_link=preamble.permanent_link or None,
-                            created_at=preamble.created_at.timestamp(),
-                            updated_at=preamble.updated_at.timestamp()
+                            created_at=preamble.created_at if preamble.allow_before_epoch else preamble.created_at.timestamp(),
+                            updated_at=preamble.updated_at if preamble.allow_before_epoch else preamble.updated_at.timestamp(),
+                            allow_before_epoch=preamble.allow_before_epoch,
                         )}
                         if 'content-serif' in preamble.renderer_params:
                             context['flag_content_serif'] = 1
