@@ -23,7 +23,7 @@
                         <ul class="list-group">
                             {% for post in posts %}
                                 <li class="list-group-item">
-                                    <a class="link-unstyled" href="/post/{{ post.name }}/">
+                                    <a class="link-unstyled" href="/post/{{ post.name if post.perm_link == None else post.perm_link }}/">
                                         <div class="d-flex flex-column">
                                             <span class="d-block fw-semibold re-link-style">{{ post.title }}</span>
                                             {% if post.description != None %}

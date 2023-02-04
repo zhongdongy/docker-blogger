@@ -58,6 +58,21 @@ a.link-unstyled:hover span.re-link-style {
   text-decoration: underline;
 }
 
+.content-serif h1, .content-serif h2, .content-serif h3, .content-serif h4, .content-serif h5, .content-serif h6 {
+  font-weight: 700;
+  margin-top: 0.35em;
+}
+.content-serif p {
+  font-size: 1.25em;
+  line-height: 1.75em;
+  margin-bottom: 1.125em;
+}
+
+.content-justify p {
+  text-justify: inter-ideograph;
+  text-align: justify;
+}
+
 body {
   font-size: 16px;
   font-weight: normal;

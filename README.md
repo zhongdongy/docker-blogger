@@ -46,6 +46,7 @@ permanent_link:
 renderer_params: 
 - content-serif
 - disable-toc
+- content-justify
 redirect: "post/abc/"
 ---
 ```
@@ -65,6 +66,7 @@ redirect: "post/abc/"
 - `renderer_params`（可选）是渲染博文时的指令参数，您可以使用：
   - `disable-toc`：关闭文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
+  - `content-justify`：让文字两端对齐
 - `redirect` （可选）可以给出一个地址（不包含起始的`/`），页面加载后会自动重定向到给定页面
 
 注意：

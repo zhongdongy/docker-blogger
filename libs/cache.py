@@ -80,6 +80,7 @@ def save_cache_file(save_path, contents: str):
 
 def build_page_cache(clear_cached=False):
     blogs_path = abspath(join(getcwd(), 'blogs'))
+    home_blog_path = abspath(join(getcwd(), 'cached', '__index__.html'))
     blogs = load_blogs('blogs')
 
     config = load_config()
@@ -144,6 +145,8 @@ def build_page_cache(clear_cached=False):
                             context['flag_content_serif'] = 1
                         if 'disable-toc' in preamble.renderer_params:
                             context['flag_disable_toc'] = 1
+                        if 'content-justify' in preamble.renderer_params:
+                            context['flag_content_justify'] = 1
 
                         page_name: str = blog['path'].replace(blogs_path, '').strip('/').strip('\\').replace('\\', '/')
                         if page_name.endswith('.md'):
@@ -168,7 +171,9 @@ def build_page_cache(clear_cached=False):
                                 keywords=preamble.keywords,
                                 author_email=preamble.author_email,
                                 date=date_str,
-                                name=page_name
+                                name=page_name,
+                                perm_link=preamble.permanent_link if preamble.permanent_link is not None and len(
+                                    preamble.permanent_link) > 0 else None
                             ))
                             seen_names_in_dates.add(page_name)
 
@@ -253,7 +258,12 @@ def build_page_cache(clear_cached=False):
                     save_path_dir = dirname(blog['save_path'])
                     if not exists(save_path_dir):
                         pathlib.Path(save_path_dir).mkdir(parents=True, exist_ok=True)
-                    save_cache_file(blog['save_path'], html)
+
+                    # Home page will be created separately
+                    if 'home_page' in blog and blog['home_page'] is True:
+                        save_cache_file(home_blog_path, html)
+                    else:
+                        save_cache_file(blog['save_path'], html)
 
         # Write cached indices to cached directory
         cached_index_path = abspath(join(getcwd(), 'cached/index'))
@@ -263,7 +273,7 @@ def build_page_cache(clear_cached=False):
             with open(join(cached_index_path, 'archives.json'), 'w', encoding='utf-8') as date_index_content:
                 date_index_content.write(json.dumps(archives, ensure_ascii=False, indent=2))
 
-            build_dates_page_cache(archives)
+            build_archives_page_cache(archives)
 
         if tags.length > 0:
             with open(join(cached_index_path, 'tag.json'), 'w', encoding='utf-8') as tag_index_content:
@@ -288,7 +298,7 @@ def build_page_cache(clear_cached=False):
     save_cache_file(privacy_policy_page_path, html_privacy_policy)
 
 
-def build_dates_page_cache(archives: dict):
+def build_archives_page_cache(archives: dict):
     cached_path = abspath(join(getcwd(), 'cached/archives'))
     all_posts = list()
     for year in sorted(archives.keys(), reverse=True):

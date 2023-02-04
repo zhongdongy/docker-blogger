@@ -28,12 +28,12 @@
             {% else %}
                 <div class="col col-12 col-md-10 col-lg-8">
             {% endif %}
-            <div class="container markdown-rendered {{ 'content-serif' if flag_content_serif==1 }}"
+            <div class="container markdown-rendered {{ 'content-serif' if flag_content_serif==1 }} {{ 'content-justify' if flag_content_justify==1 }}"
                  data-bs-spy="scroll" data-bs-target="#post-toc-nav" data-bs-smooth-scroll="true"
                  tabindex="0">
                 <div class="row justify-content-center">
                     <div class="col col-12" id="content-container">
-                        <h2 id="post-title">{{ title }}</h2>
+                        <h1 id="post-title">{{ title }}</h1>
                         <div class="post-info mt-4 mb-1">
                             <div class="post-info-author d-flex justify-content-start align-items-center">
                                 <div class="author-avatar rounded rounded-circle text-bg-secondary text-center">
@@ -98,7 +98,11 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ inline_js('toc.js') }}
+    <!-- Toggle TOC rendering according to flag -->
+    {% if flag_disable_toc != 1 %}
+        {{ inline_js('toc.js') }}
+    {% endif %}
+
     <script>
         window.addEventListener("load", () => {
             window.addEventListener('adjust-images', () => {

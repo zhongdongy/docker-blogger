@@ -51,7 +51,7 @@ def create_app():
     @app.route('/')
     def home_page():  # put application's code here
         config = load_config()
-        return route_post(config.public.home_post)
+        return route_post(config.public.home_post, is_index=True)
 
     @app.get('/baidu_verify_<string:some_path>.html')
     def baidu_site_verify(some_path: str):
