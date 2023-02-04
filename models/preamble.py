@@ -43,7 +43,7 @@ class Preamble(object):
             self.permanent_link = (raw or {}).get('permanent_link')
             self.tags = (raw or {}).get('tags') or list()
             self.renderer_params = (raw or {}).get('renderer_params') or list()
-            self.keywords = (raw or {}).get('keywords')
+            self.keywords = (raw or {}).get('keywords') or list()
             self.description = (raw or {}).get('description')
             self.redirect = (raw or {}).get('redirect')
             self.author_avatar = (raw or {}).get('author_avatar')

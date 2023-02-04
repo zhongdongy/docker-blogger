@@ -78,7 +78,6 @@ a:hover {
 
 .markdown-rendered p img {
   width: 100%;
-  max-width: 640px;
   height: auto;
   border-radius: 12px;
   box-shadow: 4px 4px 24px 2px rgba(0, 0, 0, 0.16);

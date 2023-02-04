@@ -42,7 +42,8 @@ def create_app():
 
         return dict(
             inline_css=inline_css,
-            inline_js=inline_script
+            inline_js=inline_script,
+            len=len
         )
 
     @app.route('/')

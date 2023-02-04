@@ -33,6 +33,9 @@ title: 沁园春·雪
 author: 毛泽东
 author_avatar: https://xxxxx/
 author_email: "mzd@example.com"
+description: ""
+keywords: 
+- 诗词
 allow_before_epoch: true
 created_at: "1936-02-01"
 updated_at: "1936-02-01"
@@ -49,6 +52,8 @@ redirect: "post/abc/"
 这段元数据遵循 YAML 语法，其中：
 - `title` 对应了文章的标题
 - `author` 指博文的作者
+- `description`（可选）简单的博文描述信息
+- `keywords`（可选）博文的关键字
 - `allow_before_epoch`（可选）
 - `author_avatar`（可选）是用户头像的 URL
 - `author_email`（可选）指博文作者的邮箱，用于获取 GRAVATAR 图像
