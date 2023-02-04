@@ -15,6 +15,7 @@ class Preamble(object):
     description: str | None = None
     renderer_params: list[str] = list()
     redirect: str | None = None
+    author_avatar: str | None = None
 
     def __init__(self, raw: dict = None):
         if isinstance(raw, Preamble):
@@ -29,6 +30,7 @@ class Preamble(object):
             self.description = raw.description
             self.renderer_params = raw.renderer_params
             self.redirect = raw.redirect
+            self.author_avatar = raw.author_avatar
         else:
             self.title = (raw or {}).get('title')
             self.author = (raw or {}).get('author')
@@ -41,6 +43,7 @@ class Preamble(object):
             self.keywords = (raw or {}).get('keywords')
             self.description = (raw or {}).get('description')
             self.redirect = (raw or {}).get('redirect')
+            self.author_avatar = (raw or {}).get('author_avatar')
 
     def to_dict(self):
         return dict(
@@ -55,4 +58,5 @@ class Preamble(object):
             permanent_link=self.permanent_link,
             description=self.description,
             redirect=self.redirect,
+            author_avatar=self.author_avatar,
         )

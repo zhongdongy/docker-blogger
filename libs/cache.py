@@ -176,7 +176,12 @@ def build_page_cache(clear_cached=False):
                                 preamble.renderer_params) > 0 and 'content-serif' in preamble.renderer_params:
                             context['load_noto_serif'] = True
 
-                        if preamble.author_email is not None and len(preamble.author_email) > 0:
+                        # Handle author avatar
+                        if preamble.author_avatar is not None and len(preamble.author_avatar) > 0:
+                            context = {**context, **dict(
+                                avatar_url=preamble.author_avatar
+                            )}
+                        elif preamble.author_email is not None and len(preamble.author_email) > 0:
                             context = {**context, **dict(
                                 avatar_url=get_gravatar_url(preamble.author_email)
                             )}
@@ -189,6 +194,7 @@ def build_page_cache(clear_cached=False):
                             tags=[],
                             title="",
                             author="",
+                            author_avatar="",
                             created_at=datetime.now().timestamp(),
                             updated_at=datetime.now().timestamp()
                         )}

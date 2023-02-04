@@ -30,6 +30,7 @@ site:
 ---
 title: 沁园春·雪
 author: 毛泽东
+author_avatar: https://xxxxx/
 author_email: "mzd@example.com"
 created_at: "1936-02-01"
 updated_at: "1936-02-01"
@@ -46,15 +47,16 @@ redirect: "post/abc/"
 这段元数据遵循 YAML 语法，其中：
 - `title` 对应了文章的标题
 - `author` 指博文的作者
-- `author_email` 指博文作者的邮箱，用于获取 GRAVATAR 图像
+- `author_avatar` （可选）是用户头像的 URL
+- `author_email` （可选）指博文作者的邮箱，用于获取 GRAVATAR 图像
 - `created_at` 指博文创作的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
 - `updated_at` 指博文修改的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
-- `tags` 指博文的标签，您可以为同一篇博文提供任意数量的标签
-- `permanent_link` 是您手动指定的固定访问链接，没有指定则不会生成
-- `renderer_params` 是渲染博文时的指令参数，您可以使用：
+- `tags` （可选）指博文的标签，您可以为同一篇博文提供任意数量的标签
+- `permanent_link` （可选）是您手动指定的固定访问链接，没有指定则不会生成
+- `renderer_params` （可选）是渲染博文时的指令参数，您可以使用：
   - `disable-toc`：关闭文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
-- `redirect` 可以给出一个地址（不包含起始的`/`），页面加载后会自动重定向到给定页面
+- `redirect` （可选）可以给出一个地址（不包含起始的`/`），页面加载后会自动重定向到给定页面
 
 注意：如果没有提供 `created_at` 和 `updated_at`，那么会默认使用 `2000-01-01` 作为缺省值。
 
