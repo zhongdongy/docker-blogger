@@ -164,6 +164,8 @@ def build_page_cache(clear_cached=False):
                             archives[year_str][month_str][day_str].append(dict(
                                 title=preamble.title,
                                 author=preamble.author,
+                                description=preamble.description,
+                                keywords=preamble.keywords,
                                 author_email=preamble.author_email,
                                 date=date_str,
                                 name=page_name

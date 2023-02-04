@@ -54,7 +54,7 @@ a.link-unstyled, a.link-unstyled:link, a.link-unstyled:hover {
   text-decoration: inherit !important;
 }
 
-a.link-unstyled:hover .card span.re-link-style {
+a.link-unstyled:hover span.re-link-style {
   text-decoration: underline;
 }
 
