@@ -40,6 +40,9 @@ def create_app():
         if config.site.beian.enabled is True:
             g.enable_beian = True
 
+        if config.site.baidu_site_verification is not None:
+            g.baidu_site_verification = config.site.baidu_site_verification
+
         return dict(
             inline_css=inline_css,
             inline_js=inline_script,
