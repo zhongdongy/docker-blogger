@@ -116,11 +116,17 @@ def build_page_cache(clear_cached=False):
                     markdown_raw = blog_content.read()
                     preamble, content = parse_preamble(markdown_raw)
                     content = content.replace('\\', '\\\\')
+                    flag_contains_math_symbols = False
+                    if content.count('$') >= 2:
+                        flag_contains_math_symbols = True
+
                     context = dict(
                         html=renderer.convert(content),
                         tags=list(),
                         site_tags=sorted(tags.tags, key=lambda t: tags.count(t), reverse=True),
-                        site_tag_count=lambda t: tags.count(t)
+                        site_tag_count=lambda t: tags.count(t),
+                        enable_latex=flag_contains_math_symbols,
+                        load_noto_serif=False
                     )
                     if preamble is not None:
                         context = {**context, **dict(
@@ -160,6 +166,15 @@ def build_page_cache(clear_cached=False):
                                 name=page_name
                             ))
                             seen_names_in_dates.add(page_name)
+
+                        # Inject redirect instruction
+                        if preamble.redirect is not None and len(preamble.redirect) > 0:
+                            context['enable_redirect'] = True
+                            context['redirect_to'] = preamble.redirect
+
+                        if preamble.renderer_params is not None and len(
+                                preamble.renderer_params) > 0 and 'content-serif' in preamble.renderer_params:
+                            context['load_noto_serif'] = True
 
                         if preamble.author_email is not None and len(preamble.author_email) > 0:
                             context = {**context, **dict(

@@ -39,6 +39,7 @@ permanent_link:
 renderer_params: 
 - content-serif
 - disable-toc
+redirect: "post/abc/"
 ---
 ```
 
@@ -53,6 +54,7 @@ renderer_params:
 - `renderer_params` 是渲染博文时的指令参数，您可以使用：
   - `disable-toc`：关闭文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
+- `redirect` 可以给出一个地址（不包含起始的`/`），页面加载后会自动重定向到给定页面
 
 注意：如果没有提供 `created_at` 和 `updated_at`，那么会默认使用 `2000-01-01` 作为缺省值。
 

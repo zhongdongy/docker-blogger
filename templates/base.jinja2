@@ -6,8 +6,13 @@
     <title>{% block web_title %}首页{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.2.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.2.0/css/all.min.css"/>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+    {% if load_noto_serif == True %}
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+    {% else %}
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;900&display=swap">
+    {% endif %}
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
     {{ inline_css('theme.css') }}
     {{ inline_css('base.css') }}
@@ -28,7 +33,8 @@
             <div class="text-footer-small mt-2 mb-1" style="line-height: 18px">
                 {% if g.enable_beian == True %}
                     <a class="beian-icon" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
-                            src="{{ url_for('static', filename="img/beian.png") }}" width="16" height="16" alt="" style="margin-top: -0.24rem"></a>
+                            src="{{ url_for('static', filename="img/beian.png") }}" width="16" height="16" alt=""
+                            style="margin-top: -0.24rem"></a>
 
                     <a class="ms-1 d-inline-block" href="https://beian.miit.gov.cn/"
                        target="_blank">{{ g.site_info.beian_id }}</a>
@@ -124,10 +130,12 @@
         window.dispatchEvent(new Event('tooltip-update'));
     })
 </script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script src="https://cdn.staticfile.org/bootstrap/5.2.2/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.staticfile.org/font-awesome/6.2.0/js/all.min.js"></script>
-<script src="https://cdn.staticfile.org/moment.js/2.29.4/moment.min.js"></script>
-<script src="https://cdn.staticfile.org/mathjax/3.2.2/es5/tex-chtml-full.js"></script>
+<script src="https://cdn.staticfile.org/bootstrap/5.2.2/js/bootstrap.bundle.min.js" defer async></script>
+<script src="https://cdn.staticfile.org/font-awesome/6.2.0/js/all.min.js" defer async></script>
+<script src="https://cdn.staticfile.org/moment.js/2.29.4/moment.min.js" defer async></script>
+{% if enable_latex == True %}
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.staticfile.org/mathjax/3.2.2/es5/tex-chtml-full.js" defer async></script>
+{% endif %}
 </body>
 </html>

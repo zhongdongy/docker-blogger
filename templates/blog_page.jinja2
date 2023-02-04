@@ -71,6 +71,11 @@
 {% endblock %}
 
 {% block scripts %}
+    {% if enable_redirect == True %}
+        <script>
+            window.location = "{{ g.site_home }}{{ redirect_to }}";
+        </script>
+    {% endif %}
     {{ inline_js('toc.js') }}
     <script>
         window.addEventListener("load", () => {

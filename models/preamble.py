@@ -14,6 +14,7 @@ class Preamble(object):
     permanent_link: str | None = None
     description: str | None = None
     renderer_params: list[str] = list()
+    redirect: str | None = None
 
     def __init__(self, raw: dict = None):
         if isinstance(raw, Preamble):
@@ -27,6 +28,7 @@ class Preamble(object):
             self.keywords = raw.keywords
             self.description = raw.description
             self.renderer_params = raw.renderer_params
+            self.redirect = raw.redirect
         else:
             self.title = (raw or {}).get('title')
             self.author = (raw or {}).get('author')
@@ -38,6 +40,7 @@ class Preamble(object):
             self.renderer_params = (raw or {}).get('renderer_params') or list()
             self.keywords = (raw or {}).get('keywords')
             self.description = (raw or {}).get('description')
+            self.redirect = (raw or {}).get('redirect')
 
     def to_dict(self):
         return dict(
@@ -51,4 +54,5 @@ class Preamble(object):
             keywords=self.keywords,
             permanent_link=self.permanent_link,
             description=self.description,
+            redirect=self.redirect,
         )
