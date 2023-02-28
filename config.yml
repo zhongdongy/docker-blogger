@@ -1,0 +1,14 @@
+public:
+  home_post: home
+site:
+  hostname: "127.0.0.1:18888"
+  enable_https: false
+  site_name: 那阵东风
+  site_email: zhongdongy@dongs.xyz
+  site_slogan: '由 <a href="https://hub.docker.com/r/dongsxyz/blogger" target="_blank">Eastwind Blogger</a> 驱动'
+  gravatar_proxy: 
+  baidu_site_verification:
+  beian:
+    enabled: true
+    icp_id: 粤ICP备XXX号
+    beian_id: ""
