@@ -32,3 +32,5 @@ config.yml
 robots.txt
 
 /baidu_verify_*.html
+
+/target/

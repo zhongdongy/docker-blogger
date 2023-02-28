@@ -3,48 +3,50 @@
 {% block web_title %}标签：“{{ tag_name }}” | {{ g.site_name }}{% endblock %}
 
 {% block web_content %}
-    <nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
-        <div class="container">
-            <div class="navbar-brand suppress-link">
-                <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
-            </div>
-        </div>
-    </nav>
-    <div class="d-block mt-3"></div>
-
+<nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
     <div class="container">
+        <div class="navbar-brand suppress-link">
+            <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
+        </div>
+    </div>
+</nav>
+<div class="d-block mt-3"></div>
 
-        <div class="container markdown-rendered">
-            <div class="row">
-                <div class="col" id="content-container">
-                    <h2 id="tag-name">标签：“{{ tag_name }}”</h2>
-                    <div class="container" id="post-list">
-                        <div class="row gx-1 gy-1">
-                            {% for post in posts %}
-                                <div class="col col-12 col-lg-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h6 class="card-title"><a
-                                                    href="/post/{{ post.name }}/">{{ post.preamble.title }}</a></h6>
+<div class="container">
 
-                                            <div class="d-flex justify-content-between text-0_85">
-                                                <span class="text-secondary">{{ post.preamble.author }}</span>
-                                                {% if post.preamble.allow_before_epoch == True %}
-                                                    <span class="text-secondary">{{ post.preamble.updated_at.strftime("%Y-%m-%d") }}</span>
-                                                {% else %}
-                                                    <span class="text-secondary jinja2-timestamp" data-convert="1"
-                                                          data-timestamp="{{ post.preamble.updated_at.timestamp() }}"></span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
+    <div class="container markdown-rendered">
+        <div class="row">
+            <div class="col" id="content-container">
+                <h2 id="tag-name">标签：“{{ tag_name }}”</h2>
+                <div class="container" id="post-list">
+                    <div class="row gx-1 gy-1">
+                        {% for post in posts %}
+                        <div class="col col-12 col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    {% if post.preamble.permanent_link %}
+                                    <h6 class="card-title"><a href="/post/{{ post.preamble.permanent_link }}/">{{
+                                            post.preamble.title
+                                            }}</a></h6>
+                                    {% else %}
+                                    <h6 class="card-title"><a href="/post/{{ post.name }}/">{{
+                                            post.preamble.title
+                                            }}</a></h6>
+                                    {% endif %}
+
+                                    <div class="d-flex justify-content-between text-0_85">
+                                        <span class="text-secondary">{{ post.preamble.author }}</span>
+                                        <span class="text-secondary">{{ post.preamble.updated_at }}</span>
                                     </div>
                                 </div>
-                            {% endfor %}
+                            </div>
                         </div>
+                        {% endfor %}
                     </div>
-
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

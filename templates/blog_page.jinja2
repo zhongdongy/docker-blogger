@@ -1,91 +1,90 @@
 {% extends 'base.jinja2' %}
 
-{% block web_title %}{{ title }} | {{ g.site_name }}{% endblock %}
+{% block web_title %}{{ preamble.title }} | {{ g.site_name }}{% endblock %}
 
 {% block styles %}
-    {{ inline_css('codehilite.css') }}
+{{ inline_css(file="codehilite.css") }}
 {% endblock %}
 
 {% block web_content %}
-    <nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
-        <div class="container">
-            <div class="navbar-brand suppress-link">
-                <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="d-block mt-3"></div>
+<nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
     <div class="container">
+        <div class="navbar-brand suppress-link">
+            <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
+        </div>
+    </div>
+</nav>
+
+<div class="d-block mt-3"></div>
+<div class="container">
     <div class="row justify-content-center">
-        {% if flag_disable_toc != 1 %}
-            <div class="col col-lg-3 d-none d-lg-block" id="post-toc">
-                <p>目录</p>
-            </div>
-            <div class="col col-12 col-lg-9">
-        {% else %}
+        {% if 'disable-toc' not in preamble.renderer_params %}
+        <div class="col col-lg-3 d-none d-lg-block" id="post-toc">
+            <p>目录</p>
+        </div>
+        <div class="col col-12 col-lg-9">
+            {% else %}
             <div class="col col-12 col-md-10 col-lg-8">
-        {% endif %}
-        <div class="container markdown-rendered {{ 'content-serif' if flag_content_serif==1 }} {{ 'content-justify' if flag_content_justify==1 }}"
-             data-bs-spy="scroll" data-bs-target="#post-toc-nav" data-bs-smooth-scroll="true"
-             tabindex="0">
-            <div class="row">
-                <div class="col col-12" id="content-container">
-                    <h1 id="post-title">{{ title }}</h1>
-                    <div class="post-info mt-4 mb-1">
-                        <div class="post-info-author d-flex justify-content-start align-items-center">
-                            <div class="author-avatar rounded rounded-circle text-bg-secondary text-center">
-                                <img src="{{ avatar_url }}" alt="{{ author }}"></div>
-                            <div class="d-flex flex-column align-items-start ms-2">
-                                <span class="author-name">{{ author }}</span>
-                                {% if allow_before_epoch == True %}
-                                    <small class="text-muted">{{ updated_at.strftime("%Y-%m-%d") }}</small>
-                                {% else %}
-                                    <small class="text-muted jinja2-timestamp" data-convert="1"
-                                           data-timestamp="{{ updated_at }}"></small>
-                                {% endif %}
+                {% endif %}
+                <div class='container markdown-rendered {{ preamble.renderer_params | join(sep=" ") }}'
+                    data-bs-spy="scroll" data-bs-target="#post-toc-nav" data-bs-smooth-scroll="true" tabindex="0">
+                    <div class="row">
+                        <div class="col col-12" id="content-container">
+                            <h1 id="post-title">{{ preamble.title }}</h1>
+                            <div class="post-info mt-4 mb-1">
+                                <div class="post-info-author d-flex justify-content-start align-items-center">
+                                    <div class="author-avatar rounded rounded-circle text-bg-secondary text-center">
+                                        <img src='{{ avatar_url }}' alt="{{ preamble.author }}">
+                                    </div>
+                                    <div class="d-flex flex-column align-items-start ms-2">
+                                        <span class="author-name">{{ preamble.author }}</span>
+                                        <small class="text-muted">{{ preamble.updated_at }}</small>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="post-tags mt-2 mb-4">
-                        <div class="row">
-                            <div class="col d-flex">
-                                {% for tag in tags %}
-                                    {% if loop.index0 == 0 %}
+                            <div class="post-tags mt-2 mb-4">
+                                <div class="row">
+                                    <div class="col d-flex">
+                                        {% if preamble.tags is iterable %}
+                                        {% for tag in preamble.tags %}
+                                        {% if loop.index0 == 0 %}
                                         <span class="d-block badge rounded text-bg-light fw-normal suppress-link"><a
                                                 href="/tag/{{ tag }}/">{{ tag }}</a></span>
-                                    {% else %}
-                                        <span class="d-block badge rounded text-bg-light fw-normal suppress-link ms-1"><a
+                                        {% else %}
+                                        <span
+                                            class="d-block badge rounded text-bg-light fw-normal suppress-link ms-1"><a
                                                 href="/tag/{{ tag }}/">{{ tag }}</a></span>
-                                    {% endif %}
-                                {% endfor %}
+                                        {% endif %}
+                                        {% endfor %}
+                                        {%endif%}
+                                    </div>
+                                </div>
                             </div>
+                            <div class="post-content">{{ html }}</div>
+                            {% if perm_link %}
+                            <hr>
+                            <small class="text-muted">本文的固定链接：<a
+                                    href="{{ g.site_home }}post/{{ premable.permanent_link }}/">{{
+                                    g.site_home }}post/{{ premable.permanent_link }}/</a>
+                            </small>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="post-content">{{ html }}</div>
-                    {% if perm_link %}
-                        <hr>
-                        <small class="text-muted">本文的固定链接：<a
-                                href="{{ g.site_home }}post/{{ perm_link }}/">{{ g.site_home }}post/{{ perm_link }}/</a>
-                        </small>
-                    {% endif %}
                 </div>
             </div>
         </div>
-        </div>
-        </div>
     </div>
-{% endblock %}
+    {% endblock %}
 
-{% block scripts %}
-    {% if enable_redirect == True %}
-        <script>
-            window.location = "{{ g.site_home }}{{ redirect_to }}";
-        </script>
+    {% block scripts %}
+    {% if preamble.redirect is string %}
+    <script>
+        window.location = "{{ g.site_home }}{{ preamble.redirect }}";
+    </script>
     {% endif %}
 
-    {% if flag_disable_toc != 1 %}
-        {{ inline_js('toc.js') }}
+    {% if "disable-toc" not in preamble.renderer_params %}
+    {{ inline_js(file="toc.js") }}
     {% endif %}
     <script>
         window.addEventListener("load", () => {
@@ -113,4 +112,4 @@
             window.dispatchEvent(new Event('adjust-images'))
         })
     </script>
-{% endblock %}
+    {% endblock %}

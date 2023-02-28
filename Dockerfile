@@ -1,22 +1,22 @@
-FROM dongsxyz/python-uwsgi:alpine
+FROM rust:1.67.1-alpine
 
-ENV LOG_LEVEL=INFO
-
+ARG enable_cargo_mirror
 USER root
 WORKDIR /app
-COPY requirements.txt requirements.txt
-COPY app.py app.py
-COPY flask_app.py flask_app.py
-COPY utils utils
-COPY libs libs
-COPY models models
+COPY src src
+COPY Cargo.toml Cargo.toml
+COPY Cargo.lock Cargo.lock
+COPY log4rs.yml log4rs.yml
 COPY static static
 COPY templates templates
-COPY blueprints blueprints
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-RUN source /root/.cargo/env
+RUN apk add --no-cache musl-dev
+COPY cargo.config /root/.cargo/config
+RUN if [[ -z $enable_cargo_mirror ]]; then echo "" > ~/.cargo/config ;\
+    else echo "Using Cargo mirror" ; fi
+RUN cargo install --path .
+RUN rm -rf ./src
+RUN rm -f Cargo.lock
+RUN rm -f Cargo.toml 
+EXPOSE 8080
 
-#RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
-#RUN python3 -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-RUN python3 -m pip install --upgrade pip
-RUN source /root/.cargo/env && python3 -m pip install -r /app/requirements.txt
+CMD ["eastwind-blogger", "-s"]

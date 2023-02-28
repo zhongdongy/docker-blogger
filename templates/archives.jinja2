@@ -3,57 +3,65 @@
 {% block web_title %}发布历史 | {{ g.site_name }}{% endblock %}
 
 {% block web_content %}
-    <nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
-        <div class="container">
-            <div class="navbar-brand suppress-link">
-                <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
-            </div>
-        </div>
-    </nav>
-    <div class="d-block mt-3"></div>
-
+<nav class="navbar navbar-expand sticky-top bg-primary navbar-primary">
     <div class="container">
-        <div class="container markdown-rendered">
-            <div class="row justify-content-center">
-                <div class="col col-12 col-md-10 col-lg-8" id="content-container">
-                    <h2>发布历史</h2>
-                    <div class="container p-0" id="post-list">
-                        <div class="row gx-2 gy-2">
-                            {% for year in archives.keys()|sort(reverse=True) %}
-                                <h3 class="mt-4"><a class="link-unstyled" href="/archives/{{ year }}/">{{ year }} 年</a>
-                                </h3>
-                                <hr>
-                                {% for month in archives[year].keys()|sort(reverse=True) %}
-                                    <h4><a class="link-unstyled" href="/archives/{{ year }}/{{ month }}/">{{ month }}
-                                        月</a></h4>
-                                    <ul class="list-group">
-                                        {% for day in archives[year][month].keys()|sort(reverse=True) %}
-                                            {% for post in archives[year][month][day] %}
-                                                <li class="list-group-item">
-                                                    <a class="link-unstyled" href="/post/{{ post.name if post.perm_link == None else post.perm_link }}/">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="d-block fw-semibold re-link-style">{{ post.title }}</span>
-                                                            {% if post.description != None %}
-                                                                <span class="d-block">{{ post.description }}</span>
-                                                            {% endif %}
-                                                            <div class="d-flex flex-row justify-content-between">
-                                                                <span class="text-muted">{{ post.date }}</span>
-                                                                <span class="text-secondary">{{ post.author }}</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            {% endfor %}
-                                        {% endfor %}
+        <div class="navbar-brand suppress-link">
+            <a href="{{ g.site_home }}"><span class="ms-2 text-light">{{ g.site_name }}</span></a>
+        </div>
+    </div>
+</nav>
+<div class="d-block mt-3"></div>
 
-                                    </ul>
+<div class="container">
+    <div class="container markdown-rendered">
+        <div class="row justify-content-center">
+            <div class="col col-12 col-md-10 col-lg-8" id="content-container">
+                <h2>发布历史</h2>
+                <div class="container p-0" id="post-list">
+                    <div class="row gx-2 gy-2">
+                        {% for arv_year in archives | sort(attribute="year") | reverse %}
+                        <h3 class="mt-4">
+                            <a class="link-unstyled" href="/archives/{{ arv_year.year }}/">{{ arv_year.year }} 年</a>
+                        </h3>
+                        <hr>
+                            {% for arv_month in arv_year.months | sort(attribute="month") | reverse %}
+                            <h4><a class="link-unstyled" href="/archives/{{ arv_year.year }}/{{ arv_month.month }}/">{{
+                                    arv_month.month }}
+                                    月</a></h4>
+                            <ul class="list-group">
+                                {% for arv_date in arv_month.dates | sort(attribute="date") | reverse %}
+                                    {% for post in arv_date.posts| sort(attribute="preamble.created_at") | reverse %}
+                                    <li class="list-group-item">
+                                        {% if post.preamble.perm_link %}
+                                        <a class="link-unstyled"
+                                            href="/post/{{ post.preamble.perm_link }}/">
+                                        {% else %}
+                                        <a class="link-unstyled"
+                                            href="/post/{{ post.name }}/">
+                                        {% endif %}
+                                            <div class="d-flex flex-column">
+                                                <span class="d-block fw-semibold re-link-style">{{ post.preamble.title }}</span>
+                                                {% if post.preamble.description %}
+                                                <span class="d-block">{{ post.preamble.description }}</span>
+                                                {% endif %}
+                                                <div class="d-flex flex-row justify-content-between">
+                                                    <span class="text-muted">{{ post.preamble.created_at }}</span>
+                                                    <span class="text-secondary">{{ post.preamble.author }}</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
                                 {% endfor %}
-                            {% endfor %}
-                        </div>
-                    </div>
 
+                            </ul>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

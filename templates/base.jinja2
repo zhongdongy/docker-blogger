@@ -1,156 +1,174 @@
 <!doctype html>
 <html lang="zh">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block web_title %}首页{% endblock %}</title>
-    {% if author != None %}
-        <meta name="author" content="{{ author }}">
-    {% endif %}
-    {% if keywords != None and len(keywords)>0 %}
-        <meta name="keywords" content="{{ keywords }}">
-    {% endif %}
-    {% if description != None and len(description)>0 %}
-        <meta name="description" content="{{ description }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block web_title %}首页{% endblock %}</title>
+  {% if is_post %}
+
+    {% if preamble.author is defined %}
+    <meta name="author" content="{{ preamble.author }}">
     {% endif %}
 
-    {% if g.baidu_site_verification != None %}
-        <meta name="baidu-site-verification" content="{{ g.baidu_site_verification }}">
+    {% if preamble.keywords is iterable %}
+    <meta name="keywords" content='{{ preamble.keywords | join(sep=",") }}'>
     {% endif %}
 
-    <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.2.2/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.2.0/css/all.min.css"/>
-    {% if load_noto_serif == True %}
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+    {% if preamble.description is defined %}
+    <meta name="description" content="{{ preamble.description }}">
+    {% endif %}
+
+    {% if g.baidu_site_verification is defined %}
+    <meta name="baidu-site-verification" content="{{ g.baidu_site_verification }}">
+    {% endif %}
+
+  {% endif %}
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.2.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.2.0/css/all.min.css" />
+
+  {% if is_post %}
+
+    {% if "content-serif" in preamble.renderer_params %}
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
     {% else %}
-        <link rel="stylesheet"
-              href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;900&display=swap">
     {% endif %}
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
-    {{ inline_css('theme.css') }}
-    {{ inline_css('base.css') }}
-    {% block styles %}
-    {% endblock %}
+
+  {% endif %}
+  
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  {{ inline_css(file="theme.css") }}
+  {{ inline_css(file="base.css") }}
+  {% block styles %}
+  {% endblock %}
 </head>
+
 <body>
 
 
-{% block web_content %}
-{% endblock %}
-<div class="d-block mt-5"></div>
-<footer class="bg-white mb-3">
+  {% block web_content %}
+  {% endblock %}
+  <div class="d-block mt-5"></div>
+  <footer class="bg-white mb-3">
     <div class="container">
-        <hr>
-        <div class="d-flex align-items-start flex-column">
-            <div>&copy; {{ g.site_year }} <span class="content-serif">{{ g.site_name }}</span></div>
-            <div class="text-footer-small mt-2 mb-1" style="line-height: 18px">
-                {% if g.enable_beian == True %}
-                    <a class="beian-icon" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
-                            src="{{ url_for('static', filename="img/beian.png") }}" width="16" height="16" alt=""
-                            style="margin-top: -0.24rem"></a>
+      <hr>
+      <div class="d-flex align-items-start flex-column">
+        <div>&copy; {{ g.site_year }} <span class="content-serif">{{ g.site_name }}</span></div>
+        <div class="text-footer-small mt-2 mb-1" style="line-height: 18px">
+          {% if g.enable_beian == True %}
+          <a class="beian-icon" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
+              src='{{ url_for(route="static", filename="img/beian.png") }}' width="16" height="16" alt=""
+              style="margin-top: -0.24rem"></a>
 
-                    <a class="ms-1 d-inline-block" href="https://beian.miit.gov.cn/"
-                       target="_blank">{{ g.site_info.beian_id }}</a>
-                    <a class="ms-2 d-inline-block" href="https://beian.miit.gov.cn/"
-                       target="_blank">{{ g.site_info.icp_id }}</a>
-                {% endif %}
-                <a class="ms-2 d-inline-block" href="/privacy-policy/">隐私政策</a>
-            </div>
-            <div class="text-footer-small mt-1 mb-1"><span
-                    class="text-muted">{{ g.site_slogan }}</span></div>
+          <a class="ms-1 d-inline-block" href="https://beian.miit.gov.cn/" target="_blank">{{
+            g.site_info.beian_id }}</a>
+          <a class="ms-2 d-inline-block" href="https://beian.miit.gov.cn/" target="_blank">{{
+            g.site_info.icp_id }}</a>
+          {% endif %}
+          <a class="ms-2 d-inline-block" href="/privacy-policy/">隐私政策</a>
         </div>
+        <div class="text-footer-small mt-1 mb-1"><span class="text-muted">{{ g.site_slogan }}</span></div>
+      </div>
     </div>
-</footer>
-<div class="toast-container toast-container-global position-fixed bottom-0 end-0 p-3" id="toast-container"></div>
+  </footer>
+  <div class="toast-container toast-container-global position-fixed bottom-0 end-0 p-3" id="toast-container"></div>
 
-{% block scripts %}
-{% endblock %}
-{% if enable_latex == True %}
+  {% block scripts %}
+  {% endblock %}
+
+  {% if is_post %}
+    {% if enable_latex == True %}
     <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [
-                    ['$$', '$$'],
-                    ['\\[', '\\]']
-                ],
-                escape
-            },
-            svg: {
-                fontCache: 'global'
-            },
-            chtml: {
-                scale: 1,                      // global scaling factor for all expressions
-                minScale: .5,                  // smallest scaling factor to use
-                mtextInheritFont: false,       // true to make mtext elements use surrounding font
-                merrorInheritFont: true,       // true to make merror text use surrounding font
-                mathmlSpacing: false,          // true for MathML spacing rules, false for TeX rules
-                skipAttributes: {},            // RFDa and other attributes NOT to copy to the output
-                exFactor: .5,                  // default size of ex in em units
-                displayAlign: 'center',        // default for indentalign when set to 'auto'
-                displayIndent: '0',            // default for indentshift when set to 'auto'
-                matchFontHeight: true,         // true to match ex-height of surrounding font
-                fontURL: 'https://cdn.staticfile.org/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2',   // The URL where the fonts are found
-                adaptiveCSS: true              // true means only produce CSS that is used in the processed equations
-            },
-            options: {
-                skipHtmlTags: [            //  HTML tags that won't be searched for math
-                    'script', 'noscript', 'style', 'textarea', 'annotation', 'annotation-xml'
-                ],
-                includeHtmlTags: {         //  HTML tags that can appear within math
-                    br: '\n', wbr: '', '#comment': ''
-                },
-                ignoreHtmlClass: 'tex2jax_ignore',    //  class that marks tags not to search
-                processHtmlClass: 'tex2jax_process',  //  class that marks tags that should be searched
-            }
-        };
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [
+            ['$$', '$$'],
+            ['\\[', '\\]']
+          ],
+          escape
+        },
+        svg: {
+          fontCache: 'global'
+        },
+        chtml: {
+          scale: 1,                      // global scaling factor for all expressions
+          minScale: .5,                  // smallest scaling factor to use
+          mtextInheritFont: false,       // true to make mtext elements use surrounding font
+          merrorInheritFont: true,       // true to make merror text use surrounding font
+          mathmlSpacing: false,          // true for MathML spacing rules, false for TeX rules
+          skipAttributes: {},            // RFDa and other attributes NOT to copy to the output
+          exFactor: .5,                  // default size of ex in em units
+          displayAlign: 'center',        // default for indentalign when set to 'auto'
+          displayIndent: '0',            // default for indentshift when set to 'auto'
+          matchFontHeight: true,         // true to match ex-height of surrounding font
+          fontURL: 'https://cdn.staticfile.org/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2',   // The URL where the fonts are found
+          adaptiveCSS: true              // true means only produce CSS that is used in the processed equations
+        },
+        options: {
+          skipHtmlTags: [            //  HTML tags that won't be searched for math
+            'script', 'noscript', 'style', 'textarea', 'annotation', 'annotation-xml'
+          ],
+          includeHtmlTags: {         //  HTML tags that can appear within math
+            br: '\n', wbr: '', '#comment': ''
+          },
+          ignoreHtmlClass: 'tex2jax_ignore',    //  class that marks tags not to search
+          processHtmlClass: 'tex2jax_process',  //  class that marks tags that should be searched
+        }
+      };
     </script>
-{% endif %}
-<script>
+    {% endif %}
+  {% endif %}
+  <script>
     window.addEventListener('load', () => {
-        window.addEventListener('update-timestamp', () => {
-            const elements = document.querySelectorAll('.jinja2-timestamp[data-convert="1"]');
-            elements.forEach(e => {
-                try {
-                    let val = Number(e.getAttribute('data-timestamp'));
-                    if (e.getAttribute('data-millisecond') === '1' || e.getAttribute('data-milliseconds') === '1') {
-                        e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss.SSS");
-                    } else if (e.getAttribute('data-time') === '1') {
-                        e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss");
-                    } else {
-                        e.textContent = moment.unix(val).format("YYYY-MM-DD");
-                    }
-                } catch (e) {
-                }
-            });
+      window.addEventListener('update-timestamp', () => {
+        const elements = document.querySelectorAll('.jinja2-timestamp[data-convert="1"]');
+        elements.forEach(e => {
+          try {
+            let val = Number(e.getAttribute('data-timestamp'));
+            if (e.getAttribute('data-millisecond') === '1' || e.getAttribute('data-milliseconds') === '1') {
+              e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss.SSS");
+            } else if (e.getAttribute('data-time') === '1') {
+              e.textContent = moment.unix(val).format("YYYY-MM-DD HH:mm:ss");
+            } else {
+              e.textContent = moment.unix(val).format("YYYY-MM-DD");
+            }
+          } catch (e) {
+          }
         });
+      });
 
-        window.addEventListener('tooltip-update', () => {
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+      window.addEventListener('tooltip-update', () => {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+      });
+      window.addEventListener('popover-update', () => {
+        const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl, {
+            trigger: 'focus'
+          });
         });
-        window.addEventListener('popover-update', () => {
-            const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-            const popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-                return new bootstrap.Popover(popoverTriggerEl, {
-                    trigger: 'focus'
-                });
-            });
-        });
+      });
 
 
-        window.dispatchEvent(new Event('update-timestamp'));
-        window.dispatchEvent(new Event('popover-update'));
-        window.dispatchEvent(new Event('tooltip-update'));
+      window.dispatchEvent(new Event('update-timestamp'));
+      window.dispatchEvent(new Event('popover-update'));
+      window.dispatchEvent(new Event('tooltip-update'));
     })
-</script>
-<script src="https://cdn.staticfile.org/bootstrap/5.2.2/js/bootstrap.bundle.min.js" defer async></script>
-<script src="https://cdn.staticfile.org/font-awesome/6.2.0/js/all.min.js" defer async></script>
-<script src="https://cdn.staticfile.org/moment.js/2.29.4/moment.min.js" defer async></script>
-{% if enable_latex == True %}
+  </script>
+  <script src="https://cdn.staticfile.org/bootstrap/5.2.2/js/bootstrap.bundle.min.js" defer async></script>
+  <script src="https://cdn.staticfile.org/font-awesome/6.2.0/js/all.min.js" defer async></script>
+  <script src="https://cdn.staticfile.org/moment.js/2.29.4/moment.min.js" defer async></script>
+  {% if is_post %}
+    {% if enable_latex == True %}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script src="https://cdn.staticfile.org/mathjax/3.2.2/es5/tex-chtml-full.js" defer async></script>
-{% endif %}
+    {% endif %}
+  {% endif %}
 </body>
+
 </html>

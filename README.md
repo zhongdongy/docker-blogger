@@ -37,7 +37,6 @@ author_email: "mzd@example.com"
 description: ""
 keywords: 
 - 诗词
-allow_before_epoch: true
 created_at: "1936-02-01"
 updated_at: "1936-02-01"
 tags:
@@ -54,24 +53,22 @@ redirect: "post/abc/"
 这段元数据遵循 YAML 语法，其中：
 - `title` 对应了文章的标题
 - `author` 指博文的作者
-- `description`（可选）简单的博文描述信息
-- `keywords`（可选）博文的关键字
-- `allow_before_epoch`（可选）
 - `author_avatar`（可选）是用户头像的 URL
 - `author_email`（可选）指博文作者的邮箱，用于获取 GRAVATAR 图像
-- `created_at`（可选）指博文创作的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
-- `updated_at`（可选）指博文修改的时间，您可以使用“YYYY-mm-dd”，也可以精确到分秒“YYYY-mm-dd HH:MM:SS”
+- `description`（可选）简单的博文描述信息
+- `keywords`（可选）博文的关键字
+- `created_at`（可选）指博文创作的时间，如“YYYY-mm-dd”
+- `updated_at`（可选）指博文修改的时间，如“YYYY-mm-dd”
 - `tags` （可选）指博文的标签，您可以为同一篇博文提供任意数量的标签
 - `permanent_link`（可选）是您手动指定的固定访问链接，没有指定则不会生成
 - `renderer_params`（可选）是渲染博文时的指令参数，您可以使用：
   - `disable-toc`：关闭文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
   - `content-justify`：让文字两端对齐
-- `redirect` （可选）可以给出一个地址（不包含起始的`/`），页面加载后会自动重定向到给定页面
+- `redirect` （可选）可以给出一个地址（需要包含起始的`/`），页面加载后会自动重定向到给定页面
 
 注意：
 
-- 如果没有提供 `created_at` 和 `updated_at`，那么会默认使用 `2000-01-01` 作为缺省值。
-- 如果希望使用的时间早于 1970-01-01 00:00:00 (UTC)，则必须设置 `allow_before_epoch` 为 `true`
+- 如果没有提供 `created_at` 和 `updated_at`，那么会默认使用今日今时作为缺省值。
 
 为了丰富读者的阅读体验，您可以使用 Markdown 扩展语法中的脚注来实现。
