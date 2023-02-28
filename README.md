@@ -72,3 +72,11 @@ redirect: "post/abc/"
 - 如果没有提供 `created_at` 和 `updated_at`，那么会默认使用今日今时作为缺省值。
 
 为了丰富读者的阅读体验，您可以使用 Markdown 扩展语法中的脚注来实现。
+
+## 开发
+
+如果您在中国大陆扩展开发，建议您打包时使用 Cargo 的镜像以加速访问：
+
+```bash
+docker build -t test:latest --build-arg enable_cargo_mirror=1 --progress=plain .
+```

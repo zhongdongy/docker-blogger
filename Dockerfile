@@ -14,9 +14,8 @@ COPY cargo.config /root/.cargo/config
 RUN if [[ -z $enable_cargo_mirror ]]; then echo "" > ~/.cargo/config ;\
     else echo "Using Cargo mirror" ; fi
 RUN cargo install --path .
-RUN rm -rf ./src
-RUN rm -f Cargo.lock
-RUN rm -f Cargo.toml 
+RUN rm -rf ./src ./target Cargo.lock Cargo.toml /usr/local/cargo/registry/
+RUN rustup uninstall 1.67.1-x86_64-unknown-linux-musl
 EXPOSE 8080
 
 CMD ["eastwind-blogger", "-s"]
