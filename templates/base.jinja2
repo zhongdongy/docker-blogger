@@ -94,8 +94,7 @@
         displayMath: [
           ['$$', '$$'],
           ['\\[', '\\]']
-        ],
-        escape
+        ]
       },
       svg: {
         fontCache: 'global'
@@ -177,6 +176,9 @@
   <script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js" defer async></script>
   <script>
     window.addEventListener("load", () => {
+      hljs.configure({
+        ignoreUnescapedHTML: true
+      })
       hljs.highlightAll();
     })
   </script>

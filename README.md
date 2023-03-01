@@ -43,8 +43,8 @@ tags:
 - 毛泽东诗词
 permanent_link: 
 renderer_params: 
+- enable-toc
 - content-serif
-- disable-toc
 - content-justify
 redirect: "/post/abc/"
 ---
@@ -62,7 +62,7 @@ redirect: "/post/abc/"
 - `tags` （可选）指博文的标签，您可以为同一篇博文提供任意数量的标签
 - `permanent_link`（可选）是您手动指定的固定访问链接，没有指定则不会生成
 - `renderer_params`（可选）是渲染博文时的指令参数，您可以使用：
-  - `disable-toc`：关闭文章索引目录 TOC
+  - `enable-toc`：显示文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
   - `content-justify`：让文字两端对齐
 - `redirect` （可选）可以给出一个地址（需要包含起始的`/`），页面加载后会自动重定向到给定页面
@@ -85,4 +85,5 @@ docker build -t test:latest --build-arg enable_cargo_mirror=1 --progress=plain .
 
 ```bash
 sass --watch --update --source-map static/css:static/css
+sass --no-source-map static/css:static/css
 ```

@@ -20,7 +20,7 @@
     <div class="container">
     <div class='container markdown-rendered {{ preamble.renderer_params | join(sep=" ") }}'>
         <div class="row justify-content-center">
-            {% if 'disable-toc' not in preamble.renderer_params %}
+            {% if 'enable-toc' in preamble.renderer_params %}
                 <div class="col col-lg-3 d-none d-lg-block" id="post-toc">
                     <p>目录</p>
                 </div>
@@ -97,7 +97,7 @@
 
 {% block scripts %}
     <!-- Toggle TOC rendering according to flag -->
-    {% if "disable-toc" not in preamble.renderer_params %}
+    {% if "enable-toc" in preamble.renderer_params %}
     {{ inline_js(file="toc.js") }}
     {% endif %}
 

@@ -18,7 +18,7 @@
 <div class="d-block mt-3"></div>
 <div class="container">
     <div class="row justify-content-center">
-        {% if 'disable-toc' not in preamble.renderer_params %}
+        {% if 'enable-toc' in preamble.renderer_params %}
         <div class="col col-lg-3 d-none d-lg-block" id="post-toc">
             <p>目录</p>
         </div>
@@ -61,11 +61,12 @@
                                 </div>
                             </div>
                             <div class="post-content">{{ html }}</div>
-                            {% if perm_link %}
+                            {% set permanent_link = preamble.permanent_link | default(value=false)%}
+                            {% if permanent_link %}
                             <hr>
                             <small class="text-muted">本文的固定链接：<a
-                                    href="{{ g.site_home }}post/{{ premable.permanent_link }}/">{{
-                                    g.site_home }}post/{{ premable.permanent_link }}/</a>
+                                    href="{{ g.site_home }}/post/{{ permanent_link }}/">{{
+                                    g.site_home }}/post/{{ permanent_link }}/</a>
                             </small>
                             {% endif %}
                         </div>
@@ -83,7 +84,7 @@
     </script>
     {% endif %}
 
-    {% if "disable-toc" not in preamble.renderer_params %}
+    {% if "enable-toc" in preamble.renderer_params %}
     {{ inline_js(file="toc.js") }}
     {% endif %}
     <script>

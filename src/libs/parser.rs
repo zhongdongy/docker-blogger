@@ -132,7 +132,7 @@ mod tests {
 
     #[test]
     fn test_parse_preamble() {
-        let raw_content = "title: 初心\nauthor: 阿东\nkeywords:\n- 随笔\n- 感悟\ndescription: 在低落之时凝聚前进的动力，在苦难之时探求前进的方向\nauthor_email: zhongdong_y@outlook.com\ncreated_at: \"2023-02-05\"\nupdated_at: \"2023-02-05\"\ntags:\n- 随笔\npermanent_link: to-a-life-long-journey\nrenderer_params: \n- disable-toc\n- content-serif\n- content-justify";
+        let raw_content = "title: 初心\nauthor: 阿东\nkeywords:\n- 随笔\n- 感悟\ndescription: 在低落之时凝聚前进的动力，在苦难之时探求前进的方向\nauthor_email: zhongdong_y@outlook.com\ncreated_at: \"2023-02-05\"\nupdated_at: \"2023-02-05\"\ntags:\n- 随笔\npermanent_link: to-a-life-long-journey\nrenderer_params: \n- enable-toc\n- content-serif\n- content-justify";
 
         let preamble = parse_preamble(raw_content).unwrap();
         assert_eq!(
@@ -143,7 +143,7 @@ mod tests {
 
     #[test]
     fn test_parse_document() {
-        let raw_content = "---\ntitle: 初心\nauthor: 阿东\nkeywords:\n- 随笔\n- 感悟\ndescription: 在低落之时凝聚前进的动力，在苦难之时探求前进的方向\nauthor_email: zhongdong_y@outlook.com\ncreated_at: \"2023-02-05\"\nupdated_at: \"2023-02-05\"\ntags:\n- 随笔\npermanent_link: to-a-life-long-journey\nrenderer_params: \n- disable-toc\n- content-serif\n- content-justify\n---\n\n### 初心是什么？\n---\n你好";
+        let raw_content = "---\ntitle: 初心\nauthor: 阿东\nkeywords:\n- 随笔\n- 感悟\ndescription: 在低落之时凝聚前进的动力，在苦难之时探求前进的方向\nauthor_email: zhongdong_y@outlook.com\ncreated_at: \"2023-02-05\"\nupdated_at: \"2023-02-05\"\ntags:\n- 随笔\npermanent_link: to-a-life-long-journey\nrenderer_params: \n- enable-toc\n- content-serif\n- content-justify\n---\n\n### 初心是什么？\n---\n你好";
         match parse_document(raw_content) {
             Ok((preamble, content)) => {
                 assert_eq!(content, "\n\n### 初心是什么？\n---\n你好");
@@ -154,7 +154,7 @@ mod tests {
             }
         }
 
-        let raw_content = "\n---\ntitle: 初心\nauthor: 阿东\nkeywords:\n- 随笔\n- 感悟\ndescription: 在低落之时凝聚前进的动力，在苦难之时探求前进的方向\nauthor_email: zhongdong_y@outlook.com\ncreated_at: \"2023-02-05\"\nupdated_at: \"2023-02-05\"\ntags:\n- 随笔\npermanent_link: to-a-life-long-journey\nrenderer_params: \n- disable-toc\n- content-serif\n- content-justify\n---\n\n### 初心是什么？\n";
+        let raw_content = "\n---\ntitle: 初心\nauthor: 阿东\nkeywords:\n- 随笔\n- 感悟\ndescription: 在低落之时凝聚前进的动力，在苦难之时探求前进的方向\nauthor_email: zhongdong_y@outlook.com\ncreated_at: \"2023-02-05\"\nupdated_at: \"2023-02-05\"\ntags:\n- 随笔\npermanent_link: to-a-life-long-journey\nrenderer_params: \n- enable-toc\n- content-serif\n- content-justify\n---\n\n### 初心是什么？\n";
         match parse_document(raw_content) {
             Ok((preamble, content)) => {
                 assert_eq!(content, "\n\n### 初心是什么？");
