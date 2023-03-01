@@ -46,7 +46,7 @@ renderer_params:
 - content-serif
 - disable-toc
 - content-justify
-redirect: "post/abc/"
+redirect: "/post/abc/"
 ---
 ```
 
