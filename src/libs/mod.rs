@@ -2,6 +2,7 @@ pub mod db;
 pub mod markdown;
 pub mod parser;
 pub mod renderer;
+use pinyin::ToPinyin;
 
 use self::parser::parse_toc;
 
@@ -122,11 +123,24 @@ pub fn build_all(
                 {
                     let mut headings = parse_toc(&markdown_content, Some(3));
                     headings.iter_mut().for_each(|h| {
+                        // Convert Chinese characters to Pinyin form and avoid 
+                        // `Invalid selector` error when using TOC.
+                        let mut chars: Vec<String> = vec![];
+                        let ids: &str = h.id.as_str();
+                        ids.chars().for_each(|c| {
+                            if let Some(py) = c.to_pinyin() {
+                                chars.push(py.plain().to_string());
+                            } else {
+                                let s = c.to_string();
+                                chars.push(s);
+                            };
+                        });
+                        h.id = chars.join("");
+
                         html = html.replace(
                             &format!("<{}>{}</{}>", h.tag, h.content, h.tag),
                             &format!("<{} id='{}'>{}</{}>", h.tag, h.id, h.content, h.tag),
                         );
-                        // h.id = urlencoding::encode(&h.id).to_string();
                     });
 
                     // Replace TOC symbol in HTML.
