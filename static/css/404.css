@@ -67,6 +67,12 @@ a.link-unstyled:hover span.re-link-style {
   line-height: 1.75em;
   margin-bottom: 1.125em;
 }
+.content-serif#post-toc > p {
+  font-weight: 900;
+}
+.content-serif#post-toc li {
+  font-weight: 700;
+}
 
 .content-justify p {
   text-justify: inter-ideograph;

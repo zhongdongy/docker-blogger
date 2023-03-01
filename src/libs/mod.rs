@@ -2,8 +2,7 @@ pub mod db;
 pub mod markdown;
 pub mod parser;
 pub mod renderer;
-
-use self::parser::parse_toc;
+use self::renderer::renderer::extract_toc_and_update_markup;
 
 use super::models::{ArchiveByYear, Author, Blog, PermLink, Post, Tag};
 use super::utils::{
@@ -113,27 +112,7 @@ pub fn build_all(
 
         match render_content_template(renderer::TemplateType::Blog, &raw, Some(doc_path)) {
             Ok((preamble, markdown_content, mut html)) => {
-                // Handle TOC
-                if preamble
-                    .renderer_params
-                    .clone()
-                    .unwrap_or(vec![])
-                    .contains(&String::from("enable-toc"))
-                {
-                    let mut headings = parse_toc(&markdown_content, Some(3));
-                    headings.iter_mut().for_each(|h| {
-                        html = html.replace(
-                            &format!("<{}>{}</{}>", h.tag, h.content, h.tag),
-                            &format!("<{} id='{}'>{}</{}>", h.tag, h.id, h.content, h.tag),
-                        );
-                        // h.id = urlencoding::encode(&h.id).to_string();
-                    });
-
-                    // Replace TOC symbol in HTML.
-                    if let Ok(json_str) = serde_json::to_string(&headings) {
-                        html = html.replace("@{HEADINGS_JSON}", &json_str);
-                    }
-                }
+                html = extract_toc_and_update_markup(&preamble, markdown_content.as_str(), html);
 
                 let blog = Blog {
                     raw: raw,
@@ -185,8 +164,10 @@ pub fn build_all(
 
     // Generate home post
     let home_raw = fs::read_to_string(home_post_file.clone()).unwrap();
-    if let Ok((_, _, html)) = render_content_template(renderer::TemplateType::Home, &home_raw, None)
+    if let Ok((preamble, markdown_content, mut html)) =
+        render_content_template(renderer::TemplateType::Home, &home_raw, None)
     {
+        html = extract_toc_and_update_markup(&preamble, markdown_content.as_str(), html);
         let target = cache_dir.join("_index.html");
 
         fs::create_dir_all(target.parent().unwrap()).unwrap();
