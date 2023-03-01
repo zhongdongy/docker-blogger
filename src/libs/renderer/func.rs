@@ -34,7 +34,7 @@ pub fn inline_js() -> impl Function {
                     .join(file.as_str().unwrap());
                 if js_path.is_file() {
                     if let Ok(js_content) = fs::read_to_string(js_path) {
-                        return Ok(Value::String(format!("<style>{}</style>", js_content)));
+                        return Ok(Value::String(format!("<script>{}</script>", js_content)));
                     }
                 }
                 Err(Error::msg(&format!("{} not found", file)))

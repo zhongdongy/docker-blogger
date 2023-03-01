@@ -4,13 +4,13 @@ window.addEventListener('load', () => {
     if (!!headings_json) {
         const headings = JSON.parse(headings_json);
         let template = document.createElement('template');
-        const navbar_object = traverse_headings(headings)
+        const navbar_object = traverse_headings(headings);
 
         if (navbar_object.children.length > 0) {
 
             const html = render_nav_tree(navbar_object);
 
-            template.innerHTML = `<ul id="post-toc-nav" class="h-100 list-group">${html}</ul>`
+            template.innerHTML = `<ul id="post-toc-nav" class="h-100 list-group">${html}</ul>`;
 
             let toc = document.querySelector('#post-toc')
             if (!!toc) toc.appendChild(template.content);

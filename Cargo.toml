@@ -2,7 +2,7 @@
 name = "eastwind-blogger"
 authors = ["Zhongdong Yang"]
 description = "A Rust implementation for Eastwind Blogger"
-version = "2.1.5"
+version = "2.1.6"
 edition = "2021"
 license = "Apache-2.0"
 repository = "https://github.com/zhongdongy/docker-blogger/"
@@ -13,6 +13,7 @@ include = ["/src", "/templates", "/static"]
 pulldown-cmark = { version = "0.9.2", default-features = false, features = [
   "simd",
 ] }
+pulldown-cmark-toc = "*"
 serde = { version = "1.*.*", features = ["derive", "std"] }
 serde_json = { version = "1.*.*" }
 serde_yaml = { version = "0.9.17" }

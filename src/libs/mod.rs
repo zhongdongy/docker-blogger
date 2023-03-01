@@ -3,6 +3,8 @@ pub mod markdown;
 pub mod parser;
 pub mod renderer;
 
+use self::parser::parse_toc;
+
 use super::models::{ArchiveByYear, Author, Blog, PermLink, Post, Tag};
 use super::utils::{
     db::{get_database, DatabaseSource, JsonDatabase},
@@ -110,7 +112,29 @@ pub fn build_all(
             .join("/");
 
         match render_content_template(renderer::TemplateType::Blog, &raw, Some(doc_path)) {
-            Ok((preamble, markdown_content, html)) => {
+            Ok((preamble, markdown_content, mut html)) => {
+                // Handle TOC
+                if preamble
+                    .renderer_params
+                    .clone()
+                    .unwrap_or(vec![])
+                    .contains(&String::from("enable-toc"))
+                {
+                    let mut headings = parse_toc(&markdown_content, Some(3));
+                    headings.iter_mut().for_each(|h| {
+                        html = html.replace(
+                            &format!("<{}>{}</{}>", h.tag, h.content, h.tag),
+                            &format!("<{} id='{}'>{}</{}>", h.tag, h.id, h.content, h.tag),
+                        );
+                        // h.id = urlencoding::encode(&h.id).to_string();
+                    });
+
+                    // Replace TOC symbol in HTML.
+                    if let Ok(json_str) = serde_json::to_string(&headings) {
+                        html = html.replace("@{HEADINGS_JSON}", &json_str);
+                    }
+                }
+
                 let blog = Blog {
                     raw: raw,
                     preamble: preamble.to_json(),
