@@ -26,13 +26,20 @@ impl Context {
             site_name: config.site.site_name.clone(),
             site_email: config.site.site_email.clone(),
             site_year: Utc::now().format("%Y").to_string(),
-            site_home: match config.site.enable_https {
+            site_home: {
+                let temp = match config.site.enable_https {
                 Some(enable) => match enable {
                     true => format!("https://{}", config.site.hostname).to_string(),
                     false => format!("http://{}", config.site.hostname).to_string(),
                 },
                 None => format!("http://{}", config.site.hostname).to_string(),
-            },
+            };
+            if let Some(new_temp) = temp.strip_suffix("/") {
+                new_temp.to_string()
+            }else {
+                temp
+            }
+        },
             site_slogan: match config.site.site_slogan {
               Some(slogan) => slogan,
               None => "由 <a href=\"https://hub.docker.com/r/dongsxyz/rust_blogger\" target=\"_blank\">Eastwind Blogger</a> 驱动".to_string()

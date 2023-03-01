@@ -38,6 +38,7 @@ pub enum IndexDescriptor {
 pub fn render_content_template(
     ty: TemplateType,
     raw: &str,
+    doc_path: Option<String>,
 ) -> Result<(Preamble, String, String), Box<dyn Error>> {
     match parse_document(raw) {
         Ok((preamble, markdown_raw)) => {
@@ -68,7 +69,16 @@ pub fn render_content_template(
                     context.insert("avatar_url", &avatar_url);
 
                     let template_name = match ty {
-                        TemplateType::Blog => "blog_page.jinja2",
+                        TemplateType::Blog => {
+                            if let Some(perm_link) = preamble.permanent_link.clone() {
+                                context.insert("link", &format!("/post/{}/", &perm_link));
+                            } else {
+                                context.insert("link", &format!("/post/{}/", &doc_path.unwrap()))
+                            }
+                            context.insert("title", &preamble.title);
+
+                            "blog_page.jinja2"
+                        }
                         TemplateType::Home => {
                             // Insert site tags to context
                             let tag_db: TagDB = get_database(DatabaseSource::Tag);
@@ -86,6 +96,9 @@ pub fn render_content_template(
                                     &tags_count_tuples
                                 },
                             );
+
+                            context.insert("title", &format!("{}", &preamble.title));
+                            context.insert("link", &"/");
 
                             "home_page.jinja2"
                         }
@@ -141,6 +154,8 @@ pub fn render_index_template(
                     let posts = tag_db.query_posts(tag.clone()).unwrap();
                     context.insert("posts", &posts);
                     context.insert("tag_name", &tag);
+                    context.insert("link", &format!("/tag/{}/", &tag));
+                    context.insert("title", &format!("标签 ({})", &tag));
                 }
             }
             context.insert("tags", &tags_count_tuples);
@@ -157,12 +172,18 @@ pub fn render_index_template(
             tags_count_tuples.sort_by(|a, b| b.1.cmp(&a.1));
             context.insert("tags", &tags_count_tuples);
 
+            context.insert("link", &"/tags/");
+            context.insert("title", &"所有标签");
+
             "tags.jinja2"
         }
         TemplateType::PageArchives => {
             let arv_db: ArchiveDB = get_database(DatabaseSource::Archive);
             let archives = arv_db.archives();
             context.insert("archives", &archives);
+            context.insert("link", &"/archives/");
+            context.insert("title", &"发布历史");
+
             "archives.jinja2"
         }
         TemplateType::PageArchivesYear => {
@@ -172,6 +193,9 @@ pub fn render_index_template(
                 posts.sort_by(|a, b| b.preamble.created_at.cmp(&a.preamble.created_at));
                 context.insert("year", &year);
                 context.insert("posts", &posts);
+                context.insert("link", &format!("/archives/{}/", &year));
+                context.insert("title", &format!("发布历史 ({year})"));
+
                 "archive_year.jinja2"
             } else {
                 ""
@@ -186,13 +210,24 @@ pub fn render_index_template(
                 context.insert("year", &year);
                 context.insert("month", &format!("{year}-{month}"));
                 context.insert("posts", &posts);
+                context.insert("link", &format!("/archives/{}/{}/", &year, &month));
+                context.insert("title", &format!("发布历史 ({year}-{month})"));
+
                 "archive_month.jinja2"
             } else {
                 ""
             }
         }
-        TemplateType::PagePrivacyPolicy => "privacy-policy.jinja2",
-        TemplateType::PageNotFound => "404.jinja2",
+        TemplateType::PagePrivacyPolicy => {
+            context.insert("link", &"/privacy-policy/");
+            context.insert("title", &"隐私政策");
+            "privacy-policy.jinja2"
+        }
+        TemplateType::PageNotFound => {
+            context.insert("link", &"/404/");
+            context.insert("title", &"页面没有找到");
+            "404.jinja2"
+        }
         _ => "",
     };
 

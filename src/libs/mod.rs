@@ -80,21 +80,37 @@ pub fn build_all(
 
     for blog_file in blog_files {
         let raw = fs::read_to_string(blog_file.clone()).unwrap();
-        match render_content_template(renderer::TemplateType::Blog, &raw) {
-            Ok((preamble, markdown_content, html)) => {
-                let mut cache_file = blog_file.to_string_lossy().to_string();
-                cache_file = cache_file.replace(blog_dir_str, "");
-                let mut target = cache_dir.join(
-                    cache_file
-                        .clone()
-                        .as_str()
-                        .replacen("/", "", 1)
-                        .replacen("\\", "", 1),
-                );
-                target.set_extension("html");
+        let mut cache_file = blog_file.to_string_lossy().to_string();
+        cache_file = cache_file.replace(blog_dir_str, "");
+        let mut target = cache_dir.join(
+            cache_file
+                .clone()
+                .as_str()
+                .replacen("/", "", 1)
+                .replacen("\\", "", 1),
+        );
+        target.set_extension("html");
 
-                let mut view_file = blog_file.clone();
-                view_file.set_extension("html");
+        let mut view_file = blog_file.clone();
+        view_file.set_extension("html");
+
+        let doc_path = re
+            .replace_all(
+                &view_file
+                    .to_string_lossy()
+                    .replace(blog_dir_str, "")
+                    .replace("\\", "/")
+                    .replacen("/", "", 1),
+                "",
+            )
+            .to_string()
+            .split("/")
+            .map(|seg| urlencoding::encode(seg).to_string())
+            .collect::<Vec<String>>()
+            .join("/");
+
+        match render_content_template(renderer::TemplateType::Blog, &raw, Some(doc_path)) {
+            Ok((preamble, markdown_content, html)) => {
                 let blog = Blog {
                     raw: raw,
                     preamble: preamble.to_json(),
@@ -108,7 +124,6 @@ pub fn build_all(
                         .replace("\\", "/")
                         .replacen("/", "", 1),
                 };
-
                 fs::create_dir_all(target.parent().unwrap()).unwrap();
                 fs::write(target, html).unwrap();
 
@@ -146,7 +161,8 @@ pub fn build_all(
 
     // Generate home post
     let home_raw = fs::read_to_string(home_post_file.clone()).unwrap();
-    if let Ok((_, _, html)) = render_content_template(renderer::TemplateType::Home, &home_raw) {
+    if let Ok((_, _, html)) = render_content_template(renderer::TemplateType::Home, &home_raw, None)
+    {
         let target = cache_dir.join("_index.html");
 
         fs::create_dir_all(target.parent().unwrap()).unwrap();
