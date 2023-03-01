@@ -1,19 +1,23 @@
 use crate::{
     generate_all,
     libs::db::PermLinkDB,
-    utils::db::{get_database, DatabaseSource, JsonDatabase},
+    utils::{
+        db::{get_database, DatabaseSource, JsonDatabase},
+        net::is_port_available,
+    },
 };
 use actix_files::NamedFile;
 use actix_web::{
     self, dev,
     error::ErrorNotFound,
     get,
-    middleware::{ErrorHandlerResponse, Logger, ErrorHandlers},
-    post, web, App, HttpResponse, HttpServer, Responder, Result, http::StatusCode,
+    http::StatusCode,
+    middleware::{ErrorHandlerResponse, ErrorHandlers, Logger},
+    web, App, HttpResponse, HttpServer, Responder, Result,
 };
 use log::debug;
-use std::fs;
 use std::path::{PathBuf, MAIN_SEPARATOR};
+use std::{borrow::Cow, fs};
 
 #[get("/admin/cache-reload/")]
 async fn reload_cache() -> impl Responder {
@@ -24,11 +28,6 @@ async fn reload_cache() -> impl Responder {
     };
 
     HttpResponse::Ok().body(resp_body)
-}
-
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
 }
 
 #[get("/static/{file_name:.*}")]
@@ -143,6 +142,14 @@ async fn privacy_policy_page() -> Result<NamedFile> {
 #[get("/{special:.*}/")]
 async fn special_page(path: web::Path<String>) -> Result<NamedFile> {
     let mut special = path.into_inner();
+    debug!(target: "app::dev", "{special}");
+    // Check for favicon.ico and manifest.json
+    if ["favicon.ico", "manifest.json"].contains(&special.as_str()) {
+        let mut file_path = PathBuf::from(".");
+        file_path.push(special);
+        debug!(target: "app::dev", "Asset: {}", &file_path.to_str().unwrap());
+        return Ok(NamedFile::open(file_path)?);
+    }
 
     let mut file_path = PathBuf::from("cached");
 
@@ -153,6 +160,19 @@ async fn special_page(path: web::Path<String>) -> Result<NamedFile> {
     file_path.push(special);
 
     Ok(NamedFile::open(file_path)?)
+}
+
+#[get("/{root_assets:[^/]*}")]
+async fn global_assets(path: web::Path<String>) -> Result<NamedFile> {
+    let root_assets = path.into_inner();
+    // Check for favicon.ico and manifest.json
+    if ["favicon.ico", "manifest.json"].contains(&root_assets.as_str()) {
+        let mut file_path = PathBuf::from(".");
+        file_path.push(root_assets);
+        return Ok(NamedFile::open(file_path)?);
+    }
+
+    Ok(NamedFile::open(".")?)
 }
 
 fn add_custom_error_page<B>(res: dev::ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
@@ -174,7 +194,11 @@ fn add_custom_error_page<B>(res: dev::ServiceResponse<B>) -> Result<ErrorHandler
 
 /// Main function for Actix-Web server
 #[actix_web::main]
-pub async fn run_server() -> std::io::Result<()> {
+pub async fn run_server(port: Option<u16>) -> std::io::Result<()> {
+    if !is_port_available(port.unwrap_or(8080)) {
+        let msg = Cow::from(format!("Port {} is NOT available", port.unwrap_or(8080)));
+        return Err(std::io::Error::new(std::io::ErrorKind::AddrInUse, msg));
+    }
     HttpServer::new(|| {
         let logger = Logger::default();
         App::new()
@@ -186,9 +210,10 @@ pub async fn run_server() -> std::io::Result<()> {
             .service(static_file)
             .service(view_perm_link)
             .service(view_post)
+            .service(global_assets)
             .service(special_page)
     })
-    .bind(("0.0.0.0", 8080))?
+    .bind(("0.0.0.0", port.unwrap_or(8080)))?
     .run()
     .await?;
 

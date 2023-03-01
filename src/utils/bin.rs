@@ -1,3 +1,4 @@
+use colored::Colorize;
 use std::error;
 use std::fmt::Display;
 
@@ -6,6 +7,7 @@ pub struct ProgramConfig {
     pub server: bool,
     pub watch: bool,
     pub directory: String,
+    pub port: Option<u16>,
 }
 
 #[derive(Debug)]
@@ -25,6 +27,7 @@ impl ProgramConfig {
             server: false,
             watch: false,
             directory: String::from("blogs"),
+            port: None,
         }
     }
 
@@ -53,8 +56,25 @@ pub fn parse_options(ops: &Vec<String>) -> ProgramConfig {
                     config.directory = ops[i + 1].clone();
                     i += 1;
                 } else {
-                    panic!("[ERROR] `--dir|-d` expect a relative directory from working directory");
+                    panic!(
+                        "[{}] `--dir|-d` expects a relative directory from working directory",
+                        label_red!("ERROR")
+                    );
                 }
+            }
+            "-p" | "--port" => {
+                if i < ops.len() - 1 {
+                    let p = ops[i + 1].clone();
+                    if let Ok(port) = p.parse::<u16>() {
+                        config.port = Some(port);
+                        i += 1;
+                        continue;
+                    }
+                }
+                panic!(
+                    "[{}] `--port|-p` expects a valid TCP port number",
+                    label_red!("ERROR")
+                );
             }
             _ => (),
         }
@@ -83,6 +103,8 @@ macro_rules! label_green {
     };
 }
 
+#[allow(unused_imports)]
+pub(crate) use label_green;
 #[allow(unused_imports)]
 pub(crate) use label_red;
 #[allow(unused_imports)]

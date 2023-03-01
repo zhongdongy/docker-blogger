@@ -7,41 +7,43 @@
   <title>{% block web_title %}首页{% endblock %}</title>
   {% if is_post %}
 
-    {% if preamble.author is defined %}
-    <meta name="author" content="{{ preamble.author }}">
-    {% endif %}
+  {% if preamble.author is defined %}
+  <meta name="author" content="{{ preamble.author }}">
+  {% endif %}
 
-    {% if preamble.keywords is iterable %}
-    <meta name="keywords" content='{{ preamble.keywords | join(sep=",") }}'>
-    {% endif %}
+  {% if preamble.keywords is iterable %}
+  <meta name="keywords" content='{{ preamble.keywords | join(sep=",") }}'>
+  {% endif %}
 
-    {% if preamble.description is defined %}
-    <meta name="description" content="{{ preamble.description }}">
-    {% endif %}
+  {% if preamble.description is defined %}
+  <meta name="description" content="{{ preamble.description }}">
+  {% endif %}
 
-    {% if g.baidu_site_verification is defined %}
-    <meta name="baidu-site-verification" content="{{ g.baidu_site_verification }}">
-    {% endif %}
+  {% if g.baidu_site_verification is defined %}
+  <meta name="baidu-site-verification" content="{{ g.baidu_site_verification }}">
+  {% endif %}
 
   {% endif %}
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.2.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://hmos.dongs.xyz/css/harmonyos_sans_sc.css" />
 
   {% if is_post %}
-
-    {% if "content-serif" in preamble.renderer_params %}
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
-    {% else %}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;900&display=swap">
-    {% endif %}
+  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/default.min.css" />
+  {% if "content-serif" in preamble.renderer_params %}
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+  {% else %}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;900&display=swap">
+  {% endif %}
 
   {% endif %}
-  
+
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
   {{ inline_css(file="theme.css") }}
   {{ inline_css(file="base.css") }}
+  {{ inline_css(file="text.css") }}
   {% block styles %}
   {% endblock %}
 </head>
@@ -56,7 +58,7 @@
     <div class="container">
       <hr>
       <div class="d-flex align-items-start flex-column">
-        <div>&copy; {{ g.site_year }} <span class="content-serif">{{ g.site_name }}</span></div>
+        <div>&copy; {{ g.site_year }} <span class="content-serif text-serif">{{ g.site_name }}</span></div>
         <div class="text-footer-small mt-2 mb-1" style="line-height: 18px">
           {% if g.enable_beian == True %}
           <a class="beian-icon" href="http://www.beian.gov.cn/portal/registerSystemInfo"><img
@@ -80,47 +82,47 @@
   {% endblock %}
 
   {% if is_post %}
-    {% if enable_latex == True %}
-    <script>
-      MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']],
-          displayMath: [
-            ['$$', '$$'],
-            ['\\[', '\\]']
-          ],
-          escape
+  {% if enable_latex == True %}
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [
+          ['$$', '$$'],
+          ['\\[', '\\]']
+        ],
+        escape
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        scale: 1,                      // global scaling factor for all expressions
+        minScale: .5,                  // smallest scaling factor to use
+        mtextInheritFont: false,       // true to make mtext elements use surrounding font
+        merrorInheritFont: true,       // true to make merror text use surrounding font
+        mathmlSpacing: false,          // true for MathML spacing rules, false for TeX rules
+        skipAttributes: {},            // RFDa and other attributes NOT to copy to the output
+        exFactor: .5,                  // default size of ex in em units
+        displayAlign: 'center',        // default for indentalign when set to 'auto'
+        displayIndent: '0',            // default for indentshift when set to 'auto'
+        matchFontHeight: true,         // true to match ex-height of surrounding font
+        fontURL: 'https://cdn.staticfile.org/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2',   // The URL where the fonts are found
+        adaptiveCSS: true              // true means only produce CSS that is used in the processed equations
+      },
+      options: {
+        skipHtmlTags: [            //  HTML tags that won't be searched for math
+          'script', 'noscript', 'style', 'textarea', 'annotation', 'annotation-xml'
+        ],
+        includeHtmlTags: {         //  HTML tags that can appear within math
+          br: '\n', wbr: '', '#comment': ''
         },
-        svg: {
-          fontCache: 'global'
-        },
-        chtml: {
-          scale: 1,                      // global scaling factor for all expressions
-          minScale: .5,                  // smallest scaling factor to use
-          mtextInheritFont: false,       // true to make mtext elements use surrounding font
-          merrorInheritFont: true,       // true to make merror text use surrounding font
-          mathmlSpacing: false,          // true for MathML spacing rules, false for TeX rules
-          skipAttributes: {},            // RFDa and other attributes NOT to copy to the output
-          exFactor: .5,                  // default size of ex in em units
-          displayAlign: 'center',        // default for indentalign when set to 'auto'
-          displayIndent: '0',            // default for indentshift when set to 'auto'
-          matchFontHeight: true,         // true to match ex-height of surrounding font
-          fontURL: 'https://cdn.staticfile.org/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2',   // The URL where the fonts are found
-          adaptiveCSS: true              // true means only produce CSS that is used in the processed equations
-        },
-        options: {
-          skipHtmlTags: [            //  HTML tags that won't be searched for math
-            'script', 'noscript', 'style', 'textarea', 'annotation', 'annotation-xml'
-          ],
-          includeHtmlTags: {         //  HTML tags that can appear within math
-            br: '\n', wbr: '', '#comment': ''
-          },
-          ignoreHtmlClass: 'tex2jax_ignore',    //  class that marks tags not to search
-          processHtmlClass: 'tex2jax_process',  //  class that marks tags that should be searched
-        }
-      };
-    </script>
-    {% endif %}
+        ignoreHtmlClass: 'tex2jax_ignore',    //  class that marks tags not to search
+        processHtmlClass: 'tex2jax_process',  //  class that marks tags that should be searched
+      }
+    };
+  </script>
+  {% endif %}
   {% endif %}
   <script>
     window.addEventListener('load', () => {
@@ -164,10 +166,16 @@
   <script src="https://cdn.staticfile.org/font-awesome/6.2.0/js/all.min.js" defer async></script>
   <script src="https://cdn.staticfile.org/moment.js/2.29.4/moment.min.js" defer async></script>
   {% if is_post %}
-    {% if enable_latex == True %}
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script src="https://cdn.staticfile.org/mathjax/3.2.2/es5/tex-chtml-full.js" defer async></script>
-    {% endif %}
+  {% if enable_latex == True %}
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.staticfile.org/mathjax/3.2.2/es5/tex-chtml-full.js" defer async></script>
+  {% endif %}
+  <script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js" defer async></script>
+  <script>
+    window.addEventListener("load", () => {
+      hljs.highlightAll();
+    })
+  </script>
   {% endif %}
 </body>
 

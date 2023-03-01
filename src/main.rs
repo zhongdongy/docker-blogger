@@ -32,22 +32,34 @@ fn main() {
 
     if config.watch {
         println!(
-            "{} About to watch for file changes in `{}`",
+            "[{}] About to watch for file changes in `{}`",
             label_yellow!("WATCHER"),
             config.directory
         );
         if let Err(e) = watch(String::from(config.directory)) {
             println!(
-                "{} Unable to watch for file system changes: {:?}",
-                label_red!("[ERROR]"),
+                "[{}] Unable to watch for file system changes: {:?}",
+                label_red!("ERROR"),
                 e
             )
         }
     }
 
     if config.server {
-        println!("{} Ready to start blogger server", label_green!("SERVER"));
-        let th = thread::spawn(|| run_server());
-        let _ = th.join().unwrap();
+        println!("[{}] Ready to start blogger server on port {}", label_green!("SERVER"), config.port.unwrap_or(8080));
+        let port = config.port.clone();
+        let th = thread::spawn(move || run_server(port));
+        match th.join() {
+            Ok(res) => match res {
+                Ok(_) => {
+                    println!(
+                        "[{}] Server Stopped",
+                        label_yellow!("SERVER")
+                    );
+                }
+                Err(e) => println!("[{}] Server stopped unexpectedly: {:?}", label_red!("SERVER"), e.to_string()),
+            },
+            Err(e) => eprintln!("[{}] Unable to start server: {:?}", label_red!("SERVER"), e),
+        }
     }
 }

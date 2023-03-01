@@ -10,4 +10,45 @@
   font-size: 0.5em;
 }
 
-/*# sourceMappingURL=text.css.map */
+h3.h3-small {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.indent-paragraph h1 {
+  text-indent: 0;
+}
+.indent-paragraph p {
+  text-indent: 2em;
+}
+.indent-paragraph p.suppress-margin {
+  margin-bottom: 0.25rem;
+}
+
+a.link-unstyled, a.link-unstyled:link, a.link-unstyled:hover {
+  color: inherit !important;
+  text-decoration: inherit !important;
+}
+
+a.link-unstyled:hover span.re-link-style {
+  text-decoration: underline;
+}
+
+.content-serif h1, .content-serif h2, .content-serif h3, .content-serif h4, .content-serif h5, .content-serif h6 {
+  font-weight: 700;
+  margin-top: 0.35em;
+}
+.content-serif p {
+  font-size: 1.25em;
+  line-height: 1.75em;
+  margin-bottom: 1.125em;
+}
+
+.content-justify p {
+  text-justify: inter-ideograph;
+  text-align: justify;
+}
+
+.text-serif {
+  font-family: "Noto Serif SC", serif;
+}
