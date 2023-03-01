@@ -5,7 +5,8 @@ description = "A Rust implementation for Eastwind Blogger"
 version = "2.1.4"
 edition = "2021"
 license = "Apache-2.0"
-license-file = "LICENSE"
+repository = "https://github.com/zhongdongy/docker-blogger/"
+homepage = "https://github.com/zhongdongy/docker-blogger/"
 include = ["/src", "/templates", "/static"]
 
 [dependencies]
