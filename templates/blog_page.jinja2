@@ -19,60 +19,59 @@
 <div class="container">
     <div class="row justify-content-center">
         {% if 'enable-toc' in preamble.renderer_params %}
-        <div class="col col-lg-3 d-none d-lg-block" id="post-toc">
+        <div class='col col-lg-3 d-none d-lg-block {{ preamble.renderer_params | join(sep=" ") }}' id="post-toc">
             <p>目录</p>
         </div>
         <div class="col col-12 col-lg-9">
-            {% else %}
-            <div class="col col-12 col-md-10 col-lg-8">
-                {% endif %}
-                <div class='container markdown-rendered {{ preamble.renderer_params | join(sep=" ") }}'
-                    data-bs-spy="scroll" data-bs-target="#post-toc-nav" data-bs-smooth-scroll="true" tabindex="0">
-                    <div class="row">
-                        <div class="col col-12" id="content-container">
-                            <h1 id="post-title">{{ preamble.title }}</h1>
-                            <div class="post-info mt-4 mb-1">
-                                <div class="post-info-author d-flex justify-content-start align-items-center">
-                                    <div class="author-avatar rounded rounded-circle text-bg-secondary text-center">
-                                        <img src='{{ avatar_url }}' alt="{{ preamble.author }}">
-                                    </div>
-                                    <div class="d-flex flex-column align-items-start ms-2">
-                                        <span class="author-name">{{ preamble.author }}</span>
-                                        <small class="text-muted">{{ preamble.updated_at }}</small>
-                                    </div>
+        {% else %}
+        <div class="col col-12 col-md-10 col-lg-8">
+        {% endif %}
+            <div class='container markdown-rendered {{ preamble.renderer_params | join(sep=" ") }}'
+                data-bs-spy="scroll" data-bs-target="#post-toc-nav" data-bs-smooth-scroll="true" tabindex="0">
+                <div class="row">
+                    <div class="col col-12" id="content-container">
+                        <h1 id="post-title">{{ preamble.title }}</h1>
+                        <div class="post-info mt-4 mb-1">
+                            <div class="post-info-author d-flex justify-content-start align-items-center">
+                                <div class="author-avatar rounded rounded-circle text-bg-secondary text-center">
+                                    <img src='{{ avatar_url }}' alt="{{ preamble.author }}">
+                                </div>
+                                <div class="d-flex flex-column align-items-start ms-2">
+                                    <span class="author-name">{{ preamble.author }}</span>
+                                    <small class="text-muted">{{ preamble.updated_at }}</small>
                                 </div>
                             </div>
-                            <div class="post-tags mt-2 mb-4">
-                                <div class="row">
-                                    <div class="col d-flex">
-                                        {% if preamble.tags is iterable %}
-                                        {% for tag in preamble.tags %}
-                                        {% if loop.index0 == 0 %}
-                                        <span class="d-block badge rounded text-bg-light fw-normal suppress-link"><a
-                                                href="/tag/{{ tag }}/">{{ tag }}</a></span>
-                                        {% else %}
-                                        <span
-                                            class="d-block badge rounded text-bg-light fw-normal suppress-link ms-1"><a
-                                                href="/tag/{{ tag }}/">{{ tag }}</a></span>
-                                        {% endif %}
-                                        {% endfor %}
-                                        {%endif%}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-content">{{ html }}</div>
-                            {% set permanent_link = preamble.permanent_link | default(value=false)%}
-                            {% if permanent_link %}
-                            <hr>
-                            <small class="text-muted">本文的固定链接：<a
-                                    href="{{ g.site_home }}/post/{{ permanent_link }}/">{{
-                                    g.site_home }}/post/{{ permanent_link }}/</a>
-                            </small>
-                            {% endif %}
                         </div>
+                        <div class="post-tags mt-2 mb-4">
+                            <div class="row">
+                                <div class="col d-flex">
+                                    {% if preamble.tags is iterable %}
+                                    {% for tag in preamble.tags %}
+                                    {% if loop.index0 == 0 %}
+                                    <span class="d-block badge rounded text-bg-light fw-normal suppress-link"><a
+                                            href="/tag/{{ tag }}/">{{ tag }}</a></span>
+                                    {% else %}
+                                    <span
+                                        class="d-block badge rounded text-bg-light fw-normal suppress-link ms-1"><a
+                                            href="/tag/{{ tag }}/">{{ tag }}</a></span>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {%endif%}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content">{{ html }}</div>
+                        {% set permanent_link = preamble.permanent_link | default(value=false)%}
+                        {% if permanent_link %}
+                        <hr>
+                        <small class="text-muted">本文的固定链接：<a href="{{ g.site_home }}/post/{{ permanent_link }}/">{{
+                                g.site_home }}/post/{{ permanent_link }}/</a>
+                        </small>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     {% endblock %}
