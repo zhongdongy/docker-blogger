@@ -1,6 +1,11 @@
-.suppress-link {
+@charset "UTF-8";
+.suppress-link， .suppress-link *, .suppress-link:hover, .suppress-link *:hover {
   text-decoration: none !important;
-  color: initial !important;
+}
+
+a.reset-link, a.reset-link:hover, a.reset-link:active, a.reset-link:visited {
+  color: inherit;
+  text-decoration: none !important;
 }
 
 .content-serif h1, .content-serif h2, .content-serif h3, .content-serif h4, .content-serif h5 {

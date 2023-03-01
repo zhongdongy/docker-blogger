@@ -2,7 +2,7 @@
 name = "eastwind-blogger"
 authors = ["Zhongdong Yang"]
 description = "A Rust implementation for Eastwind Blogger"
-version = "2.1.3"
+version = "2.1.4"
 edition = "2021"
 
 [dependencies]

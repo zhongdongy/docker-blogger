@@ -73,6 +73,10 @@ a.link-unstyled:hover span.re-link-style {
   text-align: justify;
 }
 
+.text-serif {
+  font-family: "Noto Serif SC", serif;
+}
+
 body {
   font-size: 16px;
   font-weight: normal;

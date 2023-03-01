@@ -80,3 +80,9 @@ redirect: "post/abc/"
 ```bash
 docker build -t test:latest --build-arg enable_cargo_mirror=1 --progress=plain .
 ```
+
+如果修改了 Sass 样式表，可以通过此命令重新生成 CSS 样式表:
+
+```bash
+sass --watch --update --source-map static/css:static/css
+```
