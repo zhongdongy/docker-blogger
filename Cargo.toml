@@ -4,6 +4,7 @@ authors = ["Zhongdong Yang"]
 description = "A Rust implementation for Eastwind Blogger"
 version = "2.1.4"
 edition = "2021"
+license = "Apache-2.0"
 
 [dependencies]
 pulldown-cmark = { version = "0.9.2", default-features = false, features = [
