@@ -64,7 +64,7 @@
                         {% set permanent_link = preamble.permanent_link | default(value=false)%}
                         {% if permanent_link %}
                         <hr>
-                        <small class="text-muted">本文的固定链接：<a href="{{ g.site_home }}/post/{{ permanent_link }}/">{{
+                        <small class="text-muted">固定链接：<a href="{{ g.site_home }}/post/{{ permanent_link }}/">{{
                                 g.site_home }}/post/{{ permanent_link }}/</a>
                         </small>
                         {% endif %}
