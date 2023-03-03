@@ -1,5 +1,6 @@
 use crate::libs::db::ArchiveDB;
 use crate::libs::db::TagDB;
+use crate::libs::parser::parse_toc;
 use crate::models::context::Context as SiteContext;
 use crate::utils::avatar::get_gravatar_url;
 use crate::utils::config::get_config;
@@ -11,6 +12,7 @@ use std::error::Error;
 
 use crate::libs::markdown::markdown_to_html;
 use crate::libs::parser::parse_document;
+use pinyin::ToPinyin;
 use tera::Context;
 use tera::Tera;
 
@@ -267,4 +269,46 @@ fn load_context(is_post: bool) -> Context {
     context.insert("g", &g);
 
     context
+}
+
+pub fn extract_toc_and_update_markup<'a>(
+    preamble: &'a Preamble,
+    markdown_content: &'a str,
+    mut html: String,
+) -> String {
+    // Handle TOC
+    if preamble
+        .renderer_params
+        .clone()
+        .unwrap_or(vec![])
+        .contains(&String::from("enable-toc"))
+    {
+        let mut headings = parse_toc(&markdown_content, Some(3));
+        headings.iter_mut().for_each(|h| {
+            // Convert Chinese characters to Pinyin form and avoid
+            // `Invalid selector` error when using TOC.
+            let mut chars: Vec<String> = vec![];
+            let ids: &str = h.id.as_str();
+            ids.chars().for_each(|c| {
+                if let Some(py) = c.to_pinyin() {
+                    chars.push(py.plain().to_string());
+                } else {
+                    let s = c.to_string();
+                    chars.push(s);
+                };
+            });
+            h.id = chars.join("");
+
+            html = html.replace(
+                &format!("<{}>{}</{}>", h.tag, h.content, h.tag),
+                &format!("<{} id='{}'>{}</{}>", h.tag, h.id, h.content, h.tag),
+            );
+        });
+
+        // Replace TOC symbol in HTML.
+        if let Ok(json_str) = serde_json::to_string(&headings) {
+            html = html.replace("@{HEADINGS_JSON}", &json_str);
+        }
+    }
+    html
 }

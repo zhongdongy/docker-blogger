@@ -2,7 +2,7 @@
 name = "eastwind-blogger"
 authors = ["Zhongdong Yang"]
 description = "A Rust implementation for Eastwind Blogger"
-version = "2.1.6"
+version = "2.1.8"
 edition = "2021"
 license = "Apache-2.0"
 repository = "https://github.com/zhongdongy/docker-blogger/"
@@ -34,6 +34,7 @@ log = "0.4.17"
 log4rs = "1.2.0"
 quick-xml = "0.27.1"
 urlencoding = "2.1.2"
+pinyin = "0.9"
 
 [lib]
 name = "eastwind_blogger"
