@@ -171,6 +171,11 @@ async fn global_assets(path: web::Path<String>) -> Result<NamedFile> {
         file_path.push(root_assets);
         return Ok(NamedFile::open(file_path)?);
     }
+    if ["sitemap.xml", "robots.txt"].contains(&root_assets.as_str()) {
+        let mut file_path = PathBuf::from("cached");
+        file_path.push(root_assets);
+        return Ok(NamedFile::open(file_path)?);
+    }
 
     Ok(NamedFile::open(".")?)
 }

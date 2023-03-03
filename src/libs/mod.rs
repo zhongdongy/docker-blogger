@@ -180,6 +180,17 @@ pub fn build_all(
         }
     }
 
+    // Generate robots.txt
+    let context = Context::from_config(get_config(None));
+    fs::write(
+        cache_dir.join("robots.txt"),
+        format!(
+            "User-agent: Googlebot\nDisallow: /nogooglebot/\n\nUser-agent: *\nAllow: /\nSitemap: {}/sitemap.xml",
+            context.site_home
+        ),
+    )
+    .unwrap();
+
     // Generate index db files.
     generate_db(blogs).unwrap();
 
