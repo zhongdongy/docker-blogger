@@ -4,6 +4,13 @@
 
 {% block styles %}
 {{ inline_css(file="codehilite.css") }}
+{% if 'filter-grayscale' in preamble.renderer_params %}
+    <style>
+        body {
+            filter: grayscale(1) !important;
+        }
+    </style>
+{% endif %}
 {% endblock %}
 
 {% block web_content %}

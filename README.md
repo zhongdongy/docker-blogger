@@ -65,6 +65,7 @@ redirect: "/post/abc/"
   - `enable-toc`：显示文章索引目录 TOC
   - `content-serif`：使用衬线字体 (Noto Serif SC) 渲染博文内容
   - `content-justify`：让文字两端对齐
+  - `filter-grayscale`：整个页面都将被渲染为黑白灰阶模式
 - `redirect` （可选）可以给出一个地址（需要包含起始的`/`），页面加载后会自动重定向到给定页面
 
 注意：
