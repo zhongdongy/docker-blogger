@@ -2,7 +2,6 @@ use crate::libs::db::ArchiveDB;
 use crate::libs::db::TagDB;
 use crate::libs::parser::parse_toc;
 use crate::models::context::Context as SiteContext;
-use crate::resource::load_resource;
 use crate::resource::load_template_resource;
 use crate::utils::avatar::get_gravatar_url;
 use crate::utils::config::get_config;
@@ -305,7 +304,8 @@ fn load_tera() -> Result<Tera, Box<dyn Error>> {
                 "tags.jinja2",
                 load_template_resource("templates/tags.jinja2"),
             ),
-        ]).unwrap();
+        ])
+        .unwrap();
 
         tera.register_function("inline_css", func::inline_css());
         tera.register_function("inline_js", func::inline_js());

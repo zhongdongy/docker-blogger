@@ -1,11 +1,8 @@
 use std::collections::HashMap;
-use std::fs;
 use tera::Error;
 use tera::Function;
 use tera::Result;
 use tera::Value;
-
-use std::path::Path;
 
 use crate::resource::load_resource;
 use crate::resource::Resource;
