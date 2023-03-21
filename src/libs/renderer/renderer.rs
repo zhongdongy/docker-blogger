@@ -153,7 +153,10 @@ pub fn render_index_template(
             tags_count_tuples.sort_by(|a, b| b.1.cmp(&a.1));
             if let Some(desc) = descriptor {
                 if let IndexDescriptor::Tag(tag) = desc {
-                    let posts = tag_db.query_posts(tag.clone()).unwrap();
+                    let mut posts = tag_db.query_posts(tag.clone()).unwrap();
+                    posts.sort_by(|p1, p2| {
+                        p2.preamble.created_at.cmp(&p1.preamble.created_at)
+                    });
                     context.insert("posts", &posts);
                     context.insert("tag_name", &tag);
                     context.insert("link", &format!("/tag/{}/", &tag));
