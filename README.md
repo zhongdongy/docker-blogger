@@ -88,3 +88,9 @@ docker build -t test:latest --build-arg enable_cargo_mirror=1 --progress=plain .
 sass --watch --update --source-map static/css:static/css
 sass --no-source-map static/css:static/css
 ```
+
+如果希望使用 `eastwind-blogger` 程序而不依赖其他文件，可以在安装时指定：
+
+```bash
+cargo install --no-default-features --features bundled
+```

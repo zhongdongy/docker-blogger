@@ -7,22 +7,19 @@ use actix_web::{
     HttpResponse,
 };
 
-#[cfg(all(feature = "unpacked", feature = "packed"))]
+#[cfg(all(feature = "core", feature = "bundled"))]
 compile_error!("You cannot enable `packed` and `unpacked` features at the same time.");
 
 pub fn load_resource(filepath: &str) -> std::io::Result<Resource> {
-    #[cfg(feature = "unpacked")]
+    #[cfg(feature = "core")]
     {
-        use std::fs::read_to_string;
-        use std::path::PathBuf;
-        let mut joined_path = PathBuf::new();
-        filepath.split("/").for_each(|seg| {
-            joined_path.join(seg);
-        });
-        return read_to_string(joined_path);
+        Err(std::io::Error::new(
+            std::io::ErrorKind::NotFound,
+            format!("Requested resource `{}` doesn't exist", filepath),
+        ))
     }
 
-    #[cfg(feature = "packed")]
+    #[cfg(feature = "bundled")]
     {
         return match filepath {
             "favicon.ico" => Ok(Resource::Bytes(include_bytes!("../favicon.ico"))),
@@ -87,7 +84,6 @@ pub fn load_resource(filepath: &str) -> std::io::Result<Resource> {
                 include_str!("../templates/tags.jinja2").to_string(),
             )),
             _ => {
-                println!("Requested resource `{}` doesn't exist", filepath);
                 Err(std::io::Error::new(
                     std::io::ErrorKind::NotFound,
                     format!("Requested resource `{}` doesn't exist", filepath),

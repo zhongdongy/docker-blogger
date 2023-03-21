@@ -7,7 +7,14 @@ edition = "2021"
 license = "Apache-2.0"
 repository = "https://github.com/zhongdongy/docker-blogger/"
 homepage = "https://github.com/zhongdongy/docker-blogger/"
-include = ["/src", "/templates", "/static"]
+include = ["/src", "/templates", "/static", "favicon.ico"]
+
+
+[features]
+default = ["core"]
+core = []
+bundled = []
+
 
 [dependencies]
 pulldown-cmark = { version = "0.9.2", default-features = false, features = [
@@ -42,8 +49,3 @@ name = "eastwind_blogger"
 
 [[bin]]
 name = "eastwind-blogger"
-
-[features]
-default = ["packed"]
-unpacked = []
-packed = []

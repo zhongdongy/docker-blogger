@@ -274,7 +274,7 @@ pub async fn run_server(port: Option<u16>) -> std::io::Result<()> {
         let msg = Cow::from(format!("Port {} is NOT available", port.unwrap_or(8080)));
         return Err(std::io::Error::new(std::io::ErrorKind::AddrInUse, msg));
     }
-    #[cfg(feature = "unpacked")]
+    #[cfg(feature = "core")]
     {
         HttpServer::new(|| {
             let logger = Logger::default();
@@ -295,7 +295,7 @@ pub async fn run_server(port: Option<u16>) -> std::io::Result<()> {
         .await?;
     }
 
-    #[cfg(feature = "packed")]
+    #[cfg(feature = "bundled")]
     {
         HttpServer::new(|| {
             let logger = Logger::default();

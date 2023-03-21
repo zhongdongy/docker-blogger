@@ -249,7 +249,7 @@ pub fn render_index_template(
     };
 }
 fn load_tera() -> Result<Tera, Box<dyn Error>> {
-    #[cfg(feature = "unpacked")]
+    #[cfg(feature = "core")]
     {
         let mut tera = match Tera::parse("templates/**/*") {
             Ok(t) => t,
@@ -265,7 +265,7 @@ fn load_tera() -> Result<Tera, Box<dyn Error>> {
         Ok(tera)
     }
 
-    #[cfg(feature = "packed")]
+    #[cfg(feature = "bundled")]
     {
         let mut tera = Tera::default();
         // Register with packed templates.

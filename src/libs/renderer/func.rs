@@ -1,4 +1,6 @@
 use std::collections::HashMap;
+use std::fs;
+use std::path::Path;
 use tera::Error;
 use tera::Function;
 use tera::Result;
@@ -12,7 +14,7 @@ pub fn inline_css() -> impl Function {
         match args.get("file") {
             None => Err(Error::msg("No CSS file name provided.")),
             Some(file) => {
-                #[cfg(feature = "unpacked")]
+                #[cfg(feature = "core")]
                 {
                     let css_path = Path::new("static").join("css").join(file.as_str().unwrap());
                     if css_path.is_file() {
@@ -23,7 +25,7 @@ pub fn inline_css() -> impl Function {
                     println!("{}", css_path.to_str().unwrap());
                     Err(Error::msg(&format!("{} not found", file)))
                 }
-                #[cfg(feature = "packed")]
+                #[cfg(feature = "bundled")]
                 {
                     if let Ok(Resource::String(css_content)) =
                         load_resource(format!("static/css/{}", file.as_str().unwrap()).as_str())
@@ -42,7 +44,7 @@ pub fn inline_js() -> impl Function {
         match args.get("file") {
             None => Err(Error::msg("No JS file name provided.")),
             Some(file) => {
-                #[cfg(feature = "unpacked")]
+                #[cfg(feature = "core")]
                 {
                     let js_path = Path::new("static")
                         .join("script")
@@ -54,7 +56,7 @@ pub fn inline_js() -> impl Function {
                     }
                     Err(Error::msg(&format!("{} not found", file)))
                 }
-                #[cfg(feature = "packed")]
+                #[cfg(feature = "bundled")]
                 {
                     if let Ok(Resource::String(js_content)) =
                         load_resource(format!("static/script/{}", file.as_str().unwrap()).as_str())
