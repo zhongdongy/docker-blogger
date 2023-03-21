@@ -3,6 +3,7 @@ pub mod models;
 pub mod utils;
 pub mod server;
 pub mod watcher;
+pub mod resource;
 
 pub use server::*;
 pub use watcher::*;

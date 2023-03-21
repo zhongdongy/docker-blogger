@@ -2,6 +2,8 @@ use crate::libs::db::ArchiveDB;
 use crate::libs::db::TagDB;
 use crate::libs::parser::parse_toc;
 use crate::models::context::Context as SiteContext;
+use crate::resource::load_resource;
+use crate::resource::load_template_resource;
 use crate::utils::avatar::get_gravatar_url;
 use crate::utils::config::get_config;
 use crate::utils::db::get_database;
@@ -154,9 +156,7 @@ pub fn render_index_template(
             if let Some(desc) = descriptor {
                 if let IndexDescriptor::Tag(tag) = desc {
                     let mut posts = tag_db.query_posts(tag.clone()).unwrap();
-                    posts.sort_by(|p1, p2| {
-                        p2.preamble.created_at.cmp(&p1.preamble.created_at)
-                    });
+                    posts.sort_by(|p1, p2| p2.preamble.created_at.cmp(&p1.preamble.created_at));
                     context.insert("posts", &posts);
                     context.insert("tag_name", &tag);
                     context.insert("link", &format!("/tag/{}/", &tag));
@@ -250,19 +250,69 @@ pub fn render_index_template(
     };
 }
 fn load_tera() -> Result<Tera, Box<dyn Error>> {
-    let mut tera = match Tera::parse("templates/**/*") {
-        Ok(t) => t,
-        Err(e) => {
-            println!("Error: {}", e);
-            return Err(Box::new(e));
-        }
-    };
-    tera.register_function("inline_css", func::inline_css());
-    tera.register_function("inline_js", func::inline_js());
-    tera.register_function("url_for", func::url_for());
-    tera.build_inheritance_chains()?;
+    #[cfg(feature = "unpacked")]
+    {
+        let mut tera = match Tera::parse("templates/**/*") {
+            Ok(t) => t,
+            Err(e) => {
+                println!("Error: {}", e);
+                return Err(Box::new(e));
+            }
+        };
+        tera.register_function("inline_css", func::inline_css());
+        tera.register_function("inline_js", func::inline_js());
+        tera.register_function("url_for", func::url_for());
+        tera.build_inheritance_chains()?;
+        Ok(tera)
+    }
 
-    Ok(tera)
+    #[cfg(feature = "packed")]
+    {
+        let mut tera = Tera::default();
+        // Register with packed templates.
+        tera.add_raw_templates(vec![
+            ("404.jinja2", load_template_resource("templates/404.jinja2")),
+            (
+                "archive_month.jinja2",
+                load_template_resource("templates/archive_month.jinja2"),
+            ),
+            (
+                "archive_year.jinja2",
+                load_template_resource("templates/archive_year.jinja2"),
+            ),
+            (
+                "archives.jinja2",
+                load_template_resource("templates/archives.jinja2"),
+            ),
+            (
+                "base.jinja2",
+                load_template_resource("templates/base.jinja2"),
+            ),
+            (
+                "blog_page.jinja2",
+                load_template_resource("templates/blog_page.jinja2"),
+            ),
+            (
+                "home_page.jinja2",
+                load_template_resource("templates/home_page.jinja2"),
+            ),
+            (
+                "privacy-policy.jinja2",
+                load_template_resource("templates/privacy-policy.jinja2"),
+            ),
+            ("tag.jinja2", load_template_resource("templates/tag.jinja2")),
+            (
+                "tags.jinja2",
+                load_template_resource("templates/tags.jinja2"),
+            ),
+        ]).unwrap();
+
+        tera.register_function("inline_css", func::inline_css());
+        tera.register_function("inline_js", func::inline_js());
+        tera.register_function("url_for", func::url_for());
+        tera.build_inheritance_chains()?;
+        Ok(tera)
+    }
 }
 fn load_context(is_post: bool) -> Context {
     let mut context = Context::new();
