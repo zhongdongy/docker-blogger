@@ -83,30 +83,35 @@ pub fn load_resource(filepath: &str) -> std::io::Result<Resource> {
             "templates/tags.jinja2" => Ok(Resource::String(
                 include_str!("../templates/tags.jinja2").to_string(),
             )),
-            _ => {
-                Err(std::io::Error::new(
-                    std::io::ErrorKind::NotFound,
-                    format!("Requested resource `{}` doesn't exist", filepath),
-                ))
-            }
+            _ => Err(std::io::Error::new(
+                std::io::ErrorKind::NotFound,
+                format!("Requested resource `{}` doesn't exist", filepath),
+            )),
         };
     }
 }
 
 pub fn load_template_resource(filepath: &str) -> &'static str {
-    return match filepath {
-        "templates/404.jinja2" => include_str!("../templates/404.jinja2"),
-        "templates/archive_month.jinja2" => include_str!("../templates/archive_month.jinja2"),
-        "templates/archive_year.jinja2" => include_str!("../templates/archive_year.jinja2"),
-        "templates/archives.jinja2" => include_str!("../templates/archives.jinja2"),
-        "templates/base.jinja2" => include_str!("../templates/base.jinja2"),
-        "templates/blog_page.jinja2" => include_str!("../templates/blog_page.jinja2"),
-        "templates/home_page.jinja2" => include_str!("../templates/home_page.jinja2"),
-        "templates/privacy-policy.jinja2" => include_str!("../templates/privacy-policy.jinja2"),
-        "templates/tag.jinja2" => include_str!("../templates/tag.jinja2"),
-        "templates/tags.jinja2" => include_str!("../templates/tags.jinja2"),
-        _ => "",
-    };
+    #[cfg(feature = "core")]
+    {
+        ""
+    }
+    #[cfg(feature = "bundled")]
+    {
+        return match filepath {
+            "templates/404.jinja2" => include_str!("../templates/404.jinja2"),
+            "templates/archive_month.jinja2" => include_str!("../templates/archive_month.jinja2"),
+            "templates/archive_year.jinja2" => include_str!("../templates/archive_year.jinja2"),
+            "templates/archives.jinja2" => include_str!("../templates/archives.jinja2"),
+            "templates/base.jinja2" => include_str!("../templates/base.jinja2"),
+            "templates/blog_page.jinja2" => include_str!("../templates/blog_page.jinja2"),
+            "templates/home_page.jinja2" => include_str!("../templates/home_page.jinja2"),
+            "templates/privacy-policy.jinja2" => include_str!("../templates/privacy-policy.jinja2"),
+            "templates/tag.jinja2" => include_str!("../templates/tag.jinja2"),
+            "templates/tags.jinja2" => include_str!("../templates/tags.jinja2"),
+            _ => "",
+        };
+    }
 }
 pub enum Resource {
     String(String),
