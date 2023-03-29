@@ -83,6 +83,14 @@ a.link-unstyled:hover span.re-link-style {
   font-family: "Noto Serif SC", serif;
 }
 
+#content-container ol li a,
+#content-container ul li a {
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
 body {
   font-size: 16px;
   font-weight: normal;
