@@ -11,7 +11,7 @@ pub fn generate_sitemap(locs: &Vec<sitemap::SitemapLoc>) -> Result<String, Error
     let mut writer = Writer::new_with_indent(&mut buffer, b' ', 4);
 
     writer
-        .inner()
+        .get_mut() // Updated due to <https://github.com/tafia/quick-xml/pull/568>
         .write(b"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
         .unwrap();
 
