@@ -83,12 +83,33 @@ a.link-unstyled:hover span.re-link-style {
   font-family: "Noto Serif SC", serif;
 }
 
+#content-container p code, #content-container ol code, #content-container ul code {
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  padding: 2px 4px;
+  vertical-align: text-bottom;
+  position: relative;
+  top: 0.05em;
+}
 #content-container ol li a,
 #content-container ul li a {
   word-break: break-word;
   -webkit-hyphens: auto;
   -moz-hyphens: auto;
   hyphens: auto;
+}
+#content-container .footnote-definition {
+  display: flex;
+  color: #636363;
+}
+#content-container .footnote-definition sup.footnote-definition-label {
+  vertical-align: super;
+  position: inherit;
+  margin-right: 0.75em;
+  line-height: 1em;
+}
+#content-container .footnote-definition p {
+  margin-bottom: 0.25em;
 }
 
 body {
