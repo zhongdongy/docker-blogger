@@ -98,19 +98,6 @@ a.link-unstyled:hover span.re-link-style {
   -moz-hyphens: auto;
   hyphens: auto;
 }
-#content-container .footnote-definition {
-  display: flex;
-  color: #636363;
-}
-#content-container .footnote-definition sup.footnote-definition-label {
-  vertical-align: super;
-  position: inherit;
-  margin-right: 0.75em;
-  line-height: 1em;
-}
-#content-container .footnote-definition p {
-  margin-bottom: 0.25em;
-}
 
 body {
   font-size: 16px;

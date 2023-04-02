@@ -77,7 +77,37 @@ a:hover
   pre > code
     font-family: "Fira Code", 'Courier New', Courier, monospace
 
-  @media screen and (max-width: 480px) 
-    ul, ol 
+  blockquote
+    border-left: 0.25rem solid #75abe0
+    padding: 0.25rem 0 0.25rem 1rem
+    color: #43709c
+
+    p:last-child
+      margin-bottom: 0
+
+  @media screen and (max-width: 480px)
+    ul, ol
       padding-left: 1rem
-  
+
+  h1, h2, h3, h4, h5, h6
+    sup
+      vertical-align: super
+  h1, h2, h3
+    sup
+      font-size: 0.5em
+  h4, h5, h6
+    sup
+      font-size: 0.75em
+
+  .footnote-definition
+    display: flex
+    color: #636363
+
+    sup.footnote-definition-label
+      vertical-align: super
+      position: inherit
+      margin-right: 0.75em
+      line-height: 1em
+
+    p
+      margin-bottom: 0.25em

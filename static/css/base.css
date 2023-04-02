@@ -98,19 +98,6 @@ a.link-unstyled:hover span.re-link-style {
   -moz-hyphens: auto;
   hyphens: auto;
 }
-#content-container .footnote-definition {
-  display: flex;
-  color: #636363;
-}
-#content-container .footnote-definition sup.footnote-definition-label {
-  vertical-align: super;
-  position: inherit;
-  margin-right: 0.75em;
-  line-height: 1em;
-}
-#content-container .footnote-definition p {
-  margin-bottom: 0.25em;
-}
 
 body {
   font-size: 16px;
@@ -195,8 +182,38 @@ a:hover {
 .post-content pre > code {
   font-family: "Fira Code", "Courier New", Courier, monospace;
 }
+.post-content blockquote {
+  border-left: 0.25rem solid #75abe0;
+  padding: 0.25rem 0 0.25rem 1rem;
+  color: #43709c;
+}
+.post-content blockquote p:last-child {
+  margin-bottom: 0;
+}
 @media screen and (max-width: 480px) {
   .post-content ul, .post-content ol {
     padding-left: 1rem;
   }
+}
+.post-content h1 sup, .post-content h2 sup, .post-content h3 sup, .post-content h4 sup, .post-content h5 sup, .post-content h6 sup {
+  vertical-align: super;
+}
+.post-content h1 sup, .post-content h2 sup, .post-content h3 sup {
+  font-size: 0.5em;
+}
+.post-content h4 sup, .post-content h5 sup, .post-content h6 sup {
+  font-size: 0.75em;
+}
+.post-content .footnote-definition {
+  display: flex;
+  color: #636363;
+}
+.post-content .footnote-definition sup.footnote-definition-label {
+  vertical-align: super;
+  position: inherit;
+  margin-right: 0.75em;
+  line-height: 1em;
+}
+.post-content .footnote-definition p {
+  margin-bottom: 0.25em;
 }
