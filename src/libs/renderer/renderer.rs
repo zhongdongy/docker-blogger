@@ -2,6 +2,7 @@ use crate::libs::db::ArchiveDB;
 use crate::libs::db::TagDB;
 use crate::libs::parser::parse_toc;
 use crate::models::context::Context as SiteContext;
+#[cfg(feature = "bundled")]
 use crate::resource::load_template_resource;
 use crate::utils::avatar::get_gravatar_url;
 use crate::utils::config::get_config;

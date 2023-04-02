@@ -91,6 +91,7 @@ pub fn load_resource(filepath: &str) -> std::io::Result<Resource> {
     }
 }
 
+#[allow(unused_variables)]
 pub fn load_template_resource(filepath: &str) -> &'static str {
     #[cfg(feature = "core")]
     {

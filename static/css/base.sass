@@ -72,6 +72,12 @@ a:hover
   & li
     padding-left: 0.25em
 
-.post-content > pre,
-.post-content > pre > code
-  font-family: "Fira Code", 'Courier New', Courier, monospace
+.post-content
+  pre,
+  pre > code
+    font-family: "Fira Code", 'Courier New', Courier, monospace
+
+  @media screen and (max-width: 480px) 
+    ul, ol 
+      padding-left: 1rem
+  

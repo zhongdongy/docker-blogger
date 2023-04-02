@@ -191,7 +191,12 @@ a:hover {
   padding-left: 0.25em;
 }
 
-.post-content > pre,
-.post-content > pre > code {
+.post-content pre,
+.post-content pre > code {
   font-family: "Fira Code", "Courier New", Courier, monospace;
+}
+@media screen and (max-width: 480px) {
+  .post-content ul, .post-content ol {
+    padding-left: 1rem;
+  }
 }

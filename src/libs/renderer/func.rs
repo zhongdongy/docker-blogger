@@ -6,7 +6,9 @@ use tera::Function;
 use tera::Result;
 use tera::Value;
 
+#[cfg(feature = "bundled")]
 use crate::resource::load_resource;
+#[cfg(feature = "bundled")]
 use crate::resource::Resource;
 
 pub fn inline_css() -> impl Function {
