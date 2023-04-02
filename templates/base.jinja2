@@ -159,6 +159,95 @@
         });
       });
 
+      // Patch footnote implementation
+      let referenced_footnotes = [];
+      document.querySelectorAll(".footnote-definition").forEach(ele => {
+        let id = ele.getAttribute("id");
+        let temp_targets = document.querySelectorAll(`a[href="#${id}"]`);
+        if (temp_targets.length === 0) {
+          ele.parentElement.removeChild(ele);
+        } else {
+          referenced_footnotes.push({
+            "definition": ele,
+            "references": temp_targets,
+          });
+        }
+      });
+      let sorted_footnotes = [];
+      for (let ele of referenced_footnotes) {
+        let def = ele['definition'];
+        let refs = ele['references'];
+        let first_ref = void 0;
+        refs.forEach(ref => {
+          let top_to_doc_root = Math.round(ref.getBoundingClientRect().top + document.documentElement.scrollTop);
+          let left_to_doc_root = Math.round(ref.getBoundingClientRect().left + document.documentElement.scrollLeft);
+          if (first_ref === void 0) {
+            first_ref = {
+              left: left_to_doc_root,
+              top: top_to_doc_root,
+              def: def,
+            };
+          } else {
+            if (first_ref['top'] > top_to_doc_root) {
+              // Current reference should be the first.
+              first_ref = {
+                left: left_to_doc_root,
+                top: top_to_doc_root,
+                def: def,
+              };
+            } else if (first_ref['top'] === top_to_doc_root && first_ref['left'] > left_to_doc_root) {
+              first_ref = {
+                left: left_to_doc_root,
+                top: top_to_doc_root,
+                def: def,
+              }
+            }
+          }
+        });
+        first_ref['refs'] = refs;
+        sorted_footnotes.push(first_ref);
+      }
+
+      sorted_footnotes = sorted_footnotes.sort((a, b) => {
+        if (a['top'] < b['top'] || (a['top'] === b['top'] && a['left'] < b['left'])) {
+          -1
+        } else {
+          1
+        }
+      });
+      
+      let label = 1;
+      for (let fn of sorted_footnotes) {
+        let def = fn['def'];
+        let def_id = def.getAttribute('id');
+        let refs = fn['refs'];
+        let label_text = label.toString();
+        let ref_count = 1;
+        let appended_anchors = [];
+        for (let ref of refs) {
+          ref.textContent = label_text;
+          let anchor = `ref-${def_id}-ref_${ref_count}`;
+          let offset_anchor = document.createElement('a');
+          offset_anchor.setAttribute("id", anchor);
+          offset_anchor.classList.add("offset-footnote-ref");
+          ref.appendChild(offset_anchor);
+          appended_anchors.push(anchor);
+          ref_count += 1;
+        }
+        def.querySelector('sup.footnote-definition-label').textContent = label_text;
+        let paraghs_in_def = def.querySelectorAll('p');
+        if (paraghs_in_def.length > 0) {
+          for (let anchor of appended_anchors) {
+            let a = document.createElement('a');
+            a.setAttribute('href', `#${anchor}`);
+            a.textContent = "^";
+            paraghs_in_def[paraghs_in_def.length - 1].appendChild(a);
+          }
+        }
+
+        label += 1;
+      }
+      // End of footnote patching.
 
       window.dispatchEvent(new Event('update-timestamp'));
       window.dispatchEvent(new Event('popover-update'));

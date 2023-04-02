@@ -10,10 +10,15 @@ use std::fmt::Display;
 use crate::utils::error;
 use chrono::{NaiveDate, Utc};
 use serde_yaml;
+use lazy_static::lazy_static;
+
+lazy_static!{
+    static ref REG_PREAMBLE: Regex =  Regex::new(r"^---([\s\S]+)---").unwrap();
+    static ref REG_FOOTNOTE: Regex = Regex::new(r"(?P<fn1>\[\^[^\]]+\]:\s.[^\n]+)\n(?P<fn2>\[\^[^\]]+\]:\s.[^\n]+)").unwrap();
+}
 
 pub fn parse_document(content: &str) -> Result<(Preamble, String), Box<dyn Error>> {
-    let re = Regex::new(r"^---([\s\S]+)---").unwrap();
-    if let Some(captures) = re.captures(content.trim()) {
+    if let Some(captures) = REG_PREAMBLE.captures(content.trim()) {
         if let Some(preamble_raw_content) = captures.get(0) {
             let mut preamble_content = preamble_raw_content.as_str();
             if preamble_content.contains("---") {
@@ -27,6 +32,13 @@ pub fn parse_document(content: &str) -> Result<(Preamble, String), Box<dyn Error
 
             // Handle math equations in LaTeX
             markdown_bare = markdown_bare.replace("\\", "\\\\");
+
+            // Patch footnote line breaks.
+            // Note the following replacement should run twice to patch 
+            // footnotes that exceeds 2 entries.
+            markdown_bare = REG_FOOTNOTE.replace_all(&markdown_bare, "${fn1}\n\n${fn2}").to_string();
+            markdown_bare = REG_FOOTNOTE.replace_all(&markdown_bare, "${fn1}\n\n${fn2}").to_string();
+
 
             return match parse_preamble(preamble_content) {
                 Ok(preamble) => Ok((preamble, markdown_bare)),

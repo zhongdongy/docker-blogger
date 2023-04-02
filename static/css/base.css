@@ -204,6 +204,12 @@ a:hover {
 .post-content h4 sup, .post-content h5 sup, .post-content h6 sup {
   font-size: 0.75em;
 }
+.post-content .footnote-reference a.offset-footnote-ref {
+  display: inline-block;
+  position: relative;
+  top: -64px;
+  visibility: hidden;
+}
 .post-content .footnote-definition {
   display: flex;
   color: #636363;
