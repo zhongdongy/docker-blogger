@@ -8,8 +8,8 @@ site:
   site_slogan: '由 <a href="https://hub.docker.com/r/dongsxyz/blogger" target="_blank">Eastwind Blogger</a> 驱动'
   gravatar_proxy: 
   baidu_site_verification:
-  baidu_site_analysis: cadedda324c404c62c30dd5588d54a16
-  google_tag: G-92HTYR33QH
+  baidu_site_analysis: 
+  google_tag: 
   beian:
     enabled: true
     icp_id: 粤ICP备XXX号
