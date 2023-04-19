@@ -46,7 +46,8 @@ fn main() {
     }
 
     if config.server {
-        println!("[{}] Ready to start blogger server on port {}", label_green!("SERVER"), config.port.unwrap_or(8080));
+        println!("[{}] Ready to start blogger server on http://127.0.0.1:{}", label_green!("SERVER"), config.port.unwrap_or(8080));
+        println!("[{}] Rebuild all pages via http://127.0.0.1:{}/admin/cache-reload/", label_green!("SERVER"), config.port.unwrap_or(8080));
         let port = config.port.clone();
         let th = thread::spawn(move || run_server(port));
         match th.join() {

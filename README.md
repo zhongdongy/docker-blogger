@@ -18,6 +18,8 @@ site:
   site_slogan: '由 Eastwind Blogger 驱动'
   gravatar_proxy: https://127.0.0.1/gavatar/
   baidu_site_verification: "" # 百度站长平台的 HTML 标签验证码方法
+  baidu_site_analysis: "" # 百度统计的 ID
+  google_tag: "" # Google Analysis 的 ID
   beian:
     enabled: true
     icp_id: 粤ICP备XXX号-1
@@ -93,4 +95,10 @@ sass --no-source-map static/css:static/css
 
 ```bash
 cargo install --no-default-features --features bundled
+```
+
+调试时, 可以使用下列命令查看效果:
+
+```bash
+cargo run -- -s -p 18888
 ```

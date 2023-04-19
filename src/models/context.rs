@@ -18,6 +18,8 @@ pub struct Context {
     pub site_info: ContextSiteInfo,
     pub enable_beian: bool,
     pub baidu_site_verification: Option<String>,
+    pub baidu_site_analysis: Option<String>,
+    pub google_tag: Option<String>,
 }
 
 impl Context {
@@ -45,6 +47,8 @@ impl Context {
               None => "由 <a href=\"https://hub.docker.com/r/dongsxyz/rust_blogger\" target=\"_blank\">Eastwind Blogger</a> 驱动".to_string()
             } ,
             baidu_site_verification: config.site.baidu_site_verification.clone(),
+            baidu_site_analysis: config.site.baidu_site_analysis.clone(),
+            google_tag: config.site.google_tag.clone(),
             site_info: ContextSiteInfo { 
               beian_id: config.site.beian.beian_id.clone(),
                icp_id: config.site.beian.icp_id.clone(),

@@ -137,6 +137,12 @@ a:hover {
     border: 0;
   }
 }
+.navbar .nav-link a {
+  color: #ffffff;
+}
+.navbar .nav-link a:hover {
+  color: #c4e6fd;
+}
 .navbar .navbar-brand {
   font-family: var(--ew-font-serif);
   font-weight: var(--ew-font-weight-black);

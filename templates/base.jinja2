@@ -2,6 +2,17 @@
 <html lang="zh">
 
 <head>
+  {% if g.google_tag is defined %}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ g.google_tag }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', '{{ g.google_tag }}');
+  </script>
+  {% endif %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:title" content="{{ title }}" />
@@ -50,6 +61,18 @@
   {{ inline_css(file="text.css") }}
   {% block styles %}
   {% endblock %}
+
+  {% if g.baidu_site_analysis is defined %}
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?{{ g.baidu_site_analysis }}";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  {% endif %}
 </head>
 
 <body>
@@ -215,7 +238,7 @@
           1
         }
       });
-      
+
       let label = 1;
       for (let fn of sorted_footnotes) {
         let def = fn['def'];

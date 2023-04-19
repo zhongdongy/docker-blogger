@@ -24,6 +24,8 @@ pub struct SiteConfig {
     pub site_slogan: Option<String>,
     pub gravatar_proxy: Option<String>,
     pub baidu_site_verification: Option<String>,
+    pub baidu_site_analysis: Option<String>,
+    pub google_tag: Option<String>,
     pub beian: BeianConfig,
     pub timezone: Option<String>
 }
