@@ -1,6 +1,7 @@
 use crate::models::heading::Heading;
 use crate::models::preamble::JSONPreamble;
 use crate::models::preamble::Preamble;
+use pulldown_cmark::HeadingLevel;
 use pulldown_cmark_toc::TableOfContents;
 use regex::Regex;
 use std::error::Error;
@@ -95,13 +96,13 @@ impl Debug for PreambleError {
     }
 }
 
-pub fn parse_toc(content: &str, max_level: Option<u32>) -> Vec<Heading> {
+pub fn parse_toc(content: &str, max_level: Option<HeadingLevel>) -> Vec<Heading> {
     let mut headings = vec![];
     let toc = TableOfContents::new(content);
 
     for h in toc.headings() {
-        if h.level() <= &max_level.unwrap_or(3) {
-            let heading = Heading::new(h.text(), *h.level());
+        if h.level() <= max_level.unwrap_or(HeadingLevel::H3) {
+            let heading = Heading::new(h.text(), h.level());
             headings.push(heading);
         }
     }

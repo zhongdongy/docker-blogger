@@ -15,6 +15,7 @@ use std::error::Error;
 use crate::libs::markdown::markdown_to_html;
 use crate::libs::parser::parse_document;
 use pinyin::ToPinyin;
+use pulldown_cmark::HeadingLevel;
 use tera::Context;
 use tera::Tera;
 
@@ -337,7 +338,7 @@ pub fn extract_toc_and_update_markup<'a>(
         .unwrap_or(vec![])
         .contains(&String::from("enable-toc"))
     {
-        let mut headings = parse_toc(&markdown_content, Some(3));
+        let mut headings = parse_toc(&markdown_content, Some(HeadingLevel::H3));
         headings.iter_mut().for_each(|h| {
             // Convert Chinese characters to Pinyin form and avoid
             // `Invalid selector` error when using TOC.

@@ -1,3 +1,4 @@
+use pulldown_cmark::HeadingLevel;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -17,7 +18,7 @@ impl Clone for Heading {
 }
 
 impl Heading {
-    pub fn new(text: String, level: u32) -> Self {
+    pub fn new(text: String, level: HeadingLevel) -> Self {
         let re = regex::Regex::new(r"[^\w\u4E00-\u9FFF]+").unwrap();
 
         let mut temp_id = re.replace_all(text.as_str(), "-").to_owned().to_string();
