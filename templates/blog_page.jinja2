@@ -107,16 +107,36 @@
                 content_container.querySelectorAll("p > img").forEach(img => {
                     let alt = img.getAttribute("alt");
                     if (!!alt && alt.length > 0) {
-                        // Render Alt
-                        let figure = document.createElement("figure");
-                        let parent = img.parentNode;
-                        let figcaption = document.createElement("figcaption");
-                        figcaption.textContent = alt;
-                        parent.removeChild(img);
-                        figure.appendChild(img);
-                        img.style.marginBottom = "0.25em";
-                        figure.appendChild(figcaption);
-                        parent.appendChild(figure);
+                        // Zhongdong Yang (2023-08-14)
+                        // Try to parse sizing factors from alt
+                        let sizing_factor = alt.match(/^.*\|(\d+)(?:x(\d+))?$/);
+                        if (!!sizing_factor && sizing_factor.length === 3) {
+                            // Apply sizing factor
+                            let width = sizing_factor[1];
+                            let height = sizing_factor[2];
+                            img.style.width = width + "px";
+                            if (!!height) {
+                                img.style.height = height + "px";
+                                alt = alt.replace(`|${width}x${height}`, "");
+                            } else {
+                                alt = alt.replace(`|${width}`, "");
+                            }
+                            img.style.margin = "auto";
+                            img.style.display = "block";
+                        }
+
+                        // Render Alt content
+                        if (alt.length > 0) {
+                            let figure = document.createElement("figure");
+                            let parent = img.parentNode;
+                            let figcaption = document.createElement("figcaption");
+                            figcaption.textContent = alt;
+                            parent.removeChild(img);
+                            figure.appendChild(img);
+                            img.style.marginBottom = "0.25em";
+                            figure.appendChild(figcaption);
+                            parent.appendChild(figure);
+                        }
                     }
                 });
 
