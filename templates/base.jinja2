@@ -301,10 +301,10 @@
 
             bq.classList.add(`markdown-callout`);
             bq.classList.add(`markdown-callout-${callout}`);
-            p.textContent = p.textContent.replace(/^\[![a-zA-Z]+\]/, "").trim();
+            p.innerHTML = p.innerHTML.replace(/^\[![a-zA-Z]+\]/, "").trim();
             let title = p.textContent.split('\n')[0];
 
-            p.textContent = p.textContent.replace(title, "").trim();
+            p.innerHTML = p.innerHTML.replace(title, "").trim();
 
             if (title.startsWith("- ")) {
               title = title.substring(2)
