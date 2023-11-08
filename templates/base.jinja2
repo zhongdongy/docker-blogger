@@ -272,9 +272,58 @@
       }
       // End of footnote patching.
 
+      // Callout patching
+      window.addEventListener("render-callout", () => {
+        let bqs = document.querySelectorAll("blockquote");
+        if (!bqs) { return; }
+        bqs.forEach(bq => {
+          let p = bq.querySelectorAll("p")[0];
+          if (!p) { return; }
+          if (p.textContent.trim().match(/^\[![a-zA-Z]+\]/)) {
+            let callout = p.textContent.trim().match(/^\[!([a-zA-Z]+)\]/)[1];
+
+            if (![
+              "abstract", "tldr", "summary",
+              "info",
+              "todo",
+              "tip", "hint", "important",
+              "success", "check", "done",
+              "question", "faq", "help",
+              "warning", "caution", "attention",
+              "failure", "fail", "missing",
+              "danger", "error",
+              "bug",
+              "example",
+              "quote", "cite"
+            ].includes(callout)) {
+              callout = "note";
+            }
+
+            bq.classList.add(`markdown-callout`);
+            bq.classList.add(`markdown-callout-${callout}`);
+            p.textContent = p.textContent.replace(/^\[![a-zA-Z]+\]/, "").trim();
+            let title = p.textContent.split('\n')[0];
+
+            p.textContent = p.textContent.replace(title, "").trim();
+
+            if (title.startsWith("- ")) {
+              title = title.substring(2)
+            }
+
+            let titleNode = document.createElement("div");
+            titleNode.classList.add("callout-title");
+            titleNode.textContent = title;
+
+            bq.insertBefore(titleNode, p);
+          }
+        });
+      })
+      // End of callout patching.
+
       window.dispatchEvent(new Event('update-timestamp'));
       window.dispatchEvent(new Event('popover-update'));
       window.dispatchEvent(new Event('tooltip-update'));
+      window.dispatchEvent(new Event('render-callout'));
     })
   </script>
   <script src="https://cdn.staticfile.org/bootstrap/5.2.2/js/bootstrap.bundle.min.js" defer async></script>

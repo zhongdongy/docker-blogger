@@ -41,7 +41,6 @@ a:hover
       &:hover
         color: #c4e6fd
 
-
   .navbar-brand
     font-family: var(--ew-font-serif)
     font-weight: var(--ew-font-weight-black)
@@ -97,6 +96,171 @@ a:hover
 
     p:last-child
       margin-bottom: 0
+
+  blockquote.markdown-callout
+    border: none
+    border-radius: 4px
+    background-color: rgba(108, 153, 187, 0.1)
+    padding: 12px 12px 12px 24px
+    margin: 1em 0
+
+    div.callout-title
+      color: rgb(108, 153, 187)
+      font-weight: 600
+      margin-bottom: 1em
+
+      &::before
+        display: inline-block
+        font-family: "Font Awesome 6 Free"
+        content: '\f303'
+        width: 1em
+        height: 1em
+        margin-right: 0.5em
+        color: rgb(108, 153, 187)
+
+  blockquote.markdown-callout-note
+    background-color: rgba(108, 153, 187, 0.1)
+    div.callout-title
+      color: rgb(108, 153, 187)
+
+    div.callout-title::before
+      color: rgb(108, 153, 187)
+      content: '\f303'
+
+  blockquote.markdown-callout-abstract,
+  blockquote.markdown-callout-tldr,
+  blockquote.markdown-callout-summary
+    background-color: rgba(0, 191, 188, 0.1)
+
+    div.callout-title
+      color: rgb(0, 191, 188)
+
+    div.callout-title::before
+      color: rgb(0, 191, 188)
+      content: '\f46d'
+
+  blockquote.markdown-callout-info
+    background-color: rgba(8, 109, 221, 0.1)
+
+    div.callout-title
+      color: rgb(8, 109, 221)
+
+    div.callout-title::before
+      color: rgb(8, 109, 221)
+      content: '\f05a'
+
+  blockquote.markdown-callout-todo
+    background-color: rgba(8, 109, 221, 0.1)
+
+    div.callout-title
+      color: rgb(8, 109, 221)
+
+    div.callout-title::before
+      color: rgb(8, 109, 221)
+      content: "\f058"
+
+
+  blockquote.markdown-callout-tip,
+  blockquote.markdown-callout-hint,
+  blockquote.markdown-callout-important
+    background-color: rgba(0, 191, 188, 0.1)
+
+    div.callout-title
+      color: rgb(0, 191, 188)
+
+    div.callout-title::before
+      color: rgb(0, 191, 188)
+      content: "\f06d"
+
+  blockquote.markdown-callout-success,
+  blockquote.markdown-callout-check,
+  blockquote.markdown-callout-done
+    background-color: rgba(8, 185, 78, 0.1)
+
+    div.callout-title
+      color: rgb(8, 185, 78)
+
+    div.callout-title::before
+      color: rgb(8, 185, 78)
+      content: "\f00c"
+
+  blockquote.markdown-callout-question,
+  blockquote.markdown-callout-faq,
+  blockquote.markdown-callout-help
+    background-color: rgba(236, 117, 0, 0.1)
+
+    div.callout-title
+      color: rgb(236, 117, 0)
+
+    div.callout-title::before
+      color: rgb(236, 117, 0)
+      content: "\f059"
+
+  blockquote.markdown-callout-warning,
+  blockquote.markdown-callout-caution,
+  blockquote.markdown-callout-attention
+    background-color: rgba(236, 117, 0, 0.1)
+
+    div.callout-title
+      color: rgb(236, 117, 0)
+
+    div.callout-title::before
+      color: rgb(236, 117, 0)
+      content: "\f071"
+
+  blockquote.markdown-callout-failure,
+  blockquote.markdown-callout-fail,
+  blockquote.markdown-callout-missing
+    background-color: rgba(233, 49, 71, 0.1)
+
+    div.callout-title
+      color: rgb(233, 49, 71)
+
+    div.callout-title::before
+      color: rgb(233, 49, 71)
+      content: "\f00d"
+
+  blockquote.markdown-callout-danger,
+  blockquote.markdown-callout-error
+    background-color: rgba(233, 49, 71, 0.1)
+
+    div.callout-title
+      color: rgb(233, 49, 71)
+
+    div.callout-title::before
+      color: rgb(233, 49, 71)
+      content: "\f0e7"
+
+  blockquote.markdown-callout-bug
+    background-color: rgba(233, 49, 71, 0.1)
+
+    div.callout-title
+      color: rgb(233, 49, 71)
+
+    div.callout-title::before
+      color: rgb(233, 49, 71)
+      content: "\f188"
+
+  blockquote.markdown-callout-example
+    background-color: rgba(120, 82, 238, 0.1)
+
+    div.callout-title
+      color: rgb(120, 82, 238)
+
+    div.callout-title::before
+      color: rgb(120, 82, 238)
+      content: "\f03a"
+
+  blockquote.markdown-callout-quote,
+  blockquote.markdown-callout-cite
+    background-color: rgba(158, 158, 158, 0.1)
+
+    div.callout-title
+      color: rgb(158, 158, 158)
+
+    div.callout-title::before
+      color: rgb(158, 158, 158)
+      content: "\f10e"
 
   @media screen and (max-width: 480px)
     ul, ol

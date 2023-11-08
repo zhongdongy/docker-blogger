@@ -202,6 +202,199 @@ a:hover {
 .post-content blockquote p:last-child {
   margin-bottom: 0;
 }
+.post-content blockquote.markdown-callout {
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(108, 153, 187, 0.1);
+  padding: 12px 12px 12px 24px;
+  margin: 1em 0;
+}
+.post-content blockquote.markdown-callout div.callout-title {
+  color: rgb(108, 153, 187);
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+.post-content blockquote.markdown-callout div.callout-title::before {
+  display: inline-block;
+  font-family: "Font Awesome 6 Free";
+  content: "\f303";
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  color: rgb(108, 153, 187);
+}
+.post-content blockquote.markdown-callout-note {
+  background-color: rgba(108, 153, 187, 0.1);
+}
+.post-content blockquote.markdown-callout-note div.callout-title {
+  color: rgb(108, 153, 187);
+}
+.post-content blockquote.markdown-callout-note div.callout-title::before {
+  color: rgb(108, 153, 187);
+  content: "\f303";
+}
+.post-content blockquote.markdown-callout-abstract,
+.post-content blockquote.markdown-callout-tldr,
+.post-content blockquote.markdown-callout-summary {
+  background-color: rgba(0, 191, 188, 0.1);
+}
+.post-content blockquote.markdown-callout-abstract div.callout-title,
+.post-content blockquote.markdown-callout-tldr div.callout-title,
+.post-content blockquote.markdown-callout-summary div.callout-title {
+  color: rgb(0, 191, 188);
+}
+.post-content blockquote.markdown-callout-abstract div.callout-title::before,
+.post-content blockquote.markdown-callout-tldr div.callout-title::before,
+.post-content blockquote.markdown-callout-summary div.callout-title::before {
+  color: rgb(0, 191, 188);
+  content: "\f46d";
+}
+.post-content blockquote.markdown-callout-info {
+  background-color: rgba(8, 109, 221, 0.1);
+}
+.post-content blockquote.markdown-callout-info div.callout-title {
+  color: rgb(8, 109, 221);
+}
+.post-content blockquote.markdown-callout-info div.callout-title::before {
+  color: rgb(8, 109, 221);
+  content: "\f05a";
+}
+.post-content blockquote.markdown-callout-todo {
+  background-color: rgba(8, 109, 221, 0.1);
+}
+.post-content blockquote.markdown-callout-todo div.callout-title {
+  color: rgb(8, 109, 221);
+}
+.post-content blockquote.markdown-callout-todo div.callout-title::before {
+  color: rgb(8, 109, 221);
+  content: "\f058";
+}
+.post-content blockquote.markdown-callout-tip,
+.post-content blockquote.markdown-callout-hint,
+.post-content blockquote.markdown-callout-important {
+  background-color: rgba(0, 191, 188, 0.1);
+}
+.post-content blockquote.markdown-callout-tip div.callout-title,
+.post-content blockquote.markdown-callout-hint div.callout-title,
+.post-content blockquote.markdown-callout-important div.callout-title {
+  color: rgb(0, 191, 188);
+}
+.post-content blockquote.markdown-callout-tip div.callout-title::before,
+.post-content blockquote.markdown-callout-hint div.callout-title::before,
+.post-content blockquote.markdown-callout-important div.callout-title::before {
+  color: rgb(0, 191, 188);
+  content: "\f06d";
+}
+.post-content blockquote.markdown-callout-success,
+.post-content blockquote.markdown-callout-check,
+.post-content blockquote.markdown-callout-done {
+  background-color: rgba(8, 185, 78, 0.1);
+}
+.post-content blockquote.markdown-callout-success div.callout-title,
+.post-content blockquote.markdown-callout-check div.callout-title,
+.post-content blockquote.markdown-callout-done div.callout-title {
+  color: rgb(8, 185, 78);
+}
+.post-content blockquote.markdown-callout-success div.callout-title::before,
+.post-content blockquote.markdown-callout-check div.callout-title::before,
+.post-content blockquote.markdown-callout-done div.callout-title::before {
+  color: rgb(8, 185, 78);
+  content: "\f00c";
+}
+.post-content blockquote.markdown-callout-question,
+.post-content blockquote.markdown-callout-faq,
+.post-content blockquote.markdown-callout-help {
+  background-color: rgba(236, 117, 0, 0.1);
+}
+.post-content blockquote.markdown-callout-question div.callout-title,
+.post-content blockquote.markdown-callout-faq div.callout-title,
+.post-content blockquote.markdown-callout-help div.callout-title {
+  color: rgb(236, 117, 0);
+}
+.post-content blockquote.markdown-callout-question div.callout-title::before,
+.post-content blockquote.markdown-callout-faq div.callout-title::before,
+.post-content blockquote.markdown-callout-help div.callout-title::before {
+  color: rgb(236, 117, 0);
+  content: "\f059";
+}
+.post-content blockquote.markdown-callout-warning,
+.post-content blockquote.markdown-callout-caution,
+.post-content blockquote.markdown-callout-attention {
+  background-color: rgba(236, 117, 0, 0.1);
+}
+.post-content blockquote.markdown-callout-warning div.callout-title,
+.post-content blockquote.markdown-callout-caution div.callout-title,
+.post-content blockquote.markdown-callout-attention div.callout-title {
+  color: rgb(236, 117, 0);
+}
+.post-content blockquote.markdown-callout-warning div.callout-title::before,
+.post-content blockquote.markdown-callout-caution div.callout-title::before,
+.post-content blockquote.markdown-callout-attention div.callout-title::before {
+  color: rgb(236, 117, 0);
+  content: "\f071";
+}
+.post-content blockquote.markdown-callout-failure,
+.post-content blockquote.markdown-callout-fail,
+.post-content blockquote.markdown-callout-missing {
+  background-color: rgba(233, 49, 71, 0.1);
+}
+.post-content blockquote.markdown-callout-failure div.callout-title,
+.post-content blockquote.markdown-callout-fail div.callout-title,
+.post-content blockquote.markdown-callout-missing div.callout-title {
+  color: rgb(233, 49, 71);
+}
+.post-content blockquote.markdown-callout-failure div.callout-title::before,
+.post-content blockquote.markdown-callout-fail div.callout-title::before,
+.post-content blockquote.markdown-callout-missing div.callout-title::before {
+  color: rgb(233, 49, 71);
+  content: "\f00d";
+}
+.post-content blockquote.markdown-callout-danger,
+.post-content blockquote.markdown-callout-error {
+  background-color: rgba(233, 49, 71, 0.1);
+}
+.post-content blockquote.markdown-callout-danger div.callout-title,
+.post-content blockquote.markdown-callout-error div.callout-title {
+  color: rgb(233, 49, 71);
+}
+.post-content blockquote.markdown-callout-danger div.callout-title::before,
+.post-content blockquote.markdown-callout-error div.callout-title::before {
+  color: rgb(233, 49, 71);
+  content: "\f0e7";
+}
+.post-content blockquote.markdown-callout-bug {
+  background-color: rgba(233, 49, 71, 0.1);
+}
+.post-content blockquote.markdown-callout-bug div.callout-title {
+  color: rgb(233, 49, 71);
+}
+.post-content blockquote.markdown-callout-bug div.callout-title::before {
+  color: rgb(233, 49, 71);
+  content: "\f188";
+}
+.post-content blockquote.markdown-callout-example {
+  background-color: rgba(120, 82, 238, 0.1);
+}
+.post-content blockquote.markdown-callout-example div.callout-title {
+  color: rgb(120, 82, 238);
+}
+.post-content blockquote.markdown-callout-example div.callout-title::before {
+  color: rgb(120, 82, 238);
+  content: "\f03a";
+}
+.post-content blockquote.markdown-callout-quote,
+.post-content blockquote.markdown-callout-cite {
+  background-color: rgba(158, 158, 158, 0.1);
+}
+.post-content blockquote.markdown-callout-quote div.callout-title,
+.post-content blockquote.markdown-callout-cite div.callout-title {
+  color: rgb(158, 158, 158);
+}
+.post-content blockquote.markdown-callout-quote div.callout-title::before,
+.post-content blockquote.markdown-callout-cite div.callout-title::before {
+  color: rgb(158, 158, 158);
+  content: "\f10e";
+}
 @media screen and (max-width: 480px) {
   .post-content ul, .post-content ol {
     padding-left: 1rem;
@@ -235,3 +428,5 @@ a:hover {
 .post-content .footnote-definition p {
   margin-bottom: 0.25em;
 }
+
+/*# sourceMappingURL=base.css.map */

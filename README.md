@@ -76,6 +76,8 @@ redirect: "/post/abc/"
 
 为了丰富读者的阅读体验，您可以使用 Markdown 扩展语法中的脚注来实现。
 
+此外，从 `v2.3.0` 版本开始，您可以使用 Obsidian 兼容的语法来编写 Callout 了！参阅 [Callouts](https://help.obsidian.md/Editing+and+formatting/Callouts)。
+
 ## 开发
 
 如果您在中国大陆扩展开发，建议您打包时使用 Cargo 的镜像以加速访问：
