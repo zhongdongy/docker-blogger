@@ -1,4 +1,4 @@
-FROM rust:1.67.1-alpine3.17 AS builder
+FROM rust:1.73.0-alpine3.18 AS builder
 
 ARG enable_cargo_mirror
 USER root
@@ -12,7 +12,7 @@ RUN if [[ -z $enable_cargo_mirror ]]; then echo "" > ~/.cargo/config ;\
     else echo "Using Cargo mirror" ; fi
 RUN cargo install --path .
 
-FROM alpine:3.17
+FROM alpine:3.18
 COPY --from=builder /usr/local/cargo/bin/eastwind-blogger /usr/bin/eastwind-blogger
 WORKDIR /app
 COPY log4rs.yml log4rs.yml
