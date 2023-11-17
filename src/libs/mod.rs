@@ -171,7 +171,15 @@ pub fn build_all(
     .unwrap();
 
     // Generate index db files.
-    generate_db(blogs).unwrap();
+    let _home_post_file_string = home_post_file.to_str().unwrap().to_string();
+    let mut temp_blogs: Vec<Blog> = vec![];
+    blogs.iter().for_each(|b| {
+        if b.source != _home_post_file_string {
+            temp_blogs.push(b.clone());
+        }
+    });
+
+    generate_db(temp_blogs).unwrap();
 
     // Generate home post
     let home_raw = fs::read_to_string(home_post_file.clone()).unwrap();

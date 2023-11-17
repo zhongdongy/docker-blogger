@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use super::preamble::JSONPreamble;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Blog {
     pub preamble: JSONPreamble,
     pub raw: String,
