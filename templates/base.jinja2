@@ -40,12 +40,12 @@
 
   {% endif %}
 
-  <link rel="stylesheet" href="https://cdn.staticfile.org/bootstrap/5.2.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="/static/vender/bootstrap/5.2.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/vender/font-awesome/6.2.0/css/all.min.css" />
   <link rel="stylesheet" href="https://hmos.dongs.xyz/css/harmonyos_sans_sc.css" />
 
   {% if is_post %}
-  <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/default.min.css" />
+  <link rel="stylesheet" href="/static/vender/highlight.js/11.7.0/styles/default.min.css" />
   {% if "content-serif" in preamble.renderer_params %}
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
@@ -133,7 +133,7 @@
         displayAlign: 'center',        // default for indentalign when set to 'auto'
         displayIndent: '0',            // default for indentshift when set to 'auto'
         matchFontHeight: true,         // true to match ex-height of surrounding font
-        fontURL: 'https://cdn.staticfile.org/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2',   // The URL where the fonts are found
+        fontURL: '/static/vender/mathjax/3.2.2/es5/output/chtml/fonts/woff-v2',   // The URL where the fonts are found
         adaptiveCSS: true              // true means only produce CSS that is used in the processed equations
       },
       options: {
@@ -326,17 +326,55 @@
       window.dispatchEvent(new Event('render-callout'));
     })
   </script>
-  <script src="https://cdn.staticfile.org/bootstrap/5.2.2/js/bootstrap.bundle.min.js" defer async></script>
-  <script src="https://cdn.staticfile.org/font-awesome/6.2.0/js/all.min.js" defer async></script>
-  <script src="https://cdn.staticfile.org/moment.js/2.29.4/moment.min.js" defer async></script>
+  <script src="/static/vender/bootstrap/5.2.2/js/bootstrap.bundle.min.js" defer async></script>
+  <script src="/static/vender/font-awesome/6.2.0/js/all.min.js" defer async></script>
+  <script src="/static/vender/moment.js/2.29.4/moment.min.js" defer async></script>
   {% if is_post %}
   {% if enable_latex == True %}
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.staticfile.org/mathjax/3.2.2/es5/tex-chtml-full.js" defer async></script>
+  <script src="/static/vender/mathjax/3.2.2/es5/tex-chtml-full.js" defer async></script>
   {% endif %}
-  <script src="https://cdn.staticfile.org/highlight.js/11.7.0/highlight.min.js" defer async></script>
+  <script src="/static/vender/highlight.js/11.7.0/highlight.min.js" defer async></script>
   <script>
     window.addEventListener("load", () => {
+      hljs.registerLanguage('slint', () => ({
+        case_insensitive: true, // language is case-insensitive
+        keywords: 'for if export property component inherits in out in-out private import from self',
+        literal: ['true', 'false', 'bool', 'int', 'string'],
+        contains: [
+          {
+            className: 'string',
+            begin: '"',
+            end: '"'
+          },
+          {
+            scope: "number",
+            begin: "\\b\\d+",
+            end: /px|em|deg/
+          },
+          {
+            scope: "literal",
+            begin: /gray|yellow|red|black|white|blue|green|start|center|left|end|right/
+          },
+          {
+            scope: "built_in",
+            begin: /HorizontalLayout|Rectangle|Window|VerticalLayout|HorizontalBox|VerticalBox|Text|Button|GridLayout|Row|Column/
+          },
+          {
+            scope: "property",
+            begin: /height|width|background|min\-width|max\-width|alignment|space\-between|space\-around|stretch|vertical\-stretch|horizontal\-stretch|animation|padding\-left|padding|padding\-right|padding\-top|padding\-bottom|text|spacing|row|col|colspan|rowspan/
+          },
+          hljs.COMMENT(
+            '/\\*', // begin
+            '\\*/', // end
+            {
+              contains: [{
+                className: 'doc',
+                begin: '@\\w+'
+              }]
+            }
+          )
+        ]
+      }))
       hljs.configure({
         ignoreUnescapedHTML: true
       })
