@@ -1,4 +1,4 @@
-FROM rust:1.73.0-alpine3.18 AS builder
+FROM rust:1.80.0-alpine3.19 AS builder
 
 ARG enable_cargo_mirror
 USER root
