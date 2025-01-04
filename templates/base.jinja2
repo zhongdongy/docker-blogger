@@ -42,6 +42,7 @@
 
   <link rel="stylesheet" href="/static/vender/bootstrap/5.2.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/static/vender/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="/static/vender/tikzjax/fonts.css" />
   <link rel="stylesheet" href="https://hmos.dongs.xyz/css/harmonyos_sans_sc.css" />
 
   {% if is_post %}
@@ -109,7 +110,9 @@
   {% endblock %}
 
   {% if is_post %}
+  {{ inline_js(file="bootstrap-plantuml.js") }}
   {% if enable_latex == True %}
+  {{ inline_js(file="bootstrap-tikzjax.js") }}
   <script>
     MathJax = {
       tex: {
@@ -332,6 +335,8 @@
   {% if is_post %}
   {% if enable_latex == True %}
   <script src="/static/vender/mathjax/3.2.2/es5/tex-chtml-full.js" defer async></script>
+  <script src="/static/vender/tikzjax/tikzjax.js" defer async></script>
+  <script src="/static/vender/plantuml-encoder/plantuml-encoder.min.js" defer async></script>
   {% endif %}
   <script src="/static/vender/highlight.js/11.7.0/highlight.min.js" defer async></script>
   <script>
@@ -374,10 +379,22 @@
             }
           )
         ]
-      }))
+      }));
+      hljs.registerLanguage('plantuml', () => ({
+        case_insensitive: true, // language is case-insensitive
+        keywords: '@startuml @enduml',
+        literal: [],
+        contains: []
+      }));
+      hljs.registerLanguage('plantuml-svg', () => ({
+        case_insensitive: true, // language is case-insensitive
+        keywords: '@startuml @enduml',
+        literal: [],
+        contains: []
+      }));
       hljs.configure({
         ignoreUnescapedHTML: true
-      })
+      });
       hljs.highlightAll();
     })
   </script>

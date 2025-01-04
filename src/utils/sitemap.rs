@@ -20,7 +20,7 @@ pub fn generate_sitemap(locs: &Vec<sitemap::SitemapLoc>) -> Result<String, Error
     .with_attribute(("xsi:schemaLocation","http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"))
     .with_attribute(("xmlns","http://www.sitemaps.org/schemas/sitemap/0.9"))
     .with_attribute(("xmlns:mobile","http://www.baidu.com/schemas/sitemap-mobile/1/"))
-    .write_inner_content(|urlset| ->Result<(), quick_xml::Error> {
+    .write_inner_content(|urlset: &mut Writer<&mut Vec<u8>>| ->Result<(), std::io::Error> {
         // Insert all loc nodes
         locs.iter().for_each(|loc_ele |{
             write_url_element(
@@ -49,22 +49,24 @@ fn write_url_element<T>(
     T: Write,
 {
     url_writer
-        .write_inner_content(|url| -> Result<(), quick_xml::Error> {
-            url.create_element("loc")
-                .write_text_content(BytesText::new(&loc))
-                .unwrap();
-            url.create_element("mobile:mobile")
-                .with_attribute(("type", mobile_type));
-            url.create_element("lastmod")
-                .write_text_content(BytesText::new(lastmod))
-                .unwrap();
-            url.create_element("changefreq")
-                .write_text_content(BytesText::new(changefreq))
-                .unwrap();
-            url.create_element("priority")
-                .write_text_content(BytesText::new(&priority))
-                .unwrap();
-            Ok(())
-        })
+        .write_inner_content(
+            |url| -> Result<(), std::io::Error> {
+                url.create_element("loc")
+                    .write_text_content(BytesText::new(&loc))
+                    .unwrap();
+                url.create_element("mobile:mobile")
+                    .with_attribute(("type", mobile_type));
+                url.create_element("lastmod")
+                    .write_text_content(BytesText::new(lastmod))
+                    .unwrap();
+                url.create_element("changefreq")
+                    .write_text_content(BytesText::new(changefreq))
+                    .unwrap();
+                url.create_element("priority")
+                    .write_text_content(BytesText::new(&priority))
+                    .unwrap();
+                Ok(())
+            },
+        )
         .unwrap();
 }
